@@ -9,96 +9,60 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f7f6;
+            background-color: #f7f9fa;
             color: #333;
-            line-height: 1.6;
-        }
-        header {
-            background-color: #2c3e50;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
         }
         .container {
-            max-width: 900px;
-            margin: 20px auto;
+            max-width: 850px;
+            margin: 30px auto;
             background: #fff;
             padding: 30px;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            text-align: center;
         }
-        h1, h2 {
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #555;
+        }
+        .services-box {
+            margin: 25px 0;
+            background: #edf2f4;
+            padding: 15px;
+            border-radius: 6px;
+            font-weight: bold;
             color: #2c3e50;
         }
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-        .service-box {
-            background: #eef2f3;
-            padding: 15px;
-            border-radius: 5px;
-            text-align: center;
-            font-weight: bold;
-        }
-        footer {
-            text-align: center;
-            padding: 15px;
-            background: #2c3e50;
-            color: #fff;
-            margin-top: 30px;
-            font-size: 14px;
-        }
-        .legal-section {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #ddd;
-            font-size: 14px;
+        .legal-footer {
+            margin-top: 35px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 13px;
             color: #666;
+            text-align: right;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>معلم حريفي</h1>
-        <p>الصلة الوصل بين الحرفيين والزبناء الموثوقين في جميع ربوع المملكة المغربية</p>
-    </header>
-
     <div class="container">
-        <section>
-            <h2>من نحن</h2>
-            <p>موقع <strong>معلم حريفي</strong> هو منصة رقمية مغربية تهدف إلى تسهيل التواصل بين الزبناء والباحثين عن خدمات حرفية عالية الجودة، وبين أفضل الحرفيين والمهنيين المعتمدين في مختلف المدن المغربية. نحن نركز حصرياً على تقديم الخدمات المهنية ولا نقوم بأي أنشطة تجارية تتعلق بالبيع والشراء للسلع.</p>
-        </section>
+        <h1>معلم حريفي</h1>
+        <p>المنصة المغربية الرائدة لربط الزبناء والباحثين عن الخدمات بأفضل المهنيين والحرفيين المعتمدين في جميع مدن المملكة.</p>
+        
+        <div class="services-box">
+            الخدمات المتوفرة: بناء، كهربائي، رصاص، صباغ، نجار، جباس، ألومنيوم، ميكانيك الثلاجات، النقل والكورساوات.
+        </div>
 
-        <section>
-            <h2>الحرف والخدمات المتوفرة</h2>
-            <p>نضم في منصتنا نخبة واسعة من الحرفيين المهرة لتغطية كل احتياجاتكم اليومية:</p>
-            <div class="services-grid">
-                <div class="service-box">بناي (Bâny)</div>
-                <div class="service-box">ترسيان / كهربائي (Trician)</div>
-                <div class="service-box">رصاص / صحي (Plombier)</div>
-                <div class="service-box">صباغ (Sabag)</div>
-                <div class="service-box">نجار (Najar)</div>
-                <div class="service-box">جباس (Gabbas)</div>
-                <div class="service-box">ألومنيوم (Aluminium)</div>
-                <div class="service-box">ميكانيك الثلاجات</div>
-                <div class="service-box">النقل والكورساوات</div>
-            </div>
-        </section>
-
-        <section class="legal-section">
-            <h2>سياسة الخصوصية وشروط الاستخدام</h2>
-            <p>نحن في موقع "معلم حريفي" نحترم خصوصية زوارنا الكرام. هذا الموقع مخصص حصرياً لعرض وربط الخدمات الحرفية والمهنية بالمغرب، <strong>ولا يتضمن أي عمليات بيع وشراء للمنتجات أو التجارة الإلكترونية</strong>.</p>
-            <p>قد نستخدم شركات إعلانية طرف ثالث (مثل Google AdSense) لعرض الإعلانات عندما تزور موقعنا. يحق لهذه الشركات استخدام معلومات حول زياراتك لهذا الموقع (باستثناء الاسم، العنوان، عنوان البريد الإلكتروني، أو رقم الهاتف) لتقديم إعلانات حول السلع والخدمات التي تهمك.</p>
-        </section>
+        <div class="legal-footer">
+            <p><strong>سياسة الخصوصية والتنبيه القانوني:</strong> هذا الموقع مخصص حصرياً للوساطة وعرض الخدمات المهنية والحرفية بالمغرب، ولا يتضمن أي أنشطة تجارية أو عمليات بيع وشراء للسلع.</p>
+            <p style="text-align: center; margin-top: 15px;">جميع الحقوق محفوظة &copy; 2026 معلم حريفي - المغرب</p>
+        </div>
     </div>
-
-    <footer>
-        <p>جميع الحقوق محفوظة &copy; 2026 معلم حريفي - المغرب</p>
-    </footer>
 
 </body>
 </html>
