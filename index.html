@@ -1,68 +1,1519 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" id="htmlRoot">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>معلم حريفي - منصة الحرفيين بالمغرب</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f7f9fa;
-            color: #333;
-        }
-        .container {
-            max-width: 850px;
-            margin: 30px auto;
-            background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-            text-align: center;
-        }
-        h1 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-        p {
-            font-size: 16px;
-            line-height: 1.8;
-            color: #555;
-        }
-        .services-box {
-            margin: 25px 0;
-            background: #edf2f4;
-            padding: 15px;
-            border-radius: 6px;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-        .legal-footer {
-            margin-top: 35px;
-            padding-top: 15px;
-            border-top: 1px solid #e0e0e0;
-            font-size: 13px;
-            color: #666;
-            text-align: right;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, ini􀆟al-scale=1.0">
+<􀆟tle> معلم حریفي | M3allam 7rayfi</􀆟tle>
+<script src="htps://cdn.tailwindcss.com"></script>
+<script src="htps://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="stylesheet" href="htps://cdnjs.cloudflare.com/ajax/libs/fontawesome/
+6.4.0/css/all.min.css">
+<link
+href="htps://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=sw
+ap" rel="stylesheet">
+<style>
+body { font-family: 'Tajawal', sans-serif; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.draggable-slider { cursor: grab; user-select: none; -webkit-overflow-scrolling: touch; }
+.draggable-slider:ac􀆟ve { cursor: grabbing; }
+</style>
 </head>
-<body>
-
-    <div class="container">
-        <h1>معلم حريفي</h1>
-        <p>المنصة المغربية الرائدة لربط الزبناء والباحثين عن الخدمات بأفضل المهنيين والحرفيين المعتمدين في جميع مدن المملكة.</p>
-        
-        <div class="services-box">
-            الخدمات المتوفرة: بناء، كهربائي، رصاص، صباغ، نجار، جباس، ألومنيوم، ميكانيك الثلاجات، النقل والكورساوات.
-        </div>
-
-        <div class="legal-footer">
-            <p><strong>سياسة الخصوصية والتنبيه القانوني:</strong> هذا الموقع مخصص حصرياً للوساطة وعرض الخدمات المهنية والحرفية بالمغرب، ولا يتضمن أي أنشطة تجارية أو عمليات بيع وشراء للسلع.</p>
-            <p style="text-align: center; margin-top: 15px;">جميع الحقوق محفوظة &copy; 2026 معلم حريفي - المغرب</p>
-        </div>
-    </div>
-
+<body class="bg-gradient-to-b from-amber-50/40 via-white to-slate-50 text-slate-800 an􀆟aliased
+pb-20 selec􀆟on:bg-amber-400 selec􀆟on:text-slate-900">
+<!-- ================= NAVBAR ================= -->
+<header class="bg-white/95 backdrop-blur-md border-b border-amber-100 s􀆟cky top-0 z-40
+shadow-sm">
+<div class="max-w-6xl mx-auto px-4 py-3 flex items-center jus􀆟fy-between">
+<div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo({top: 0, behavior:
+'smooth'})">
+<span class="text-3xl p-1.5 bg-amber-100 rounded-2xl inline-block shadow-inner">􊵧􍬈􍬉􍬊􍬋􍬐􍬑􍬌􍬍􍬎􍬏</span>
+<div>
+<span class="font-black text-2xl bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent"> معلم حریفي </span>
+<span class="block text-[10px] text-slate-500 font-bold -mt-1">M3allam 7rayfi</span>
+</div>
+</div>
+<div class="flex items-center gap-2 sm:gap-3">
+<select id="langSelect" onchange="changeLanguage(this.value)" class="bg-slate-50 border border-slate-200 text-xs font-bold rounded-xl px-2.5 py-1.5 outline-none cursor-pointer text-slate-700">
+<op􀆟on value="ar">🇲🇲🇲🇲 العربیة </op􀆟on>
+<op􀆟on value="fr">🇫🇫🇫🇫 Français</op􀆟on>
+<op􀆟on value="en">🇬🇬🇬🇬 English</op􀆟on>
+<op􀆟on value="it">🇮🇮🇮🇮 Italiano</op􀆟on>
+<op􀆟on value="es">🇪🇪🇪🇪 Español</op􀆟on>
+<op􀆟on value="zh">🇨🇨🇨🇨 中文</op􀆟on>
+</select>
+<div id="authNavButons" class="flex items-center gap-2">
+<buton onclick="openAuthModal('login')" id="t_nav_login" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-3 py-2 rounded-xl transi􀆟on"> دخول </buton>
+<buton onclick="openAuthModal('register')" id="t_nav_register" class="text-xs bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-black px-4 py-2 rounded-xl transi􀆟on shadow-md shadow-amber-500/ حساب جدید<" 20 </buton>
+</div>
+<div id="userProfileNav" class="hidden flex items-center gap-2">
+<span id="userGree􀆟ng" class="text-xs sm:text-sm font-black text-amber-700 bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-200"></span>
+<buton onclick="handleSupabaseLogout()" id="t_btn_logout" class="text-xs bg-rose-50 text-rose-600 hover:bg-rose-100 font-bold px-3 py-1.5 rounded-xl border border-rose-200 transi􀆟on"> خروج </buton>
+</div>
+</div>
+</div>
+</header>
+<!-- Community Bar -->
+<div class="bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 text-white py-2 px-4 shadow-sm">
+<div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center jus􀆟fy-between gap-2 text-center sm:text-right">
+<div class="flex items-center gap-2 text-xs sm:text-sm font-bold">
+<i class="fa-brands fa-facebook text-lg"></i>
+<span id="t_􀄩_text"> انضم لأكبر مجتمع للحرفیین والزبناء على الفیسبوك :</span>
+</div>
+<div class="flex items-center gap-2">
+<a href="htps://www.facebook.com/1248623065006651" target="_blank" id="t_􀄩_page" class="bg-white text-blue-700 text-[11px] font-black px-3.5 py-1 rounded-lg hover:bg-blue-50 transi􀆟on shadow-sm">
+<i class="fa-solid fa-thumbs-up ml-1"></i> صفحتنا
+</a>
+<a href="htps://www.facebook.com/groups/871512623656726" target="_blank" id="t_􀄩_group" class="bg-blue-900 text-white text-[11px] font-black px-3.5 py-1 rounded-lg hover:bg-blue-950 border border-blue-400/40 transi􀆟on">
+<i class="fa-solid fa-users ml-1"></i> الكروب الرسمي
+</a>
+</div>
+</div>
+</div>
+<!-- ================= MAIN CONTENT ================= -->
+<main class="max-w-6xl mx-auto p-4 sm:p-6 space-y-12">
+<!-- Hero Sec􀆟on -->
+<sec􀆟on class="bg-gradient-to-br from-amber-500 via-orange-500 to-amber-600 text-white rounded-3xl p-6 sm:p-10 shadow-2xl rela􀆟ve overflow-hidden">
+<div class="grid md:grid-cols-12 gap-8 items-center rela􀆟ve z-10">
+<div class="md:col-span-7 space-y-4 text-center md:text-right">
+<span id="t_hero_badge" class="bg-white/20 text-white text-xs font-black px-4 py-1.5 rounded-full border border-white/30 inline-block uppercase tracking-wider shadow-sm"> المنصة
+المغربیة الأولى للحرف والمھن 🇲🇲🇲🇲</span>
+<h1 id="t_hero_􀆟tle" class="text-3xl sm:text-5xl font-black leading-􀆟ght"> صلة الوصل بین خیرة
+الحرفیین والزبناء الموثوقین </h1>
+<p id="t_hero_desc" class="text-amber-50 text-sm sm:text-base leading-relaxed max-w-xl">
+منصة "معلم حریفي" تھدف إلى تسھیل العثور على أفضل المعلمین المھرة في الصیانة، البناء، والدیكور بالمغرب
+. وخارجھ بدون وسیط وبدون عمولات
+</p>
+<div class="flex flex-wrap jus􀆟fy-center md:jus􀆟fy-start gap-3 pt-2">
+<a href="#servicesSec􀆟on" id="t_hero_explore" class="bg-slate-950 hover:bg-slate-900 text-amber-400 font-black text-xs sm:text-sm px-6 py-3.5 rounded-2xl transi􀆟on shadow-xl flex items-center gap-2">
+<i class="fa-solid fa-magnifying-glass"></i> اكتشف الخدمات المتاحة
+</a>
+<buton onclick="requireAuthAc􀆟on('pro')" id="t_hero_post_btn" class="bg-white hover:bg-amber-50 text-slate-900 font-black text-xs sm:text-sm px-6 py-3.5 rounded-2xl transi􀆟on shadow-md flex items-center gap-2">
+<i class="fa-solid fa-bullhorn text-amber-600"></i> نشر إشھار حریفي
+</buton>
+</div>
+</div>
+<div class="md:col-span-5 flex jus􀆟fy-center items-center">
+<div onclick="openCra􀅌Modal(0)" class="rela􀆟ve w-full max-w-sm rounded-3xl overflow-hidden shadow-2xl border-4 border-white/40 group cursor-pointer">
+<img src="htps://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80" referrerpolicy="no-referrer" alt="Master Cra􀅌sman" class="w-full h-72 sm:h-80 object-cover group-hover:scale-105 transi􀆟on dura􀆟on-500">
+<div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-4">
+<div class="text-right">
+<span id="t_hero_badge_click" class="bg-amber-500 text-slate-950 text-[10px] font-black px-2.5 py-0.5 rounded-full"> اضغط لعرض المعرض الكامل 􊺑􊺘􊺓􊺚􊺔􊺛􊺕􊺙</span>
+<p id="t_hero_img_sub" class="text-white font-black text-sm mt- حرفیون ببدلات العمل<" 1
+والأدوات الاحترافیة </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</sec􀆟on>
+<!-- Top Banner Ad -->
+<sec􀆟on id="mainAdSec􀆟on" class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white p-5 sm:p-6 rounded-3xl border border-amber-400/30 shadow-xl flex flex-col md:flex-row items-center jus􀆟fy-between gap-4">
+<div class="flex items-center gap-4">
+<span class="text-4xl p-3 bg-amber-500/20 text-amber-400 rounded-2xl border border-amber-500/30">􊫴􊫵􊫶􊫷􊫸􊫹</span>
+<div>
+<div class="flex items-center gap-2">
+<span id="t_ad_tag" class="bg-amber-500 text-slate-950 text-[10px] font-black px-2 py-0.5 rounded"> إشھار متمیز / Sponsor</span>
+<span id="t_ad_sub" class="text-xs text-slate-400 font-bold"> مساحة إعلانیة للشركات
+والمحلات </span>
+</div>
+<h3 id="t_ad_􀆟tle" class="text-lg sm:text-xl font-black mt-1 text-white"> سیرامیك ومواد البناء
+الفاخرة | عروض خاصة لمھنیي الحرف </h3>
+</div>
+</div>
+<a href="htps://wa.me/message/ADVEH75KWZY3M1?text=Ad%20Space%20Reserva􀆟on" target="_blank" id="t_ad_btn" class="w-full md:w-auto bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs px-6 py-3.5 rounded-2xl transi􀆟on text-center shadow-lg whitespace-nowrap">
+<i class="fa-solid fa-bullhorn ml-1"></i> احجز إشھارك ھن ا
+</a>
+</sec􀆟on>
+<!-- ================= PUBLISHED CLIENT ADS (SAVED IN SUPABASE CLOUD) ================= -->
+<sec􀆟on id="clientAdsContainer" class="space-y-4">
+<div class="flex items-center jus􀆟fy-between">
+<h2 class="text-xl font-black text-slate-900 flex items-center gap-2">
+<i class="fa-solid fa-star text-amber-500"></i> إعلانات وخدمات ممیزة منشورة
+</h2>
+<span class="text-xs text-emerald-600 font-bold bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald- سحابي للجمیع<" 200 </span>
+</div>
+<div id="liveClientAdsList" class="grid sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
+</sec􀆟on>
+<!-- Cra􀅌s Slider Sec􀆟on -->
+<sec􀆟on id="servicesSec􀆟on" class="space-y-4">
+<div class="text-center sm:text-right">
+<div class="flex items-center jus􀆟fy-center sm:jus􀆟fy-start gap-2">
+<h2 id="t_services_􀆟tle" class="text-2xl sm:text-3xl font-black text-slate- أبرز الحرف<" 900
+والخدمات المعتمدة </h2>
+<span id="t_scroll_hint" class="text-xs bg-amber-100 text-amber-800 font-extrabold px-3 py-1 rounded-full">􈸬􈸭􈸮􈸯 مرر بالید أو الأسھم 􈸰􈸱􈸲􈸳</span>
+</div>
+<p id="t_services_sub􀆟tle" class="text-xs text-slate-500 mt- حرفیون متمرسون یحملون أدواتھم<" 1
+ومستعدون لخدمتك فور ا — اضغط على أي بطاقة لتكبیر الصورة </p>
+</div>
+<div class="rela􀆟ve group px-1 sm:px-2">
+<buton onclick="scrollSlider('right')" aria-label="Previous" class="absolute right-0 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/95 hover:bg-amber-500 hover:text-white border border-slate-200 text-slate-800 shadow-2xl flex items-center jus􀆟fy-center transi􀆟on-all dura􀆟on-300 text-lg hover:scale-110 ac􀆟ve:scale-95">
+<i class="fa-solid fa-chevron-right"></i>
+</buton>
+<div id="cra􀅌sSlider" class="draggable-slider flex gap-5 overflow-x-auto no-scrollbar scroll-smooth pb-4 pt-1 snap-x snap-mandatory px-4"></div>
+<buton onclick="scrollSlider('le􀅌')" aria-label="Next" class="absolute le􀅌-0 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/95 hover:bg-amber-500 hover:text-white border border-slate-200 text-slate-800 shadow-2xl flex items-center jus􀆟fy-center transi􀆟on-all dura􀆟on-300 text-lg hover:scale-110 ac􀆟ve:scale-95">
+<i class="fa-solid fa-chevron-le􀅌"></i>
+</buton>
+</div>
+</sec􀆟on>
+<!-- Forms Sec􀆟on -->
+<sec􀆟on class="grid md:grid-cols-2 gap-8 items-start border-t border-slate-200 pt-10">
+<!-- Pro Form -->
+<div class="bg-white p-6 sm:p-8 rounded-3xl border border-amber-200 shadow-lg space-y-4">
+<div class="flex items-center gap-3">
+<span class="p-3 bg-amber-100 text-amber-700 rounded-2xl text-2xl border border-amber-200">􊸮􊸫􊸬􊸭</span>
+<div>
+<h3 id="t_pro_form_􀆟tle" class="font-black text-xl text-slate- طلب نشر إشھار حریفي<" 900 </h3>
+<p id="t_pro_form_sub􀆟tle" class="text-xs text-slate- أدخل معلوماتك لعرض خدماتك<" 500
+للزبناء </p>
+</div>
+</div>
+<form onsubmit="handleFormSubmission(event, 'pro')" class="space-y-3">
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label id="t_pro_lbl_name" class="block text-xs font-bold text-slate-700 mb- / الاسم<" 1
+الورشة </label>
+<input id="pro_name" required placeholder=" المعلم سمیر " class="w-full bg-slate-50 border
+border-slate-200 rounded-xl p-3 text-sm focus:bg-white focus:ring-2 focus:ring-amber-500 outline-none">
+</div>
+<div>
+<label id="t_pro_lbl_job" class="block text-xs font-bold text-slate-700 mb- الحرفة<" 1 </label>
+<input id="pro_job" required placeholder=" بلومبي، كھربائي ..." class="w-full bg-slate-50
+border border-slate-200 rounded-xl p-3 text-sm focus:bg-white focus:ring-2 focus:ring-amber-500 outline-none">
+</div>
+</div>
+<div>
+<label id="t_pro_lbl_city" class="block text-xs font-bold text-slate-700 mb- المدینة<" 1
+والمناطق </label>
+<input id="pro_city" required placeholder=" الرباط، سلا، تمارة ..." class="w-full bg-slate-50
+border border-slate-200 rounded-xl p-3 text-sm focus:bg-white focus:ring-2 focus:ring-amber-500 outline-none">
+</div>
+<div>
+<label id="t_pro_lbl_phone" class="block text-xs font-bold text-slate-700 mb- رقم الواتساب<" 1
+مع رمز الدولة </label>
+<div class="flex gap-2" dir="ltr">
+<select id="pro_country_code" class="bg-slate-100 border border-slate-200 rounded-xl px-2 py-3 text-xs font-bold text-slate-700 outline-none">
+<op􀆟on value="+212">🇲🇲🇲🇲 +212</op􀆟on>
+<op􀆟on value="+39">🇮🇮🇮🇮 +39</op􀆟on>
+<op􀆟on value="+33">🇫🇫🇫🇫 +33</op􀆟on>
+<op􀆟on value="+34">🇪🇪🇪🇪 +34</op􀆟on>
+<op􀆟on value="+86">🇨🇨🇨🇨 +86</op􀆟on>
+<op􀆟on value="+44">🇬🇬🇬🇬 +44</op􀆟on>
+<op􀆟on value="+1">🇺🇺🇺 +1</op􀆟on>
+</select>
+<input id="pro_phone" type="tel" required placeholder="6XXXXXXXX" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:bg-white focus:ring-2 focus:ring-amber-500 outline-none">
+</div>
+</div>
+<div>
+<label id="t_pro_lbl_bio" class="block text-xs font-bold text-slate-700 mb- نبذة عن<" 1
+خدماتك </label>
+<textarea id="pro_bio" rows="2" placeholder=" وصف للأشغال والخدمات التي تتقنھا ..." class="w-full
+bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:bg-white focus:ring-2 focus:ring-amber-500 outline-none"></textarea>
+</div>
+<buton id="t_pro_btn_submit" type="submit" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 text-white font-black py-3.5 rounded-xl transi􀆟on shadow-md flex items-center jus􀆟fy-center gap-2">
+<i class="fa-brands fa-whatsapp text-lg"></i> إرسال الطلب للإدارة للنشر
+</buton>
+</form>
+</div>
+<!-- Client Form -->
+<div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-lg space-y-4">
+<div class="flex items-center gap-3">
+<span class="p-3 bg-blue-50 text-blue-700 rounded-2xl text-2xl border border-blue-100">􋮂􋮀􋮁􋮃</span>
+<div>
+<h3 id="t_cli_form_􀆟tle" class="font-black text-xl text-slate- خاصك معلم؟ صیفط لینا وحنا<" 900
+نلقاوه لیك </h3>
+<p id="t_cli_form_sub􀆟tle" class="text-xs text-slate- صیفط تفاصیل المشكل للإدارة للربط<" 500
+الفوري </p>
+</div>
+</div>
+<form onsubmit="handleFormSubmission(event, 'client')" class="space-y-3">
+<div>
+<label id="t_cli_lbl_srv" class="block text-xs font-bold text-slate-700 mb- / نوع الإصلاح<" 1
+المعلم المطلوب </label>
+<input id="cli_service" required placeholder=" مثال: خاصني تریسیان، صباغ، بلومبي ..." class="w-full
+bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:bg-white focus:ring-2 focus:ring-slate-900 outline-none">
+</div>
+<div>
+<label id="t_cli_lbl_city" class="block text-xs font-bold text-slate-700 mb- المدینة<" 1
+والحي </label>
+<input id="cli_city" required placeholder=" الدار البیضاء - المعاریف " class="w-full bg-slate-50
+border border-slate-200 rounded-xl p-3 text-sm focus:bg-white focus:ring-2 focus:ring-slate-900 outline-none">
+</div>
+<div>
+<label id="t_cli_lbl_phone" class="block text-xs font-bold text-slate-700 mb- رقم الھاتف مع <" 1
+رمز الدولة </label>
+<div class="flex gap-2" dir="ltr">
+<select id="cli_country_code" class="bg-slate-100 border border-slate-200 rounded-xl px-2 py-3 text-xs font-bold text-slate-700 outline-none">
+<op􀆟on value="+212">🇲🇲🇲🇲 +212</op􀆟on>
+<op􀆟on value="+39">🇮🇮🇮🇮 +39</op􀆟on>
+<op􀆟on value="+33">🇫🇫🇫🇫 +33</op􀆟on>
+<op􀆟on value="+34">🇪🇪🇪🇪 +34</op􀆟on>
+<op􀆟on value="+86">🇨🇨🇨🇨 +86</op􀆟on>
+<op􀆟on value="+44">🇬🇬🇬🇬 +44</op􀆟on>
+<op􀆟on value="+1">🇺🇺🇺 +1</op􀆟on>
+</select>
+<input id="cli_phone" type="tel" required placeholder="6XXXXXXXX" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:bg-white focus:ring-2 focus:ring-slate-900 outline-none">
+</div>
+</div>
+<div>
+<label id="t_cli_lbl_details" class="block text-xs font-bold text-slate-700 mb- تفاصیل<" 1
+إضافیة </label>
+<textarea id="cli_details" rows="2" placeholder=" وصف المشكل أو الإصلاح المطلوب ..." class="w-
+full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:bg-white focus:ring-2 focus:ring-slate-900 outline-none"></textarea>
+</div>
+<buton id="t_cli_btn_submit" type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-3.5 rounded-xl transi􀆟on shadow-md flex items-center jus􀆟fy-center gap-2">
+<i class="fa-brands fa-whatsapp text-lg"></i> إرسال الطلب للإدارة للبحث
+</buton>
+</form>
+</div>
+</sec􀆟on>
+</main>
+<!-- ================= LIGHTBOX MODAL ================= -->
+<div id="cra􀅌Modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 hidden flex items-center jus􀆟fy-center p-4">
+<div class="bg-white w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl rela􀆟ve flex flex-col">
+<div class="p-4 border-b border-slate-100 flex items-center jus􀆟fy-between">
+<div class="flex items-center gap-2">
+<span id="modalCra􀅌Badge" class="px-3 py-1 rounded-xl text-xs font-black text-white bg-amber- حرفة<" 500 </span>
+<span id="modalCra􀅌Counter" class="text-xs text-slate-400 font-bold">1 / 8</span>
+</div>
+<buton onclick="closeCra􀅌Modal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center jus􀆟fy-center font-black">✕</buton>
+</div>
+<div class="rela􀆟ve bg-slate-900 h-72 sm:h-96 flex items-center jus􀆟fy-center overflow-hidden">
+<img id="modalCra􀅌Img" src="" referrerpolicy="no-referrer" alt="Cra􀅌 Details" class="w-full h-full object-cover transi􀆟on dura􀆟on-300">
+<buton onclick="prevCra􀅌Modal()" class="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 hover:bg-white text-slate-900 shadow-md flex items-center jus􀆟fy-center text-sm transi􀆟on">
+<i class="fa-solid fa-chevron-right"></i>
+</buton>
+<buton onclick="nextCra􀅌Modal()" class="absolute le􀅌-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 hover:bg-white text-slate-900 shadow-md flex items-center jus􀆟fy-center text-sm transi􀆟on">
+<i class="fa-solid fa-chevron-le􀅌"></i>
+</buton>
+</div>
+<div class="p-6 space-y-3">
+<h3 id="modalCra􀅌Title" class="text-xl font-black text-slate- عنوان الحرفة<" 900 </h3>
+<p id="modalCra􀅌Desc" class="text-xs sm:text-sm text-slate-600 leading-relaxed"> تفاصیل الحرفة
+والمھام المطلوبة .</p>
+<div class="pt-2 flex gap-3">
+<buton onclick="requireAuthAc􀆟on('client')" id="t_modal_btn_req" class="flex-1 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black py-3 rounded-xl transi􀆟on text-xs shadow-md">
+طلب ھاد المعلم دابا 􋮂􋮀􋮁􋮃
+</buton>
+<buton onclick="closeCra􀅌Modal()" id="t_modal_btn_close" class="px-5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 rounded-xl transi􀆟on text-xs">
+إغلاق
+</buton>
+</div>
+</div>
+</div>
+</div>
+<!-- ================= AUTH MODAL ================= -->
+<div id="authModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-50 hidden flex items-center jus􀆟fy-center p-4">
+<div class="bg-white w-full max-w-md p-6 sm:p-8 rounded-3xl shadow-2xl border border-slate-100 rela􀆟ve max-h-[95vh] overflow-y-auto">
+<buton onclick="closeAuthModal()" class="absolute top-4 le􀅌-4 text-slate-400 hover:text-slate-700 font-bold text-lg">✕</buton>
+<div class="text-center mb-6">
+<span class="text-4xl p-2 bg-amber-100 text-amber-600 rounded-2xl inline-block mb-3">􊵧􍬈􍬉􍬊􍬋􍬐􍬑􍬌􍬍􍬎􍬏</span>
+<h2 id="t_auth_􀆟tle" class="text-2xl font-black text-slate- تسجیل الدخول / حساب جدید<" 900 </h2>
+<p id="t_auth_sub􀆟tle" class="text-xs text-slate-500 mt- سجل الدخول للمتابعة والاستفادة من خدمات<" 1
+المنصة </p>
+</div>
+<div class="flex bg-slate-100 p-1 rounded-xl mb-6 text-sm font-bold">
+<buton id="tabLogin" onclick="switchAuthTab('login')" class="flex-1 py-2 rounded-lg bg-white shadow-sm text-slate-900 transi􀆟on"> تسجیل الدخول </buton>
+<buton id="tabRegister" onclick="switchAuthTab('register')" class="flex-1 py-2 rounded-lg text-slate-500 transi􀆟on"> إنشاء حساب </buton>
+</div>
+<div id="authAlert" class="hidden mb-4 p-3 rounded-xl text-xs font-bold leading-relaxed"></div>
+<!-- Login Form -->
+<form id="loginForm" onsubmit="handleSupabaseLogin(event)" class="space-y-3">
+<div>
+<label id="t_lbl_login_email" class="block text-xs font-bold text-slate-700 mb- البرید<" 1
+الإلكتروني </label>
+<input id="login_email" type="email" required placeholder="name@gmail.com" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:bg-white focus:ring-2 focus:ring-amber-500 outline-none">
+</div>
+<div>
+<label id="t_lbl_login_pass" class="block text-xs font-bold text-slate-700 mb- كلمة<" 1
+المرور </label>
+<input id="login_pass" type="password" required placeholder="******" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:bg-white focus:ring-2 focus:ring-amber-500 outline-none">
+</div>
+<buton id="btnLoginSubmit" type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-extrabold py-3.5 rounded-xl transi􀆟on shadow">
+تسجیل الدخول
+</buton>
+</form>
+<!-- Register Form -->
+<form id="registerForm" onsubmit="handleSupabaseRegister(event)" class="space-y-3 hidden">
+<div>
+<label id="t_lbl_name" class="block text-xs font-bold text-slate-700 mb- الاسم الكامل<" 1 </label>
+<input id="reg_name" required placeholder="Full Name" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:bg-white focus:ring-2 focus:ring-amber-500 outline-none">
+</div>
+<div>
+<label id="t_lbl_email" class="block text-xs font-bold text-slate-700 mb- البرید<" 1
+الإلكتروني </label>
+<input id="reg_email" type="email" required placeholder="name@gmail.com" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:bg-white focus:ring-2 focus:ring-amber-500 outline-none">
+</div>
+<div>
+<label id="t_lbl_phone" class="block text-xs font-bold text-slate-700 mb- رقم الھاتف<" 1 </label>
+<div class="flex gap-2" dir="ltr">
+<select id="reg_country_code" class="bg-slate-100 border border-slate-200 rounded-xl px-2 py-3 text-xs font-bold outline-none">
+<op􀆟on value="+212">🇲🇲🇲🇲 +212</op􀆟on>
+<op􀆟on value="+39">🇮🇮🇮🇮 +39</op􀆟on>
+<op􀆟on value="+33">🇫🇫🇫🇫 +33</op􀆟on>
+<op􀆟on value="+34">🇪🇪🇪🇪 +34</op􀆟on>
+<op􀆟on value="+86">🇨🇨🇨🇨 +86</op􀆟on>
+<op􀆟on value="+44">🇬🇬🇬🇬 +44</op􀆟on>
+<op􀆟on value="+1">🇺🇺🇺 +1</op􀆟on>
+</select>
+<input id="reg_phone" type="tel" required placeholder="6XXXXXXXX" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:bg-white focus:ring-2 focus:ring-amber-500 outline-none">
+</div>
+</div>
+<div>
+<label id="t_lbl_pass" class="block text-xs font-bold text-slate-700 mb-1"> كلمة المرور ( 8
+أحرف/ أرقام على الأقل )</label>
+<input id="reg_pass" type="password" required minlength="8" placeholder="********" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:bg-white focus:ring-2 focus:ring-amber-500 outline-none">
+</div>
+<div>
+<label id="t_lbl_pass_confirm" class="block text-xs font-bold text-slate-700 mb- تأكید كلمة<" 1
+المرور </label>
+<input id="reg_pass_confirm" type="password" required minlength="8" placeholder="********" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:bg-white focus:ring-2 focus:ring-amber-500 outline-none">
+</div>
+<div>
+<label id="t_lbl_role" class="block text-xs font-bold text-slate-700 mb- الصفة<" 1 </label>
+<select id="reg_role" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:bg-white focus:ring-2 focus:ring-amber-500 outline-none">
+<op􀆟on value="client" id="t_opt_client">( زبون (باغي نصلح شي حاجة </op􀆟on>
+<op􀆟on value="pro" id="t_opt_pro">( معلم حریفي (باغي نخدم ونحط إعلاناتي </op􀆟on>
+</select>
+</div>
+<buton id="btnRegSubmit" type="submit" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 text-white font-black py-3.5 rounded-xl transi􀆟on shadow">
+إنشاء الحساب وتأكیده
+</buton>
+</form>
+<div class="mt-6 pt-4 border-t border-slate-100 flex jus􀆟fy-between items-center text-[11px] font-bold">
+<buton onclick="openStaffModal()" id="t_portal_staff_link" class="text-slate-500 hover:text-amber-600 transi􀆟on">
+<i class="fa-solid fa-users-gear text-amber-500"></i> فضاء المسیرین (Staff)
+</buton>
+<buton onclick="openOwnerPinModal()" id="t_portal_owner_link" class="text-slate-700 hover:text-indigo-600 transi􀆟on">
+<i class="fa-solid fa-crown text-indigo-500"></i> فضاء صاحب الموقع 􈹱􈹲􈹳􈹵􈹴
+</buton>
+</div>
+</div>
+</div>
+<!-- STAFF MODAL -->
+<div id="staffAuthModal" class="fixed inset-0 bg-slate-900/85 backdrop-blur-md z-50 hidden flex items-center jus􀆟fy-center p-4">
+<div class="bg-white w-full max-w-md p-6 sm:p-8 rounded-3xl shadow-2xl border border-slate-100 space-y-4 max-h-[95vh] overflow-y-auto">
+<div class="text-center">
+<div class="w-14 h-14 bg-amber-100 text-amber-600 rounded-2xl flex items-center jus􀆟fy-center mx-auto text-2xl mb-2">
+<i class="fa-solid fa-id-badge"></i>
+</div>
+<h3 class="text-xl font-black text-slate- فضاء المسیرین والموظفین<" 900 </h3>
+<p class="text-xs text-slate- تسجیل موظف جدید أو الدخول بالھاتف والكود<" 500 </p>
+</div>
+<div class="flex bg-slate-100 p-1 rounded-xl text-xs font-bold">
+<buton id="tabStaffLog" onclick="switchStaffAuthTab('login')" class="flex-1 py-2 rounded-lg bg-white text-slate-900 shadow-sm transi􀆟on"> دخول موظف </buton>
+<buton id="tabStaffReg" onclick="switchStaffAuthTab('register')" class="flex-1 py-2 rounded-lg text-slate-500 transi􀆟on"> طلب انضمام موظف جدید </buton>
+</div>
+<form id="staffLoginForm" onsubmit="handleStaffLogin(event)" class="space-y-3">
+<div>
+<label class="block text-xs font-bold text-slate-700 mb- رقم الھاتف الشخصي للموظف<" 1 </label>
+<input id="staff_log_phone" required placeholder="06XXXXXXXX" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:bg-white focus:ring-2 focus:ring-amber-500 outline-none" dir="ltr">
+</div>
+<div>
+<label class="block text-xs font-bold text-slate-700 mb- رمز الدخول الخاص بك<" 1 (PIN)</label>
+<input id="staff_log_pin" type="password" maxlength="8" required placeholder=" الكود المسلم
+من المالك " class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:bg-white
+focus:ring-2 focus:ring-amber-500 outline-none text-center font-mono">
+</div>
+<p id="staffLoginError" class="text-xs text-rose-600 font-bold hidden"></p>
+<buton id="btnStaffLoginSubmit" type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-black py-3 rounded-xl transi􀆟on shadow">
+دخول لوحة العمل
+</buton>
+</form>
+<form id="staffRegisterForm" onsubmit="handleStaffRegistra􀆟on(event)" class="space-y-2.5 hidden text-right">
+<div>
+<label class="block text-[11px] font-bold text-slate-700 mb- الاسم الكامل<" 0.5 </label>
+<input id="s􀆞_name" required placeholder=" الاسم العائلي والشخصي " class="w-full bg-slate-50
+border border-slate-200 rounded-xl p-2.5 text-xs outline-none focus:ring-2 focus:ring-amber-500">
+</div>
+<div class="grid grid-cols-2 gap-2">
+<div>
+<label class="block text-[11px] font-bold text-slate-700 mb- رقم بطاقة التعریف<" 0.5
+(CIN)</label>
+<input id="s􀆞_cin" required placeholder="AB123456" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs outline-none uppercase font-mono">
+</div>
+<div>
+<label class="block text-[11px] font-bold text-slate-700 mb- رقم الھاتف الشخصي<" 0.5 </label>
+<input id="s􀆞_phone" type="tel" required placeholder="06XXXXXXXX" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs outline-none font-mono" dir="ltr">
+</div>
+</div>
+<div>
+<label class="block text-[11px] font-bold text-slate-700 mb- البرید الإلكتروني<" 0.5 </label>
+<input id="s􀆞_email" type="email" required placeholder="staff@gmail.com" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs outline-none">
+</div>
+<div>
+<label class="block text-[11px] font-bold text-slate-700 mb- عنوان السكن الكامل<" 0.5
+والمدینة </label>
+<textarea id="s􀆞_address" rows="2" required placeholder=" العنوان والحي ..." class="w-full bg-
+slate-50 border border-slate-200 rounded-xl p-2.5 text-xs outline-none"></textarea>
+</div>
+<buton id="btnStaffRegSubmit" type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-black py-2.5 rounded-xl transi􀆟on text-xs shadow">
+إرسال طلب الانضمام السحابي
+</buton>
+</form>
+<buton onclick="closeStaffModal()" class="w-full text-center text-xs text-slate-400 hover:text-slate-600 font-bold mt- إلغاء<" 2 </buton>
+</div>
+</div>
+<!-- OWNER PIN MODAL -->
+<div id="ownerPinModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 hidden flex items-center jus􀆟fy-center p-4">
+<div class="bg-white w-full max-w-sm p-6 sm:p-8 rounded-3xl shadow-2xl text-center space-y-4">
+<div class="w-16 h-16 bg-indigo-900 text-amber-400 rounded-2xl flex items-center jus􀆟fy-center mx-auto text-2xl shadow-lg">
+<i class="fa-solid fa-crown"></i>
+</div>
+<h3 class="text-xl font-black text-slate- فضاء صاحب الموقع<" 900 􈹱􈹲􈹳􈹵􈹴</h3>
+<p class="text-xs text-slate- أدخل الكود السري الحصري للإدارة العلیا<" 500 </p>
+<form onsubmit="handleOwnerAuth(event)" class="space-y-3 pt-2">
+<input id="ownerSecretPin" type="password" maxlength="8" required placeholder="Owner PIN Code" class="w-full text-center tracking-widest text-lg font-bold bg-slate-100 border border-slate-200 rounded-xl p-3 focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none">
+<p id="ownerPinError" class="text-xs text-rose-600 font-bold hidden"> الرمز السري غیر
+صحیح !</p>
+<buton type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black py-3 rounded-xl transi􀆟on shadow">
+دخول لوحة التحكم الشاملة
+</buton>
+</form>
+<buton onclick="closeOwnerPinModal()" class="text-xs text-slate-400 hover:text-slate-600 font-bold"> إلغاء </buton>
+</div>
+</div>
+<!-- OWNER DASHBOARD -->
+<div id="ownerDashboardModal" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-50 hidden flex items-center jus􀆟fy-center p-4">
+<div class="bg-white w-full max-w-6xl h-[92vh] p-6 rounded-3xl shadow-2xl flex flex-col">
+<div class="flex items-center jus􀆟fy-between border-b border-slate-100 pb-4 mb-4">
+<div class="flex items-center gap-3">
+<span class="p-3 bg-indigo-100 text-indigo-700 rounded-2xl text-2xl">􈹱􈹲􈹳􈹵􈹴</span>
+<div>
+<h2 class="text-xl font-black text-slate- لوحة التحكم العلیا لصاحب الموقع<" 900 (Owner
+Console)</h2>
+<p class="text-xs text-slate- مراقبة الموظفین، تدقیق البطائق وتعدیل محتوى وصور الموقع مباشرة<" 500 </p>
+</div>
+</div>
+<buton onclick="closeOwnerDashboard()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-black px-4 py-2 rounded-xl transi􀆟on"> إغلاق ✕</buton>
+</div>
+<div class="flex flex-wrap gap-2 mb-4 border-b border-slate-100 pb-2">
+<buton id="btnTabLeads" onclick="switchOwnerView('leads')" class="px-4 py-2 rounded-xl font-black text-xs bg-indigo-600 text-white shadow-sm transi􀆟on">
+<i class="fa-solid fa-list-check ml-1"></i> طلبات الزبناء والإعلانات (<span
+id="leadsCountBadge">0</span>)
+</buton>
+<buton id="btnTabStaff" onclick="switchOwnerView('staff')" class="px-4 py-2 rounded-xl font-black text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 transi􀆟on">
+<i class="fa-solid fa-user-shield ml-1"></i> إدارة وتعیین الموظفین (<span
+id="pendingStaffBadge">0</span>)
+</buton>
+<buton id="btnTabCMS" onclick="switchOwnerView('cms')" class="px-4 py-2 rounded-xl font-black text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 transi􀆟on">
+<i class="fa-solid fa-images ml-1"></i> 􎂫􎂬􎂭 تعدیل صور الحرف والخدمات
+</buton>
+<buton id="btnTabPublishAd" onclick="switchOwnerView('pub_ad')" class="px-4 py-2 rounded-xl font-black text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 transi􀆟on">
+<i class="fa-solid fa-bullhorn ml-1"></i> 􊸮􊸫􊸬􊸭 نشر إعلان زبون جدید سحابی ا
+</buton>
+</div>
+<!-- View 1: Leads (Shows ALL requests directly from Supabase) -->
+<div id="ownerLeadsView" class="flex-1 flex flex-col overflow-hidden">
+<div class="grid grid-cols-3 gap-3 mb-4">
+<div class="bg-indigo-50 p-3 rounded-2xl text-center"><span class="text-xs text-indigo-700 font-bold"> المجموع السحابي </span><p id="ownerStatTotal" class="text-xl font-black text-indigo-
+900">0</p></div>
+<div class="bg-amber-50 p-3 rounded-2xl text-center"><span class="text-xs text-amber-700 font-bold"> إعلانات الحرفیی ن </span><p id="ownerStatPro" class="text-xl font-black text-amber-
+900">0</p></div>
+<div class="bg-emerald-50 p-3 rounded-2xl text-center"><span class="text-xs text-emerald-700 font-bold"> طلبات الزبناء </span><p id="ownerStatCli" class="text-xl font-black text-emerald-
+900">0</p></div>
+</div>
+<div class="flex-1 overflow-y-auto border border-slate-100 rounded-2xl">
+<table class="w-full text-right text-xs">
+<thead class="bg-slate-100 text-slate-700 s􀆟cky top-0 font-bold">
+<tr>
+<th class="p- النوع<" 3.5 </th>
+<th class="p- الاسم / الحرفة<" 3.5 </th>
+<th class="p- المدینة<" 3.5 </th>
+<th class="p- الھاتف<" 3.5 </th>
+<th class="p- التفاصیل<" 3.5 </th>
+<th class="p-3.5 text-center"> مراسلة واتساب </th>
+<th class="p-3.5 text-center"> إجراء </th>
+</tr>
+</thead>
+<tbody id="ownerRecordsBody" class="divide-y divide-slate-100"></tbody>
+</table>
+</div>
+</div>
+<!-- View 2: Staff (Ac􀆟ve status guaranteed) -->
+<div id="ownerStaffView" class="flex-1 flex flex-col overflow-hidden hidden">
+<div class="flex-1 overflow-y-auto border border-slate-100 rounded-2xl">
+<table class="w-full text-right text-xs">
+<thead class="bg-slate-100 text-slate-700 s􀆟cky top-0 font-bold">
+<tr>
+<th class="p- اسم الموظف<" 3 </th>
+<th class="p- بطاقة التعریف<" 3 (CIN)</th>
+<th class="p- الھاتف الشخصي<" 3 </th>
+<th class="p- العنوان والبرید<" 3 </th>
+<th class="p- الكود الفردي<" 3 (PIN)</th>
+<th class="p- الحالة<" 3 </th>
+<th class="p-3 text-center"> الإجراءات </th>
+</tr>
+</thead>
+<tbody id="ownerStaffTableBody" class="divide-y divide-slate-100"></tbody>
+</table>
+</div>
+</div>
+<!-- View 3: CMS Content & Image Upload -->
+<div id="ownerCMSView" class="flex-1 flex flex-col overflow-y-auto hidden space-y-6 p-2">
+<div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
+<h3 class="font-black text-slate-900 text-sm"><i class="fa-solid fa-bullhorn text-amber-500 ml-1"></i> تعدیل الإعلان الرئیسي للموقع </h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<div>
+<label class="block text-[11px] font-bold text-slate-600 mb- عنوان الإعلان<" 1 </label>
+<input id="cmsAdTitle" class="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs outline-none">
+</div>
+<div>
+<label class="block text-[11px] font-bold text-slate-600 mb- رابط الواتساب للتواصل مع<" 1
+المعلن </label>
+<input id="cmsAdBtnLink" class="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs outline-none" dir="ltr">
+</div>
+</div>
+<buton onclick="saveCMSBanner()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs px-5 py-2.5 rounded-xl transi􀆟on shadow"> حفظ الإعلان </buton>
+</div>
+<div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+<div class="flex items-center jus􀆟fy-between mb-3">
+<h3 class="font-black text-slate-900 text-sm"><i class="fa-solid fa-camera text-blue-500 ml-1"></i> تعدیل ورفع صور الحِرف </h3>
+<buton onclick="resetAllCra􀅌sToDefault()" class="text-xs text-rose-600 hover:text-rose-700 font-bold underline"> إعادة تعیین الصور الأصلیة </buton>
+</div>
+<div id="cmsCra􀅌sList" class="space-y-4"></div>
+</div>
+</div>
+<!-- View 4: Publish Client Ad with Video/Image (Cloud-Synced) -->
+<div id="ownerPublishAdView" class="flex-1 flex flex-col overflow-y-auto hidden space-y-6 p-2">
+<div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-4">
+<div>
+<h3 class="font-black text-slate-900 text-base">􊸮􊸫􊸬􊸭 نشر إشھار جدید لزبون أو حرفي فالموقع
+سحابي) )</h3>
+<p class="text-xs text-slate- یظھر فور ا في جمیع الھواتف والحواسیب بدون تأخیر<" 500 </p>
+</div>
+<form onsubmit="handlePublishClientAdCloud(event)" class="space-y-3">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<div>
+<label class="block text-[11px] font-bold text-slate-700 mb- عنوان الإعلان<" 1 </label>
+<input id="pub_􀆟tle" required placeholder=" "مثال: تركیب وإصلاح المكیفات الھوائیة طنجة
+class="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs outline-none">
+</div>
+<div>
+<label class="block text-[11px] font-bold text-slate-700 mb- المدینة / المنطقة<" 1 </label>
+<input id="pub_city" required placeholder=" طنجة ونواحي " class="w-full p-2.5 bg-white
+border border-slate-200 rounded-xl text-xs outline-none">
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<div>
+<label class="block text-[11px] font-bold text-slate-700 mb- رقم الواتساب مع الرمز<" 1 </label>
+<input id="pub_phone" required placeholder="212646156747" class="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs outline-none" dir="ltr">
+</div>
+<div>
+<label class="block text-[11px] font-bold text-slate-700 mb- نوع المیدیا ( فیدیو أو<" 1
+صورة )</label>
+<select id="pub_media_type" onchange="togglePubMediaInput(this.value)" class="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs outline-none">
+<op􀆟on value="image"> صورة (Image)</op􀆟on>
+<op􀆟on value="video"> فیدیو (YouTube Embed / MP4)</op􀆟on>
+</select>
+</div>
+</div>
+<div id="pub_image_wrapper">
+<label class="block text-[11px] font-bold text-slate-700 mb- رابط الصورة أو رفعھا من<" 1
+الجھاز </label>
+<div class="flex gap-2">
+<input id="pub_img_url" placeholder="htps://..." class="flex-1 p-2.5 bg-white border border-slate-200 rounded-xl text-xs outline-none" dir="ltr">
+<label class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-xs px-4 py-2.5 rounded-xl cursor-pointer flex items-center jus􀆟fy-center gap-1">
+<i class="fa-solid fa-upload"></i> رفع ملف
+<input type="file" accept="image/*" class="hidden" onchange="handleAdLocalImage(event)">
+</label>
+</div>
+</div>
+<div id="pub_video_wrapper" class="hidden">
+<label class="block text-[11px] font-bold text-slate-700 mb- رابط الفیدیو<" 1 (YouTube Embed
+Link أو فیدیو MP مباشر 4 )</label>
+<input id="pub_video_url" placeholder="htps://www.youtube.com/embed/XXXXXX" class="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs outline-none" dir="ltr">
+</div>
+<div>
+<label class="block text-[11px] font-bold text-slate-700 mb- تفاصیل ومعلومات<" 1
+الإعلان </label>
+<textarea id="pub_desc" rows="3" required placeholder=" تركیب وإصلاح المكیفات الھوائیة طنجة
+ونواحي مرحبا 􈹚􈹛􈹜􈹝􈹞􈹠􈹡􈹢􈹣􈹤􈹥􈹦􈹧􈹨" class="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs outline-
+none"></textarea>
+</div>
+<buton type="submit" id="btnSubmitPubCloud" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs py-3 rounded-xl transi􀆟on shadow">
+<i class="fa-solid fa-paper-plane ml-1"></i> نشر الإعلان في واجھة الموقع سحابی ا
+</buton>
+</form>
+<div class="pt-4 border-t border-slate-200">
+<h4 class="font-bold text-xs text-slate-800 mb- الإعلانات المنشورة حالی ا سحابی ا<ً" 2 :</h4>
+<div id="cmsPublishedAdsList" class="space-y-2"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- FOOTER -->
+<footer class="bg-slate-900 text-slate-400 py-10 px-4 mt-12 border-t border-slate-800 text-center space-y-4">
+<div class="flex jus􀆟fy-center gap-4 text-xl text-slate-300">
+<a href="htps://www.facebook.com/1248623065006651" target="_blank" class="hover:text-blue-400 transi􀆟on"><i class="fa-brands fa-facebook"></i></a>
+<a href="htps://www.facebook.com/groups/871512623656726" target="_blank" class="hover:text-indigo-400 transi􀆟on"><i class="fa-solid fa-users"></i></a>
+<a href="htps://wa.me/message/ADVEH75KWZY3M1" target="_blank" class="hover:text-emerald-400 transi􀆟on"><i class="fa-brands fa-whatsapp"></i></a>
+</div>
+<p id="t_footer_prayers" class="text-xs text-slate- الأجر دیالنا ھو ترحمكم على أمي رحمھا لله<" 400 ..</p>
+<div class="pt-4 border-t border-slate-800 flex jus􀆟fy-center items-center gap-4 text-[11px] text-slate-500">
+<span id="t_footer_rights"> جمیع الحقوق محفوظة &copy; معلم حریفي - 2026 </span>
+<span>•</span>
+<buton onclick="openStaffModal()" id="t_footer_staff_link" class="hover:text-amber-400 underline transi􀆟on"> فضاء المسیرین </buton>
+<span>•</span>
+<buton onclick="openOwnerPinModal()" id="t_footer_owner_link" class="hover:text-indigo-400 underline transi􀆟on"> فضاء صاحب الموقع 􈹱􈹲􈹳􈹵􈹴</buton>
+</div>
+</footer>
+<!-- TRIAL NOTICE BAR -->
+<div class="fixed botom-0 inset-x-0 bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 text-white py-2 px-4 shadow-2xl z-40 border-t-2 border-yellow-300 flex items-center jus􀆟fy-center gap-2 text-center text-xs sm:text-sm font-black animate-pulse">
+<span>􋝙􋝚􋝞􋝟􋝛􋝜􋝝</span>
+<span id="t_trial_no􀆟ce"> ملاحظة ھامة: المنصة حالی ا في نسختھا التجریبیة الرسمیة (Beta Version) — جمیع
+الخدمات والإشھارات مجانیة 100 %!</span>
+<span>􎂶</span>
+</div>
+<!-- ================= SCRIPTS & COMPLETE ENGINE ================= -->
+<script>
+const SUPABASE_URL = 'htps://oaoaofyxtwfxnarxikbl.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9hb2FvZnl4dHdmeG5hcnhpa2JsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc0MzE4MTAsImV4cCI6MjEwMzAwNzgxMH0.cJ75MYzPTZlFlY-JTcaCt-612D_6􀆟ouKIT1ZXVsawI';
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+const OWNER_EMAIL = "heroow77@gmail.com";
+const ADMIN_WA_LINK = "htps://wa.me/message/ADVEH75KWZY3M1";
+const OWNER_PIN = "9900";
+let currentUser = null;
+let currentModalIndex = 0;
+const defaultCra􀅌s = [
+{ tag: " ترصیص وبلومبي 􈆆􋣨􋣩", 􀆟tle: " إصلاح التسریبات، الشوفویات والصحي ", desc: " معالجة فوریة لكافة أعطال
+المیاه والصحي وتركیب مضخات وسخانات المیاه بدقة .", img: "htps://images.unsplash.com/photo-
+1581244277943-fe4a9c777189?auto=format&fit=crop&w=800&q=80", btnColor: "bg-blue-600 hover:bg-blue-700", badgeColor: "bg-blue-600" },
+{ tag: " كھرباء وتریسیان 􎂶", 􀆟tle: " إصلاح الطابلوات وإضاءة اللید ", desc: " صیانة كھرباء المنازل، وتثبیت أحدث
+أنظمة الإضاءة المخفیة والعصریة بأمان تام .", img: "htps://images.unsplash.com/photo-1621905251189-
+08b45d6a269e?auto=format&fit=crop&w=800&q=80", btnColor: "bg-amber-500 hover:bg-amber-600", badgeColor: "bg-amber-500 text-slate-950" },
+{ tag: " صباغة ودیكور 􈙞􈙠􈙡􈙢", 􀆟tle: " صباغة خیال، ستیكو وفینیسیو ", desc: " تجدید ألوان الشقق والواجھات بفینیسیو
+عالي ودقة متناھیة فالتناسق والأناقة .", img: "htps://images.unsplash.com/photo-1589939705384-
+5185137a7f0f?auto=format&fit=crop&w=800&q=80", btnColor: "bg-emerald-600 hover:bg-emerald-700", badgeColor: "bg-emerald-600" },
+{ tag: " نجارة الخشب 􍵰􍵱􍵲􍵳􍵶􍵴􍵵", 􀆟tle: " تفصیل الأبواب والمطابخ العصریة ", desc: " تصمیم وتركیب الخزانات (Placards)،
+غرف النوم، ومطابخ MDF و Hêtre بجودة عالیة .", img: "htps://images.unsplash.com/photo-
+1588854337221-4cf9fa96059c?auto=format&fit=crop&w=800&q=80", btnColor: "bg-amber-800 hover:bg-amber-900", badgeColor: "bg-amber-800" },
+{ tag: " ألومنیوم وزجاج 􈆆􍱳􍱴􍱵􍱶􍱷􍱸", 􀆟tle: " نوافذ، أبواب وواجھات زجاجیة ", desc: " ،تركیب شباك الألومنیوم العازل للصوت
+الستائر الكھربائیة، وواجھات الزجاج المقسى .", img: "htps://images.unsplash.com/photo-1508873696983-
+2df5293cb32f?auto=format&fit=crop&w=800&q=80", btnColor: "bg-cyan-700 hover:bg-cyan-800", badgeColor: "bg-cyan-700" },
+{ tag: " بناء وتلییس 􊵧􍬈􍬉􍬊􍬋􍬐􍬑􍬌􍬍􍬎􍬏", 􀆟tle: " أشغال البناء، المرطوب والتوسعة ", desc: " إصلاح الشقوق، بناء الجدران، تجدید
+المنازل، وھیكلة المساحات باحترافیة .", img: "htps://images.unsplash.com/photo-1541888946425-
+d0􀄩b186156a?auto=format&fit=crop&w=800&q=80", btnColor: "bg-rose-700 hover:bg-rose-800", badgeColor: "bg-rose-700" },
+{ tag: " جبس ودیكور 􈫀􈪾􈪿", 􀆟tle: " أسقف معلقة ونقش مغربي أصیل ", desc: " تركیب الجبس العصري، الإضاءة
+المخفیة، وأحدث دیكورات البلاكو بلاتر (BA13).", img: "htps://images.unsplash.com/photo1513694203232-
+719a280e022f?auto=format&fit=crop&w=800&q=80", btnColor: "bg-indigo-700 hover:bg-indigo-800", badgeColor: "bg-indigo-700" },
+{ tag: " زلیج ورخام 􊵧􊾁", 􀆟tle: " تركیب السیرامیك والرخام الفاخر ", desc: " ،تبلیط الأرضیات، جدران الحمامات
+المطابخ، وتلمیع الرخام بفینیسیو ممتاز .", img: "htps://images.unsplash.com/photo-1584622650111-
+993a426􀄩f0a?auto=format&fit=crop&w=800&q=80", btnColor: "bg-teal-700 hover:bg-teal-800", badgeColor: "bg-teal-700" }
+];
+let cra􀅌sData = JSON.parse(localStorage.getItem('m3allam_custom_cra􀅌s')) || defaultCra􀅌s;
+// Default Base Published Ad (KaiberFroid Guaranteed Live)
+const baseDefaultAds = [
+{
+id: 1724430000000,
+􀆟tle: " تركیب وإصلاح المكیفات الھوائیة طنجة ونواحي مرحبا 􈹚􈹛􈹜􈹝􈹞􈹠􈹡􈹢􈹣􈹤􈹥􈹦􈹧􈹨 ,"
+city: " ,"طنجة
+phone: "+212646156747",
+desc: " تركیب وإصلاح المكیفات الھوائیة طنجة ونواحي مرحبا 􈹚􈹛􈹜􈹝􈹞􈹠􈹡􈹢􈹣􈹤􈹥􈹦􈹧􈹨 ,"
+mediaType: "image",
+mediaUrl: "htps://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80"
+}
+];
+let publishedAds = [...baseDefaultAds];
+async func􀆟on syncCloudPublishedAds() {
+try {
+const { data: adsCloud } = await supabaseClient
+.from('client_leads')
+.select('*')
+.eq('type', '__PUBLISHED_AD__')
+.order('id', { ascending: false });
+if (adsCloud && adsCloud.length > 0) {
+const fetched = adsCloud.map(a => JSON.parse(a.details));
+publishedAds = [...fetched, ...baseDefaultAds.filter(b => !fetched.some(f => f.􀆟tle === b.􀆟tle))];
+} else {
+const local = JSON.parse(localStorage.getItem('m3allam_published_ads')) || [];
+publishedAds = [...local, ...baseDefaultAds.filter(b => !local.some(l => l.􀆟tle === b.􀆟tle))];
+}
+} catch(e) {
+publishedAds = [...baseDefaultAds];
+}
+renderPublishedAds();
+}
+func􀆟on renderCra􀅌sCards() {
+const container = document.getElementById('cra􀅌sSlider');
+container.innerHTML = '';
+cra􀅌sData.forEach((c, index) => {
+const div = document.createElement('div');
+div.className = "min-w-[280px] sm:min-w-[320px] max-w-[320px] snap-start bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-md hover:shadow-xl transi􀆟on flex flex-col group flex-shrink-0";
+div.innerHTML = `
+<div onclick="openCra􀅌Modal(${index})" class="rela􀆟ve h-48 overflow-hidden cursor-pointer bg-slate-100">
+<img src="${c.img}" referrerpolicy="no-referrer" class="w-full h-full object-cover group-hover:scale-105 transi􀆟on dura􀆟on-500" alt="${c.tag}">
+<span class="absolute top-3 right-3 ${c.badgeColor} text-white text-xs font-black px-3 py-1 rounded-xl shadow">${c.tag}</span>
+<span class="absolute botom-2 le􀅌-2 bg-slate-900/75 text-white text-[10px] font-bold px-2 py-0.5 rounded-lg"><i class="fa-solid fa-expand ml-1"></i> تكبیر </span>
+</div>
+<div class="p-5 flex-1 flex flex-col jus􀆟fy-between space-y-4">
+<div>
+<h3 class="font-extrabold text-base sm:text-lg text-slate-900">${c.􀆟tle}</h3>
+<p class="text-xs text-slate-600 mt-1 leading-relaxed">${c.desc}</p>
+</div>
+<buton onclick="requireAuthAc􀆟on('client')" class="w-full ${c.btnColor} text-white font-bold text-xs py-3 rounded-xl transi􀆟on shadow"> طلب ھاد المعلم </buton>
+</div>
+`;
+container.appendChild(div);
+});
+}
+func􀆟on renderPublishedAds() {
+const sec􀆟on = document.getElementById('clientAdsContainer');
+const list = document.getElementById('liveClientAdsList');
+if (publishedAds.length === 0) {
+sec􀆟on.classList.add('hidden');
+return;
+}
+sec􀆟on.classList.remove('hidden');
+list.innerHTML = '';
+publishedAds.forEach((ad) => {
+const cleanPhone = ad.phone.replace(/[^0-9]/g, '');
+const card = document.createElement('div');
+card.className = "bg-white rounded-3xl border border-amber-200 overflow-hidden shadow-lg p-5 flex flex-col jus􀆟fy-between space-y-4";
+let mediaHtml = '';
+if (ad.mediaType === 'video') {
+mediaHtml = `<iframe class="w-full h-44 rounded-2xl" src="${ad.mediaUrl}" frameborder="0" allowfullscreen></iframe>`;
+} else {
+mediaHtml = `<img src="${ad.mediaUrl}" class="w-full h-44 object-cover rounded-2xl" referrerpolicy="no-referrer">`;
+}
+card.innerHTML = `
+<div class="space-y-3">
+${mediaHtml}
+<div>
+<div class="flex items-center jus􀆟fy-between">
+<span class="text-[10px] font-black bg-amber-100 text-amber-800 px-2.5 py-0.5 rounded-full">${ad.city}</span>
+<span class="text-[10px] text-slate-400 font-mono">${ad.phone}</span>
+</div>
+<h3 class="font-black text-base text-slate-900 mt-1.5">${ad.􀆟tle}</h3>
+<p class="text-xs text-slate-600 mt-1 leading-relaxed">${ad.desc}</p>
+</div>
+</div>
+<a href="htps://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodeURIComponent(' السلام
+علیكم، تواصلت معك بخصوص إعلانك على موقع معلم حریفي : ' + ad.􀆟tle)}" target="_blank" class="w-full bgemerald-
+600 hover:bg-emerald-700 text-white font-bold text-xs py-3 rounded-xl transi􀆟on text-center shadow flex items-center jus􀆟fy-center gap-1.5">
+<i class="fa-brands fa-whatsapp text-sm"></i> تواصل مع صاحب الإعلان
+</a>
+`;
+list.appendChild(card);
+});
+}
+const slider = document.getElementById('cra􀅌sSlider');
+let isDown = false;
+let startX, scrollLe􀅌;
+slider.addEventListener('mousedown', (e) => {
+isDown = true;
+startX = e.pageX - slider.offsetLe􀅌;
+scrollLe􀅌 = slider.scrollLe􀅌;
+});
+slider.addEventListener('mouseleave', () => { isDown = false; });
+slider.addEventListener('mouseup', () => { isDown = false; });
+slider.addEventListener('mousemove', (e) => {
+if (!isDown) return;
+e.preventDefault();
+const x = e.pageX - slider.offsetLe􀅌;
+const walk = (x - startX) * 2;
+slider.scrollLe􀅌 = scrollLe􀅌 - walk;
+});
+func􀆟on scrollSlider(direc􀆟on) {
+const scrollAmount = 340;
+if (direc􀆟on === 'le􀅌') {
+slider.scrollBy({ le􀅌: -scrollAmount, behavior: 'smooth' });
+} else {
+slider.scrollBy({ le􀅌: scrollAmount, behavior: 'smooth' });
+}
+}
+func􀆟on openCra􀅌Modal(index) {
+currentModalIndex = index;
+updateCra􀅌Modal();
+document.getElementById('cra􀅌Modal').classList.remove('hidden');
+}
+func􀆟on closeCra􀅌Modal() {
+document.getElementById('cra􀅌Modal').classList.add('hidden');
+}
+func􀆟on nextCra􀅌Modal() {
+currentModalIndex = (currentModalIndex + 1) % cra􀅌sData.length;
+updateCra􀅌Modal();
+}
+func􀆟on prevCra􀅌Modal() {
+currentModalIndex = (currentModalIndex - 1 + cra􀅌sData.length) % cra􀅌sData.length;
+updateCra􀅌Modal();
+}
+func􀆟on updateCra􀅌Modal() {
+const data = cra􀅌sData[currentModalIndex];
+document.getElementById('modalCra􀅌Img').src = data.img;
+document.getElementById('modalCra􀅌Badge').textContent = data.tag;
+document.getElementById('modalCra􀅌Title').textContent = data.􀆟tle;
+document.getElementById('modalCra􀅌Desc').textContent = data.desc;
+document.getElementById('modalCra􀅌Counter').textContent = `${currentModalIndex + 1} / ${cra􀅌sData.length}`;
+}
+const transla􀆟ons = {
+ar: {
+dir: "rtl", nav_login: " دخول ", nav_register: " حساب جدید ", btn_logout: " ,"خروج
+􀄩_text: " انضم لأكبر مجتمع للحرفیین والزبناء على الفیسبوك :", 􀄩_page: " صفحتنا ", 􀄩_group: " الكروب
+,"الرسمي
+hero_badge: " المنصة المغربیة الأولى للحرف والمھن 🇲🇲🇲🇲", hero_􀆟tle: " صلة الوصل بین خیرة الحرفیین والزبناء
+,"الموثوقین
+hero_desc: " منصة \ "معلم حریفي\ " تھدف إلى تسھیل العثور على أفضل المعلمین المھرة في الصیانة، البناء، والدیكور
+,". بالمغرب وخارجھ بدون وسیط وبدون عمولات
+hero_explore: " اكتشف الخدمات المتاحة ", hero_post_btn: " ,"نشر إشھار حریفي
+hero_badge_click: " اضغط لعرض المعرض الكامل 􊺑􊺘􊺓􊺚􊺔􊺛􊺕􊺙", hero_img_sub: " حرفیون ببدلات العمل والأدوات
+,"الاحترافیة
+ad_tag: " إشھار متمیز / Sponsor", ad_sub: " ,"مساحة إعلانیة للشركات والمحلات
+ad_􀆟tle: " سیرامیك ومواد البناء الفاخرة | عروض خاصة لمھنیي الحرف ", ad_btn: " ,"احجز إشھارك ھنا
+services_􀆟tle: " أبرز الحرف والخدمات المعتمدة ", services_sub􀆟tle: " حرفیون متمرسون یحملون أدواتھم
+,"ومستعدون لخدمتك فور ا — اضغط على أي بطاقة لتكبیر الصورة
+scroll_hint: "􈸬􈸭􈸮􈸯 مرر بالید أو الأسھم 􈸰􈸱􈸲􈸳 ,"
+pro_form_􀆟tle: " طلب نشر إشھار حریفي ", pro_form_sub􀆟tle: " ,"أدخل معلوماتك لعرض خدماتك للزبناء
+pro_lbl_name: " الاسم / الورشة ", pro_lbl_job: " الحرفة ", pro_lbl_city: " ,"المدینة والمناطق
+pro_lbl_phone: " رقم الواتساب مع رمز الدولة ", pro_lbl_bio: " نبذة عن خدماتك ", pro_btn_submit: " إرسال الطلب
+,"للإدارة للنشر
+cli_form_􀆟tle: " خاصك معلم؟ صیفط لینا وحنا نلقاوه لیك ", cli_form_sub􀆟tle: " صیفط تفاصیل المشكل للإدارة
+,"للربط الفوري
+cli_lbl_srv: " نوع الإصلاح / المعلم المطلوب ", cli_lbl_city: " المدینة والحي ", cli_lbl_phone: " رقم الھاتف مع
+رمز الدولة ", cli_lbl_details: " تفاصیل إضافیة ", cli_btn_submit: " ,"إرسال الطلب للإدارة للبحث
+modal_btn_req: " طلب ھاد المعلم دابا 􋮂􋮀􋮁􋮃", modal_btn_close: " ,"إغلاق
+auth_􀆟tle: " تسجیل الدخول / حساب جدید ", auth_sub􀆟tle: " ,"سجل الدخول للمتابعة والاستفادة من خدمات المنصة
+lbl_login_email: " البرید الإلكتروني ", lbl_login_pass: " كلمة المرور ", lbl_name: " الاسم الكامل ", lbl_email:
+البرید الإلكتروني" ", lbl_phone: " رقم الھاتف ", lbl_pass: "( ,"كلمة المرور ( 8 أحرف/ أرقام على الأقل
+lbl_pass_confirm: " تأكید كلمة المرور ", lbl_role: " ,"الصفة
+opt_client: "( زبون (باغي نصلح شي حاجة ", opt_pro: "( ,"معلم حریفي (باغي نخدم ونحط إعلاناتي
+portal_staff_link: " فضاء المسیرین (Staff)", portal_owner_link: " فضاء صاحب الموقع 􈹱􈹲􈹳􈹵􈹴 ,"
+footer_prayers: " الأجر دیالنا ھو ترحمكم على أمي رحمھا لله ..", footer_rights: "2026 © جمیع الحقوق محفوظة
+,"معلم حریفي -
+footer_staff_link: " فضاء المسیرین ", footer_owner_link: " فضاء صاحب الموقع 􈹱􈹲􈹳􈹵􈹴 ,"
+trial_no􀆟ce: " ملاحظة ھامة : المنصة حالی ا في نسختھا التجریبیة الرسمیة (Beta Version) — جمیع الخدمات
+"!%والإشھارات مجانیة 100
+},
+fr: {
+dir: "ltr", nav_login: "Connexion", nav_register: "S'inscrire", btn_logout: "Déconnexion",
+􀄩_text: "Rejoignez la communauté des ar􀆟sans sur Facebook :", 􀄩_page: "Notre Page", 􀄩_group: "Groupe Officiel",
+hero_badge: "La 1ère plateforme marocaine des ar􀆟sans 🇲🇲🇲🇲", hero_􀆟tle: "La passerelle directe entre ar􀆟sans qualifiés et clients",
+hero_desc: "M3allam 7rayfi facilite la recherche des meilleurs ar􀆟sans au Maroc et à l'étranger, sans intermédiaire et sans commission.",
+hero_explore: "Découvrir les services", hero_post_btn: "Publier une annonce pro",
+hero_badge_click: "Cliquer pour voir la galerie 􊺑􊺘􊺓􊺚􊺔􊺛􊺕􊺙", hero_img_sub: "Ar􀆟sans professionnels équipés",
+ad_tag: "Sponsorisé / Pub", ad_sub: "Espace publicitaire pro",
+ad_􀆟tle: "Matériaux de construc􀆟on & Céramique | Offres Pros", ad_btn: "Réserver votre publicité",
+services_􀆟tle: "Mé􀆟ers & Services Qualifiés", services_sub􀆟tle: "Des ar􀆟sans expérimentés prêts à intervenir rapidement",
+scroll_hint: "􈸬􈸭􈸮􈸯 Glisser avec la main ou les flèches 􈸰􈸱􈸲􈸳",
+pro_form_􀆟tle: "Publica􀆟on Annonce Ar􀆟san", pro_form_sub􀆟tle: "Entrez vos informa􀆟ons pour publier vos services",
+pro_lbl_name: "Nom / Atelier", pro_lbl_job: "Mé􀆟er", pro_lbl_city: "Ville & Région", pro_lbl_phone: "Numéro WhatsApp avec indica􀆟f", pro_lbl_bio: "Descrip􀆟on de vos compétences", pro_btn_submit: "Envoyer pour publica􀆟on",
+cli_form_􀆟tle: "Besoin d'un ar􀆟san ? Décrivez votre besoin", cli_form_sub􀆟tle: "Nous vous metons en contact avec le meilleur pro",
+cli_lbl_srv: "Service recherché", cli_lbl_city: "Ville & Quar􀆟er", cli_lbl_phone: "Téléphone avec indica􀆟f", cli_lbl_details: "Détails supplémentaires", cli_btn_submit: "Envoyer la demande",
+modal_btn_req: "Demander ce professionnel 􋮂􋮀􋮁􋮃", modal_btn_close: "Fermer",
+auth_􀆟tle: "Connexion / Inscrip􀆟on", auth_sub􀆟tle: "Connectez-vous pour profiter de nos services",
+lbl_login_email: "Adresse e-mail", lbl_login_pass: "Mot de passe", lbl_name: "Nom complet", lbl_email: "Adresse e-mail", lbl_phone: "Numéro de téléphone", lbl_pass: "Mot de passe (8 car. min)", lbl_pass_confirm: "Confirmer mot de passe", lbl_role: "Vous êtes",
+opt_client: "Client (Besoin d'une répara􀆟on)", opt_pro: "Ar􀆟san (Je propose mes services)",
+portal_staff_link: "Espace Modérateurs (Staff)", portal_owner_link: "Espace Propriétaire 􈹱􈹲􈹳􈹵􈹴",
+footer_prayers: "Priez pour le repos de ma mère, que Dieu lui fasse miséricorde..", footer_rights: "Tous droits réservés © 2026 - M3allam 7rayfi",
+footer_staff_link: "Espace Staff", footer_owner_link: "Espace Propriétaire 􈹱􈹲􈹳􈹵􈹴",
+trial_no􀆟ce: "Avis important : La plateforme est en version Beta — Tous les services sont 100% gratuits !"
+},
+en: {
+dir: "ltr", nav_login: "Login", nav_register: "Sign Up", btn_logout: "Logout",
+􀄩_text: "Join our official community on Facebook:", 􀄩_page: "Our Page", 􀄩_group: "Official Group",
+hero_badge: "Morocco's #1 Cra􀅌smen Pla􀆞orm 🇲🇲🇲🇲", hero_􀆟tle: "Direct Connec􀆟on Between Trusted Pros and Clients",
+hero_desc: "M3allam 7rayfi helps you find top verified cra􀅌smen in Morocco and abroad with zero middlemen and zero commission fees.",
+hero_explore: "Explore Services", hero_post_btn: "Post Cra􀅌sman Ad",
+hero_badge_click: "Click to open full gallery 􊺑􊺘􊺓􊺚􊺔􊺛􊺕􊺙", hero_img_sub: "Skilled ar􀆟sans with professional tools",
+ad_tag: "Sponsored", ad_sub: "Commercial Ad Space",
+ad_􀆟tle: "Ceramics & Building Supplies | Pro Deals", ad_btn: "Book Your Ad Here",
+services_􀆟tle: "Featured Services & Master Cra􀅌s", services_sub􀆟tle: "Skilled specialists ready with tools to assist you immediately",
+scroll_hint: "􈸬􈸭􈸮􈸯 Swipe by touch or arrows 􈸰􈸱􈸲􈸳",
+pro_form_􀆟tle: "Post Cra􀅌sman Lis􀆟ng", pro_form_sub􀆟tle: "Enter your skills to reach poten􀆟al clients",
+pro_lbl_name: "Name / Workshop", pro_lbl_job: "Trade / Skill", pro_lbl_city: "City & Coverage Area", pro_lbl_phone: "WhatsApp with Country Code", pro_lbl_bio: "Short summary of your skills", pro_btn_submit: "Submit for Publishing",
+cli_form_􀆟tle: "Need a Pro? Let Us Connect You", cli_form_sub􀆟tle: "Describe your issue for immediate direct matching",
+cli_lbl_srv: "Required repair / Trade", cli_lbl_city: "City & District", cli_lbl_phone: "Phone Number with Country Code", cli_lbl_details: "Addi􀆟onal Details", cli_btn_submit: "Submit Request",
+modal_btn_req: "Request this pro now 􋮂􋮀􋮁􋮃", modal_btn_close: "Close",
+auth_􀆟tle: "Login / Sign Up", auth_sub􀆟tle: "Log in to access full services and manage requests",
+lbl_login_email: "Email Address", lbl_login_pass: "Password", lbl_name: "Full Name", lbl_email: "Email Address", lbl_phone: "Phone Number", lbl_pass: "Password (8+ chars)", lbl_pass_confirm: "Confirm Password", lbl_role: "Role",
+opt_client: "Client (Need repair)", opt_pro: "Cra􀅌sman (Looking for jobs)",
+portal_staff_link: "Staff Portal", portal_owner_link: "Owner Console 􈹱􈹲􈹳􈹵􈹴",
+footer_prayers: "Please pray for mercy on my late mother..", footer_rights: "All Rights Reserved © 2026 - M3allam 7rayfi",
+footer_staff_link: "Staff Workspace", footer_owner_link: "Owner Workspace 􈹱􈹲􈹳􈹵􈹴",
+trial_no􀆟ce: "Important: Pla􀆞orm is in Beta Version — All services and ads are 100% Free!"
+},
+it: {
+dir: "ltr", nav_login: "Accedi", nav_register: "Registra􀆟", btn_logout: "Esci",
+􀄩_text: "Unisci􀆟 alla community su Facebook:", 􀄩_page: "Pagina Facebook", 􀄩_group: "Gruppo Ufficiale",
+hero_badge: "La 1ª piataforma marocchina per ar􀆟giani 🇲🇲🇲🇲", hero_􀆟tle: "Collegamento direto tra ar􀆟giani qualifica􀆟 e clien􀆟",
+hero_desc: "M3allam 7rayfi 􀆟 permete di trovare i migliori maestri ar􀆟giani in Marocco e all'estero, senza intermediari e senza commissioni.",
+hero_explore: "Scopri i servizi", hero_post_btn: "Pubblica annuncio",
+hero_badge_click: "Clicca per la galleria 􊺑􊺘􊺓􊺚􊺔􊺛􊺕􊺙", hero_img_sub: "Ar􀆟giani qualifica􀆟 con atrezzature",
+ad_tag: "Sponsor", ad_sub: "Spazio Pubblicitario",
+ad_􀆟tle: "Ceramica e Materiali Edili | Offerte", ad_btn: "Prenota Annuncio",
+services_􀆟tle: "Mes􀆟eri e Servizi Cer􀆟fica􀆟", services_sub􀆟tle: "Specialis􀆟 qualifica􀆟 pron􀆟 a intervenire subito",
+scroll_hint: "􈸬􈸭􈸮􈸯 Scorri a mano o con le frecce 􈸰􈸱􈸲􈸳",
+pro_form_􀆟tle: "Pubblica Annuncio Professionista", pro_form_sub􀆟tle: "Inserisci i detagli per far􀆟 trovare dai clien􀆟",
+pro_lbl_name: "Nome / Dita", pro_lbl_job: "Professione", pro_lbl_city: "Cità e Zona", pro_lbl_phone: "WhatsApp con prefisso", pro_lbl_bio: "Descrizione delle competenze", pro_btn_submit: "Invia per pubblicazione",
+cli_form_􀆟tle: "Cerchi un ar􀆟giano? Ti aiu􀆟amo noi",
+cli_form_sub􀆟tle: "Descrivi il tuo problema per un contato rapido",
+cli_lbl_srv: "Servizio richiesto", cli_lbl_city: "Cità e Quar􀆟ere",
+cli_lbl_phone: "Telefono con prefisso", cli_lbl_details: "Detagli aggiun􀆟vi", cli_btn_submit: "Invia Richiesta",
+modal_btn_req: "Richiedi questo ar􀆟giano 􋮂􋮀􋮁􋮃", modal_btn_close: "Chiudi",
+auth_􀆟tle: "Accedi / Registra􀆟", auth_sub􀆟tle: "Accedi per visualizzare e ges􀆟re le richieste",
+lbl_login_email: "Indirizzo Email", lbl_login_pass: "Password", lbl_name: "Nome Completo", lbl_email: "Email", lbl_phone: "Numero di Telefono", lbl_pass: "Password (min. 8 carateri)", lbl_pass_confirm: "Conferma Password", lbl_role: "Ruolo",
+opt_client: "Cliente (Cerco riparazione)", opt_pro: "Ar􀆟giano (Offro services)",
+portal_staff_link: "Area Staff", portal_owner_link: "Area Proprietario 􈹱􈹲􈹳􈹵􈹴",
+footer_prayers: "Una preghiera per la mia cara madre scomparsa..", footer_rights: "Tu􀆫 i diri􀆫 riserva􀆟 © 2026 - M3allam 7rayfi",
+footer_staff_link: "Area Staff", footer_owner_link: "Area Proprietario 􈹱􈹲􈹳􈹵􈹴",
+trial_no􀆟ce: "Avviso: La piataforma è in versione Beta — Tu􀆫 i servizi sono gratui􀆟 al 100%!"
+},
+es: {
+dir: "ltr", nav_login: "Entrar", nav_register: "Registro", btn_logout: "Salir",
+􀄩_text: "Únete a la comunidad de profesionales en Facebook:", 􀄩_page: "Nuestra Página", 􀄩_group: "Grupo Oficial",
+hero_badge: "La 1ª plataforma marroquí de oficios 🇲🇲🇲🇲", hero_􀆟tle: "Conexión directa entre artesanos cualificados y clientes",
+hero_desc: "M3allam 7rayfi facilita encontrar los mejores técnicos en Marruecos y el extranjero, sin comisiones ni intermediarios.",
+hero_explore: "Explorar servicios", hero_post_btn: "Publicar anuncio pro",
+hero_badge_click: "Clic para abrir galería 􊺑􊺘􊺓􊺚􊺔􊺛􊺕􊺙", hero_img_sub: "Técnicos cualificados con herramientas",
+ad_tag: "Patrocinado", ad_sub: "Espacio publicitario",
+ad_􀆟tle: "Cerámica y Materiales de Construcción | Ofertas", ad_btn: "Reservar Anuncio",
+services_􀆟tle: "Servicios y Oficios Destacados", services_sub􀆟tle: "Profesionales listos con herramientas para atenderte ya",
+scroll_hint: "􈸬􈸭􈸮􈸯 Desliza o usa las flechas 􈸰􈸱􈸲􈸳",
+pro_form_􀆟tle: "Publicar Anuncio de Profesional", pro_form_sub􀆟tle: "Introduce tus datos para ofrecer tus servicios",
+pro_lbl_name: "Nombre / Taller", pro_lbl_job: "Oficio", pro_lbl_city: "Ciudad y Zona",
+pro_lbl_phone: "WhatsApp con código", pro_lbl_bio: "Descripción de tus servicios", pro_btn_submit: "Enviar para publicación",
+cli_form_􀆟tle: "¿Buscas un técnico? Te lo encontramos", cli_form_sub􀆟tle: "Describe el problema para contactar con el mejor pro",
+cli_lbl_srv: "Servicio requerido", cli_lbl_city: "Ciudad y Barrio",
+cli_lbl_phone: "Teléfono con código", cli_lbl_details: "Detalles adicionales", cli_btn_submit: "Enviar Solicitud",
+modal_btn_req: "Pedir este técnico ahora 􋮂􋮀􋮁􋮃", modal_btn_close: "Cerrar",
+auth_􀆟tle: "Entrar / Registro", auth_sub􀆟tle: "Inicia sesión para ges􀆟onar tus solicitudes",
+lbl_login_email: "Correo Electrónico", lbl_login_pass: "Contraseña", lbl_name: "Nombre Completo", lbl_email: "Correo Electrónico", lbl_phone: "Teléfono", lbl_pass: "Contraseña (8+ caracteres)", lbl_pass_confirm: "Confirmar Contraseña", lbl_role: "Rol",
+opt_client: "Cliente (Busco reparación)", opt_pro: "Artesano (Ofrezco servicios)",
+portal_staff_link: "Área de Moderadores", portal_owner_link: "Area de Propietario 􈹱􈹲􈹳􈹵􈹴",
+footer_prayers: "Por favor dedica una oración a mi difunta madre..", footer_rights: "Todos los derechos reservados © 2026 - M3allam 7rayfi",
+footer_staff_link: "Área Staff", footer_owner_link: "Área Propietario 􈹱􈹲􈹳􈹵􈹴",
+trial_no􀆟ce: "Aviso: Plataforma en versión Beta — ¡Todos los servicios son 100% gratuitos!"
+},
+zh: {
+dir: "ltr", nav_login: "登录", nav_register: "注册", btn_logout: "退出",
+􀄩_text: "加入我们的 Facebook 官方社群：", 􀄩_page: "官方主页", 􀄩_group: "官方讨论组",
+hero_badge: "摩洛哥第一手工艺平台 🇲🇲🇲🇲", hero_􀆟tle: "手艺师傅与客户之间的直通桥梁",
+hero_desc: "M3allam 7rayfi 致力于帮助您在摩洛哥及海外快速对接资深专业师傅，无中间商，零佣金。",
+hero_explore: "浏览服务项目", hero_post_btn: "发布工匠广告",
+hero_badge_click: "点击查看完整图集 􊺑􊺘􊺓􊺚􊺔􊺛􊺕􊺙", hero_img_sub: "持专业工具的资深师傅",
+ad_tag: "特约赞助", ad_sub: "商户广告位",
+ad_􀆟tle: "精品陶瓷与建筑材料 | 行业专属特惠", ad_btn: "立即预订广告",
+services_􀆟tle: "热门技能与认证服务", services_sub􀆟tle: "持专业工具随时待命的资深技工",
+scroll_hint: "􈸬􈸭􈸮􈸯 滑动或使用箭头 􈸰􈸱􈸲􈸳",
+pro_form_􀆟tle: "工匠广告发布申请", pro_form_sub􀆟tle: "填写您的信息向客户展示您的手艺",
+pro_lbl_name: "姓名 / 工作室", pro_lbl_job: "工种 / 技能",
+pro_lbl_city: "所在城市与服务区域", pro_lbl_phone: "WhatsApp 号码（带国家区号）", pro_lbl_bio: "个人简介与技能说明", pro_btn_submit: "提交发布申请",
+cli_form_􀆟tle: "需要师傅？我们为您推荐",
+cli_form_sub􀆟tle: "描述您遇到的问题，快速为您对接",
+cli_lbl_srv: "所需维修或工种", cli_lbl_city: "城市与街区",
+cli_lbl_phone: "电话号码（带国家区号）", cli_lbl_details: "详细说明", cli_btn_submit: "提交需求",
+modal_btn_req: "立即预约此师傅 􋮂􋮀􋮁􋮃", modal_btn_close: "关闭",
+auth_􀆟tle: "登录 / 注册", auth_sub􀆟tle: "登录以使用全部平台功能与管理订单",
+lbl_login_email: "电子邮箱", lbl_login_pass: "密码", lbl_name: "姓名", lbl_email: "电子邮箱", lbl_phone: "电话号码", lbl_pass: "密码 (至少 8 位)", lbl_pass_confirm: "确认密码", lbl_role: "身份",
+opt_client: "客户 (需要维修)", opt_pro: "工匠 (提供服务)",
+portal_staff_link: "管理员后台 (Staff)", portal_owner_link: "网站所有者控制台 􈹱􈹲􈹳􈹵􈹴",
+footer_prayers: "愿真主怜悯我已故的母亲，感谢您的祈祷..", footer_rights: "版权所有 © 2026 - M3allam 7rayfi",
+footer_staff_link: "员工后台", footer_owner_link: "站长后台 􈹱􈹲􈹳􈹵􈹴",
+trial_no􀆟ce: "重要提示：平台公测进行中 (Beta) — 所有服务与广告 100% 免费！"
+}
+};
+func􀆟on changeLanguage(lang) {
+const t = transla􀆟ons[lang] || transla􀆟ons.ar;
+document.getElementById('htmlRoot').setAtribute('dir', t.dir);
+document.getElementById('htmlRoot').setAtribute('lang', lang);
+for (const [key, val] of Object.entries(t)) {
+if (key === 'dir') con􀆟nue;
+const el = document.getElementById(`t_${key}`);
+if (el) el.innerText = val;
+}
+localStorage.setItem('m3allam_lang', lang);
+}
+window.addEventListener('DOMContentLoaded', async () => {
+renderCra􀅌sCards();
+await syncCloudPublishedAds();
+const savedLang = localStorage.getItem('m3allam_lang') || 'ar';
+document.getElementById('langSelect').value = savedLang;
+changeLanguage(savedLang);
+const savedTitle = localStorage.getItem('m3allam_ad_􀆟tle');
+const savedLink = localStorage.getItem('m3allam_ad_link');
+if (savedTitle) document.getElementById('t_ad_􀆟tle').innerText = savedTitle;
+if (savedLink) document.getElementById('t_ad_btn').setAtribute('href', savedLink);
+const { data: { session } } = await supabaseClient.auth.getSession();
+if (session) setLoggedInState(session.user);
+});
+func􀆟on setLoggedInState(user) {
+currentUser = user;
+document.getElementById('authNavButons').classList.add('hidden');
+document.getElementById('userProfileNav').classList.remove('hidden');
+const name = user.user_metadata?.full_name || user.email;
+document.getElementById('userGree􀆟ng').textContent = `${name}`;
+}
+func􀆟on requireAuthAc􀆟on(ac􀆟onType) {
+if (!currentUser) {
+openAuthModal('register');
+showAuthAlert(' ;('. یرجى إنشاء حساب أو تسجیل الدخول أولا لإرسال طلبك ومتابعة المعالجة
+} else {
+window.scrollTo({ top: document.querySelector('form').offsetTop - 100, behavior: 'smooth' });
+}
+}
+func􀆟on openAuthModal(tab = 'login') {
+document.getElementById('authModal').classList.remove('hidden');
+switchAuthTab(tab);
+}
+func􀆟on closeAuthModal() {
+document.getElementById('authModal').classList.add('hidden');
+}
+func􀆟on showAuthAlert(msg, isSuccess = false) {
+const alert = document.getElementById('authAlert');
+alert.textContent = msg;
+alert.className = `mb-4 p-3 rounded-xl text-xs font-bold leading-relaxed ${isSuccess ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-rose-50 text-rose-700 border border-rose-200'}`;
+alert.classList.remove('hidden');
+}
+func􀆟on switchAuthTab(type) {
+document.getElementById('authAlert').classList.add('hidden');
+if (type === 'register') {
+document.getElementById('registerForm').classList.remove('hidden');
+document.getElementById('loginForm').classList.add('hidden');
+tabRegister.className = "flex-1 py-2 rounded-lg bg-white shadow-sm text-amber-600 transi􀆟on";
+tabLogin.className = "flex-1 py-2 rounded-lg text-slate-500 transi􀆟on";
+} else {
+document.getElementById('loginForm').classList.remove('hidden');
+document.getElementById('registerForm').classList.add('hidden');
+tabLogin.className = "flex-1 py-2 rounded-lg bg-white shadow-sm text-slate-900 transi􀆟on";
+tabRegister.className = "flex-1 py-2 rounded-lg text-slate-500 transi􀆟on";
+}
+}
+async func􀆟on handleSupabaseRegister(e) {
+e.preventDefault();
+const password = document.getElementById('reg_pass').value;
+const confirmPassword = document.getElementById('reg_pass_confirm').value;
+if (password !== confirmPassword) {
+showAuthAlert(' ;('! كلمتا المرور غیر متطابقتین
+return;
+}
+if (password.length < 8) {
+showAuthAlert(' ;('. كلمة المرور یجب أن تتكون من 8 خانات على الأقل
+return;
+}
+const fullPhone = document.getElementById('reg_country_code').value + document.getElementById('reg_phone').value.trim();
+const email = document.getElementById('reg_email').value;
+const fullName = document.getElementById('reg_name').value;
+const role = document.getElementById('reg_role').value;
+const { data, error } = await supabaseClient.auth.signUp({
+email, password,
+op􀆟ons: { data: { full_name: fullName, phone: fullPhone, role } }
+});
+if (error) showAuthAlert(error.message);
+else showAuthAlert(' تم إنشاء الحساب بنجاح! تفقد بریدك لتأكیده .', true);
+}
+async func􀆟on handleSupabaseLogin(e) {
+e.preventDefault();
+const email = document.getElementById('login_email').value;
+const password = document.getElementById('login_pass').value;
+const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+if (error) {
+showAuthAlert(' ;('. معلومات الدخول غیر صحیحة أو الحساب غیر مفعل
+} else {
+closeAuthModal();
+setLoggedInState(data.user);
+}
+}
+async func􀆟on handleSupabaseLogout() {
+sessionStorage.clear();
+await supabaseClient.auth.signOut();
+loca􀆟on.reload();
+}
+async func􀆟on handleFormSubmission(e, type) {
+e.preventDefault();
+if (!currentUser) {
+openAuthModal('register');
+showAuthAlert('ً ;('. یرجى إنشاء حساب أولا
+return;
+}
+let record = {};
+let text = "";
+if (type === 'pro') {
+const fullPhone = document.getElementById('pro_country_code').value + document.getElementById('pro_phone').value.trim();
+const name = document.getElementById('pro_name').value;
+const job = document.getElementById('pro_job').value;
+const city = document.getElementById('pro_city').value;
+const bio = document.getElementById('pro_bio').value;
+record = { type: ' إشھار حریفي 􊸮􊸫􊸬􊸭', name, job, city, phone: fullPhone, details: bio };
+text = `* *% 0 􊸮􊸫􊸬􊸭 طلب نشر إشھار حریفي A* المعلم :* ${name}%0A* الحرفة :* ${job}%0A* *: المدینة
+${city}%0A* الواتساب :* ${fullPhone}%0A* التفاصیل :* ${bio}`;
+} else {
+const fullPhone = document.getElementById('cli_country_code').value + document.getElementById('cli_phone').value.trim();
+const srv = document.getElementById('cli_service').value;
+const city = document.getElementById('cli_city').value;
+const details = document.getElementById('cli_details').value;
+record = { type: ' طلب إصلاح 􋮂􋮀􋮁􋮃', name: ' زبون ', job: srv, city, phone: fullPhone, details };
+text = `* *% 0 􋮂􋮀􋮁􋮃 طلب البحث عن معلم A* الخدمة :* ${srv}%0A* المدینة :* ${city}%0A* *: الھاتف
+${fullPhone}%0A* التفاصیل :* ${details}`;
+}
+await supabaseClient.from('client_leads').insert([record]);
+window.open(`${ADMIN_WA_LINK}?text=${text}`, '_blank');
+}
+// ================= STAFF & OWNER =================
+func􀆟on openStaffModal() {
+closeAuthModal();
+document.getElementById('staffAuthModal').classList.remove('hidden');
+}
+func􀆟on closeStaffModal() {
+document.getElementById('staffAuthModal').classList.add('hidden');
+}
+func􀆟on openOwnerPinModal() {
+closeAuthModal();
+document.getElementById('ownerPinModal').classList.remove('hidden');
+}
+func􀆟on closeOwnerPinModal() {
+document.getElementById('ownerPinModal').classList.add('hidden');
+}
+func􀆟on handleOwnerAuth(e) {
+e.preventDefault();
+const pin = document.getElementById('ownerSecretPin').value;
+if (pin === OWNER_PIN) {
+closeOwnerPinModal();
+openOwnerDashboard();
+} else {
+document.getElementById('ownerPinError').classList.remove('hidden');
+}
+}
+func􀆟on openOwnerDashboard() {
+document.getElementById('ownerDashboardModal').classList.remove('hidden');
+loadOwnerDataCloud();
+loadOwnerStaffDataCloud();
+loadCMSData();
+loadPublishedAdsCMS();
+}
+func􀆟on closeOwnerDashboard() {
+document.getElementById('ownerDashboardModal').classList.add('hidden');
+}
+func􀆟on switchOwnerView(view) {
+document.getElementById('ownerLeadsView').classList.add('hidden');
+document.getElementById('ownerStaffView').classList.add('hidden');
+document.getElementById('ownerCMSView').classList.add('hidden');
+document.getElementById('ownerPublishAdView').classList.add('hidden');
+btnTabLeads.className = "px-4 py-2 rounded-xl font-black text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 transi􀆟on";
+btnTabStaff.className = "px-4 py-2 rounded-xl font-black text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 transi􀆟on";
+btnTabCMS.className = "px-4 py-2 rounded-xl font-black text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 transi􀆟on";
+btnTabPublishAd.className = "px-4 py-2 rounded-xl font-black text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 transi􀆟on";
+if (view === 'leads') {
+document.getElementById('ownerLeadsView').classList.remove('hidden');
+btnTabLeads.className = "px-4 py-2 rounded-xl font-black text-xs bg-indigo-600 text-white shadow-sm transi􀆟on";
+loadOwnerDataCloud();
+} else if (view === 'staff') {
+document.getElementById('ownerStaffView').classList.remove('hidden');
+btnTabStaff.className = "px-4 py-2 rounded-xl font-black text-xs bg-indigo-600 text-white shadow-sm transi􀆟on";
+loadOwnerStaffDataCloud();
+} else if (view === 'cms') {
+document.getElementById('ownerCMSView').classList.remove('hidden');
+btnTabCMS.className = "px-4 py-2 rounded-xl font-black text-xs bg-indigo-600 text-white shadow-sm transi􀆟on";
+loadCMSData();
+} else {
+document.getElementById('ownerPublishAdView').classList.remove('hidden');
+btnTabPublishAd.className = "px-4 py-2 rounded-xl font-black text-xs bg-indigo-600 text-white shadow-sm transi􀆟on";
+loadPublishedAdsCMS();
+}
+}
+async func􀆟on loadOwnerDataCloud() {
+const tbody = document.getElementById('ownerRecordsBody');
+tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400 font-bold"> جاري
+جلب الطلبات من السحابة ...</td></tr>`;
+const { data: records, error } = await supabaseClient
+.from('client_leads')
+.select('*')
+.order('id', { ascending: false });
+if (error) {
+tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-rose-500 font-bold"> : خطأ
+${error.message}</td></tr>`;
+return;
+}
+tbody.innerHTML = '';
+let pro = 0, cli = 0;
+records.forEach((r) => {
+if (r.type && r.type.startsWith('__')) return;
+if (r.type && r.type.includes(' إشھار ')) pro++; else cli++;
+const cleanPhone = (r.phone || '').replace(/[^0-9]/g, '');
+const tr = document.createElement('tr');
+tr.className = "hover:bg-slate-50 transi􀆟on";
+tr.innerHTML = `
+<td class="p-3.5"><span class="px-2 py-1 rounded text-[10px] font-bold ${(r.type || '').includes(' إشھار ') ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}">${r.type
+طلب' || '}</span></td>
+<td class="p-3.5 font-black text-slate-900">${r.name || '-'} <div class="text-[11px] text-slate-500 font-normal">${r.job || '-'}</div></td>
+<td class="p-3.5 text-slate-600">${r.city || '-'}</td>
+<td class="p-3.5 font-mono" dir="ltr">${r.phone || '-'}</td>
+<td class="p-3.5 text-slate-500 max-w-[200px] truncate" 􀆟tle="${r.details || ''}">${r.details || '-'}</td>
+<td class="p-3.5 text-center">
+<a href="htps://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodeURIComponent(' السلام
+علیكم، تواصلت معك من إدارة موقع معلم حریفي بخصوص طلبك المسجل لدینا ')}" target="_blank" class="bg-
+emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold inline-flex items-center gap-1 shadow">
+<i class="fa-brands fa-whatsapp text-sm"></i> فتح المحادثة
+</a>
+</td>
+<td class="p-3.5 text-center">
+<buton onclick="ownerDeleteLeadCloud(${r.id})" class="bg-rose-100 hover:bg-rose-200 text-rose-700 px-2.5 py-1.5 rounded-lg text-xs font-bold"><i class="fa-solid fa-trash"></i></buton>
+</td>
+`;
+tbody.appendChild(tr);
+});
+const actualCount = pro + cli;
+document.getElementById('ownerStatTotal').textContent = actualCount;
+document.getElementById('ownerStatPro').textContent = pro;
+document.getElementById('ownerStatCli').textContent = cli;
+document.getElementById('leadsCountBadge').textContent = actualCount;
+}
+async func􀆟on ownerDeleteLeadCloud(id) {
+if (confirm('؟ } (('حذف ھذا الطلب نھائی ا من السحابة
+await supabaseClient.from('client_leads').delete().eq('id', id);
+loadOwnerDataCloud();
+}
+}
+async func􀆟on loadOwnerStaffDataCloud() {
+const tbody = document.getElementById('ownerStaffTableBody');
+tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-400 font-bold"> جاري
+جلب الموظفین من السحابة ...</td></tr>`;
+const { data: staffList, error } = await supabaseClient
+.from('staff_team')
+.select('*')
+.order('id', { ascending: false });
+if (error) {
+tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-rose-500 font-bold"> خطأ
+في الجلب : ${error.message}</td></tr>`;
+return;
+}
+tbody.innerHTML = '';
+let pendingCount = 0;
+staffList.forEach((s) => {
+if (s.status === 'pending') pendingCount++;
+const tr = document.createElement('tr');
+tr.className = "hover:bg-slate-50 transi􀆟on";
+tr.innerHTML = `
+<td class="p-3 font-bold text-slate-900">${s.name}</td>
+<td class="p-3 font-mono font-bold text-indigo-700">${s.cin}</td>
+<td class="p-3 font-mono" dir="ltr">${s.phone}</td>
+<td class="p-3 text-slate-500 text-[11px]">${s.email}<div class="text-slate-400 truncate max-w-[150px]">${s.address}</div></td>
+<td class="p-3 font-mono font-bold ${s.pin ? 'text-emerald-700' : 'text-slate-400'}">${s.pin || غیر معین' '}</td>
+<td class="p-3">
+<span class="px-2 py-1 rounded text-[10px] font-bold ${s.status === 'ac􀆟ve' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
+${s.status === 'ac􀆟ve' ? ' {'مفعل ومصادق علیھ' : 'قید المراجعة
+</span>
+</td>
+<td class="p-3 text-center flex items-center jus􀆟fy-center gap-1.5">
+<buton onclick="ownerAssignStaffPinCloud(${s.id}, '${s.name}', '${s.pin || ''}')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded-lg text-[11px] font-bold">
+تغییر الكود وتفعیل
+</buton>
+<buton onclick="ownerDeleteStaffCloud(${s.id})" class="bg-rose-100 hover:bg-rose-200 text-rose-700 px-2 py-1 rounded-lg text-[11px] font-bold">
+حذف
+</buton>
+</td>
+`;
+tbody.appendChild(tr);
+});
+document.getElementById('pendingStaffBadge').textContent = pendingCount;
+if (staffList.length === 0) tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-400 font-bold">ً لا یوجد موظفون مسجلون حالی ا </td></tr>`;
+}
+async func􀆟on ownerAssignStaffPinCloud(id, name, oldPin) {
+const pin = prompt(` أدخل كود الدخول السحابي للموظف (${name}):`, oldPin || Math.floor(1000 +
+Math.random() * 9000));
+if (pin && pin.trim().length >= 4) {
+const { error } = await supabaseClient
+.from('staff_team')
+.update({ pin: pin.trim(), status: 'ac􀆟ve' })
+.eq('id', id);
+if (error) alert(' خطأ في التحدیث : ' + error.message);
+else {
+alert(` تم تفعیل حساب الموظف (${name}) والمصادقة علیھ سحابی ا بنجاح ! \n الكود ھو : ${pin.trim()}`);
+loadOwnerStaffDataCloud();
+}
+}
+}
+async func􀆟on ownerDeleteStaffCloud(id) {
+if (confirm('؟ } (('ھل أنت متأكد من حذف ھاذ الموظف نھائی ا من قاعدة البیانات السحابیة
+const { error } = await supabaseClient.from('staff_team').delete().eq('id', id);
+if (error) alert(' خطأ : ' + error.message);
+else loadOwnerStaffDataCloud();
+}
+}
+// CMS Handlers
+func􀆟on loadCMSData() {
+document.getElementById('cmsAdTitle').value = localStorage.getItem('m3allam_ad_􀆟tle') || document.getElementById('t_ad_􀆟tle').innerText;
+document.getElementById('cmsAdBtnLink').value = localStorage.getItem('m3allam_ad_link') || document.getElementById('t_ad_btn').getAtribute('href');
+const list = document.getElementById('cmsCra􀅌sList');
+list.innerHTML = '';
+cra􀅌sData.forEach((c, idx) => {
+const card = document.createElement('div');
+card.className = "bg-white p-4 rounded-2xl border border-slate-200 flex flex-col md:flex-row gap-4 items-center";
+card.innerHTML = `
+<img src="${c.img}" id="cmsPreview_${idx}" referrerpolicy="no-referrer" class="w-24 h-24 object-cover rounded-xl border border-slate-100">
+<div class="flex-1 space-y-2 w-full">
+<div class="flex items-center jus􀆟fy-between">
+<span class="font-black text-xs text-slate-900">${c.tag}</span>
+<span class="text-[10px] text-slate- حرفة رقم<" 400 ${idx + 1}</span>
+</div>
+<input id="cmsCra􀅌Title_${idx}" value="${c.􀆟tle}" placeholder=" عنوان الحرفة " class="w-full p-
+2 bg-slate-50 border border-slate-200 rounded-lg text-xs outline-none">
+<div class="flex flex-col sm:flex-row gap-2">
+<input id="cmsCra􀅌Img_${idx}" value="${c.img}" placeholder=" رابط الصورة (URL)"
+class="flex-1 p-2 bg-slate-50 border border-slate-200 rounded-lg text-xs outline-none" dir="ltr" oninput="document.getElementById('cmsPreview_${idx}').src = this.value">
+<label class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs px-3 py-2 rounded-lg cursor-pointer flex items-center jus􀆟fy-center gap-1 border border-slate-200 whitespace-nowrap">
+<i class="fa-solid fa-upload"></i> رفع صورة من جھازك
+<input type="file" accept="image/*" class="hidden" onchange="compressAndUploadCra􀅌Image(event, ${idx})">
+</label>
+</div>
+</div>
+<buton onclick="saveSingleCra􀅌CMS(${idx})" class="w-full md:w-auto bg-indigo-600 text-white font-bold text-xs px-4 py-3 rounded-xl hover:bg-indigo-700 transi􀆟on shadow whitespace-nowrap">
+حفظ التعدیل
+</buton>
+`;
+list.appendChild(card);
+});
+}
+func􀆟on compressAndUploadCra􀅌Image(e, idx) {
+const file = e.target.files[0];
+if (file) {
+const reader = new FileReader();
+reader.onload = func􀆟on(evt) {
+const img = new Image();
+img.onload = func􀆟on() {
+const canvas = document.createElement('canvas');
+const maxW = 600;
+const maxH = 400;
+let width = img.width;
+let height = img.height;
+if (width > height) {
+if (width > maxW) { height *= maxW / width; width = maxW; }
+} else {
+if (height > maxH) { width *= maxH / height; height = maxH; }
+}
+canvas.width = width;
+canvas.height = height;
+const ctx = canvas.getContext('2d');
+ctx.drawImage(img, 0, 0, width, height);
+const compressedData = canvas.toDataURL('image/jpeg', 0.85);
+document.getElementById(`cmsCra􀅌Img_${idx}`).value = compressedData;
+document.getElementById(`cmsPreview_${idx}`).src = compressedData;
+cra􀅌sData[idx].img = compressedData;
+localStorage.setItem('m3allam_custom_cra􀅌s', JSON.stringify(cra􀅌sData));
+renderCra􀅌sCards();
+alert(` تم رفع وتحدیث صورة (${cra􀅌sData[idx].tag}) ;(`! فور ا بنجاح
+};
+img.src = evt.target.result;
+};
+reader.readAsDataURL(file);
+}
+}
+func􀆟on saveSingleCra􀅌CMS(idx) {
+const newImg = document.getElementById(`cmsCra􀅌Img_${idx}`).value.trim();
+const newTitle = document.getElementById(`cmsCra􀅌Title_${idx}`).value.trim();
+if (newImg) cra􀅌sData[idx].img = newImg;
+if (newTitle) cra􀅌sData[idx].􀆟tle = newTitle;
+localStorage.setItem('m3allam_custom_cra􀅌s', JSON.stringify(cra􀅌sData));
+renderCra􀅌sCards();
+alert(` تم حفظ وتحدیث حرفة (${cra􀅌sData[idx].tag}) ;(` !بنجاح
+}
+func􀆟on resetAllCra􀅌sToDefault() {
+if (confirm('؟ } (('ھل ترید استعادة جمیع صور الحِرف الأصلیة الافتراضیة
+localStorage.removeItem('m3allam_custom_cra􀅌s');
+cra􀅌sData = [...defaultCra􀅌s];
+renderCra􀅌sCards();
+loadCMSData();
+alert(' ;('! تمت استعادة الصور الافتراضیة بنجاح
+}
+}
+func􀆟on saveCMSBanner() {
+const 􀆟tle = document.getElementById('cmsAdTitle').value;
+const link = document.getElementById('cmsAdBtnLink').value;
+if (􀆟tle) {
+document.getElementById('t_ad_􀆟tle').innerText = 􀆟tle;
+localStorage.setItem('m3allam_ad_􀆟tle', 􀆟tle);
+}
+if (link) {
+document.getElementById('t_ad_btn').setAtribute('href', link);
+localStorage.setItem('m3allam_ad_link', link);
+}
+alert(' ;('! تم تحدیث الإعلان في الموقع بنجاح
+}
+func􀆟on togglePubMediaInput(val) {
+if (val === 'video') {
+document.getElementById('pub_video_wrapper').classList.remove('hidden');
+document.getElementById('pub_image_wrapper').classList.add('hidden');
+} else {
+document.getElementById('pub_video_wrapper').classList.add('hidden');
+document.getElementById('pub_image_wrapper').classList.remove('hidden');
+}
+}
+func􀆟on handleAdLocalImage(e) {
+const file = e.target.files[0];
+if (file) {
+const reader = new FileReader();
+reader.onload = func􀆟on(evt) {
+const img = new Image();
+img.onload = func􀆟on() {
+const canvas = document.createElement('canvas');
+let width = img.width, height = img.height;
+const maxW = 500;
+if (width > maxW) { height *= maxW / width; width = maxW; }
+canvas.width = width; canvas.height = height;
+canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+document.getElementById('pub_img_url').value = canvas.toDataURL('image/jpeg', 0.85);
+};
+img.src = evt.target.result;
+};
+reader.readAsDataURL(file);
+}
+}
+async func􀆟on handlePublishClientAdCloud(e) {
+e.preventDefault();
+const btn = document.getElementById('btnSubmitPubCloud');
+btn.disabled = true;
+btn.textContent = ' ;'... جاري النشر السحابي
+const 􀆟tle = document.getElementById('pub_􀆟tle').value;
+const city = document.getElementById('pub_city').value;
+const phone = document.getElementById('pub_phone').value;
+const desc = document.getElementById('pub_desc').value;
+const mediaType = document.getElementById('pub_media_type').value;
+let mediaUrl = mediaType === 'video' ? document.getElementById('pub_video_url').value : document.getElementById('pub_img_url').value;
+if (!mediaUrl) {
+alert(' ;('یرجى وضع رابط أو صورة للإعلان
+btn.disabled = false;
+return;
+}
+const newAd = { id: Date.now(), 􀆟tle, city, phone, desc, mediaType, mediaUrl };
+await supabaseClient.from('client_leads').insert([{
+type: '__PUBLISHED_AD__',
+name: 􀆟tle,
+city: city,
+phone: phone,
+details: JSON.stringify(newAd)
+}]);
+btn.disabled = false;
+btn.textContent = 'ً ;'نشر الإعلان في واجھة الموقع سحابی ا
+alert(' ;('! تم نشر الإعلان سحابی ا بنجاح ویظھر الآن فجمیع الھواتف والحواسیب
+e.target.reset();
+await syncCloudPublishedAds();
+loadPublishedAdsCMS();
+}
+func􀆟on loadPublishedAdsCMS() {
+const list = document.getElementById('cmsPublishedAdsList');
+list.innerHTML = '';
+if (publishedAds.length === 0) {
+list.innerHTML = '<p class="text-xs text-slate- لا توجد إعلانات منشورة حالی ا<ً" 400 </p>';
+return;
+}
+publishedAds.forEach((ad) => {
+const row = document.createElement('div');
+row.className = "flex items-center jus􀆟fy-between p-3 bg-white border border-slate-200 rounded-xl text-xs";
+row.innerHTML = `
+<div class="font-bold text-slate-900">${ad.􀆟tle} (${ad.city})</div>
+<buton onclick="deletePublishedAdCloud('${ad.􀆟tle}')" class="bg-rose-100 text-rose-700 px-3 py-1 rounded-lg font-bold hover:bg-rose- حذف سحابي<" 200 </buton>
+`;
+list.appendChild(row);
+});
+}
+async func􀆟on deletePublishedAdCloud(􀆟tle) {
+if (confirm('؟ } (('حذف ھذا الإعلان من السحابة
+await supabaseClient.from('client_leads').delete().eq('type', '__PUBLISHED_AD__').eq('name', 􀆟tle);
+await syncCloudPublishedAds();
+loadPublishedAdsCMS();
+}
+}
+</script>
 </body>
 </html>
