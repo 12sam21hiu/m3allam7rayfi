@@ -4,49 +4,1546 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>معلم حريفي | M3allam 7rayfi</title>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-W2DGJ0G5F2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-W2DGJ0G5F2');
+  </script>
+
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Tajawal', sans-serif; font-weight: 700; background-color: #f8fafc; color: #1e293b; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .draggable-slider { cursor: grab; user-select: none; -webkit-overflow-scrolling: touch; }
+    .draggable-slider:active { cursor: grabbing; }
     .blue-box {
       background: linear-gradient(135deg, #f0f7ff 0%, #e0f2fe 50%, #bae6fd 100%);
       border: 1px solid #7dd3fc;
-      box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.1);
+      box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8);
       color: #0c4a6e;
     }
     .blue-btn {
       background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      box-shadow: 0 4px 15px rgba(2, 132, 199, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      transition: all 0.2s ease;
       color: #ffffff;
+    }
+    .blue-btn:hover {
+      background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+    }
+    #sidebarDrawer {
+      transition: transform 0.3s ease-in-out;
+    }
+    .brand-title {
+      font-size: 1.5rem;
+      @media(min-width: 640px) { font-size: 1.85rem; }
+      font-weight: 900;
+      background: linear-gradient(to right, #0369a1, #0284c7, #38bdf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
     }
   </style>
 </head>
-<body class="antialiased pb-20 font-bold">
-  
-  <header class="bg-white/95 border-b border-blue-100 sticky top-0 z-40 shadow-sm p-4 text-center">
-    <h1 class="text-2xl font-black text-blue-950">معلم حريفي • M3allam 7rayfi</h1>
-    <p class="text-xs text-sky-900 font-extrabold mt-1">صلة الوصل بين خيرة الحرفيين والزبناء بالمغرب</p>
+<body class="antialiased pb-20 selection:bg-blue-600 selection:text-white font-bold">
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="bg-white/95 backdrop-blur-md border-b border-blue-100 sticky top-0 z-40 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      
+      <div class="flex items-center gap-2">
+        <button onclick="toggleSidebar(true)" class="text-xs sm:text-sm bg-gradient-to-r from-blue-600 to-sky-700 hover:opacity-90 text-white font-black px-4 py-2.5 rounded-2xl transition border-2 border-blue-400/80 flex items-center gap-2 shadow-lg animate-bounce">
+          <i class="fa-solid fa-bars text-lg text-white"></i>
+          <span id="t_drawer_btn">نبذة وتواصل 📋</span>
+        </button>
+      </div>
+
+      <div class="flex items-center gap-3 cursor-pointer group" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <div class="relative w-12 h-12 bg-gradient-to-br from-blue-50 via-sky-100 to-blue-200 rounded-2xl flex items-center justify-center border-2 border-blue-500 shadow">
+          <span class="text-2xl relative z-10">🛠️</span>
+          <span class="absolute -bottom-1 -right-1 text-xs bg-blue-600 text-white font-black px-1.5 py-0.2 rounded-full border border-white">🧱</span>
+        </div>
+        <div>
+          <span class="brand-title" id="t_brand_name">معلم حريفي</span>
+          <span class="block text-[11px] text-sky-900 font-black tracking-widest">M3allam 7rayfi</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 sm:gap-3">
+        <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-blue-50 border border-blue-200 text-xs font-black rounded-xl px-2.5 py-1.5 outline-none cursor-pointer text-blue-950">
+          <option value="ar">🇲🇦 العربية</option>
+          <option value="fr">🇫🇷 Français</option>
+          <option value="en">🇬🇧 English</option>
+          <option value="it">🇮🇹 Italiano</option>
+          <option value="es">🇪🇸 Español</option>
+          <option value="zh">🇨🇳 中文</option>
+        </select>
+
+        <div id="authNavButtons" class="flex items-center gap-2">
+          <button onclick="openAuthModal('login')" id="t_nav_login" class="text-xs bg-blue-50 hover:bg-blue-100 text-blue-900 font-black px-3 py-2 rounded-xl transition border border-blue-200">دخول</button>
+          <button onclick="openAuthModal('register')" id="t_nav_register" class="text-xs blue-btn text-white font-black px-4 py-2 rounded-xl transition shadow-md">حساب جديد</button>
+        </div>
+
+        <div id="userProfileNav" class="hidden flex items-center gap-2">
+          <span id="userGreeting" class="text-xs sm:text-sm font-black text-blue-900 bg-blue-50 px-3 py-1.5 rounded-xl border border-blue-200"></span>
+          <button onclick="handleSupabaseLogout()" id="t_btn_logout" class="text-xs bg-rose-100 text-rose-700 hover:bg-rose-200 font-black px-3 py-1.5 rounded-xl border border-rose-300 transition">خروج</button>
+        </div>
+      </div>
+    </div>
   </header>
 
-  <main class="max-w-4xl mx-auto p-4 space-y-8 mt-6">
-    <section class="blue-box p-6 rounded-3xl shadow-lg space-y-4 text-center">
-      <h2 class="text-xl font-black text-blue-950">دليل الحرفيين والخدمات المهنية</h2>
-      <p class="text-sm text-blue-900 font-extrabold leading-relaxed">
-        يضم موقعنا نخبة من الحرفيين المعتمدين: بناء، ترسيان (كهرباء)، بلومبي (رصاص)، صباغ، نجار، جباس، ألومنيوم، ميكانيك الثلاجات، النقل والكورساوات.
-      </p>
+  <!-- ================= SIDEBAR DRAWER ================= -->
+  <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 backdrop-blur-md z-50 hidden" onclick="toggleSidebar(false)"></div>
+  <div id="sidebarDrawer" class="fixed top-0 right-0 h-full w-84 sm:w-[420px] bg-white border-l-2 border-blue-300 shadow-2xl z-50 transform translate-x-full flex flex-col font-bold text-slate-900 transition-transform duration-300 ease-in-out">
+    
+    <div class="p-5 border-b-2 border-blue-200 flex items-center justify-between bg-blue-50">
+      <div class="flex items-center gap-3">
+        <span class="text-3xl p-1.5 bg-white rounded-2xl text-blue-600 border border-blue-200">🪵</span>
+        <span class="font-black text-xl text-blue-950 tracking-wide" id="t_drawer_title">معلم حريفي • القائمة الشاملة</span>
+      </div>
+      <button onclick="toggleSidebar(false)" class="w-10 h-10 rounded-full bg-white hover:bg-blue-100 text-blue-900 flex items-center justify-center border-2 border-blue-200 text-base font-black transition">✕</button>
+    </div>
+
+    <div class="flex-1 overflow-y-auto p-6 space-y-6 text-sm sm:text-base text-slate-700">
+      
+      <div class="blue-box p-5 rounded-3xl border-2 border-blue-300 space-y-3 font-black shadow-xl">
+        <div class="flex items-center gap-3">
+          <span class="text-2xl p-2.5 bg-white text-blue-600 rounded-2xl border border-blue-200">💎</span>
+          <div>
+            <span class="bg-blue-600 text-white text-xs px-2.5 py-0.5 rounded shadow">إشهار متميز / Sponsor</span>
+            <h4 class="text-lg font-black text-blue-950 mt-1.5">سيراميك ومواد البناء الفاخرة | عروض خاصة لمهنيي الحرف</h4>
+          </div>
+        </div>
+        <a href="https://wa.me/message/ADVEH75KWZY3M1?text=Ad%20Space%20Reservation" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-sm py-3 rounded-2xl transition text-center shadow block border border-emerald-400 font-black">
+          <i class="fa-solid fa-bullhorn ml-1"></i> احجز إشهارك هنا
+        </a>
+      </div>
+
+      <div id="drawerClientAdsSection" class="hidden space-y-4">
+        <h3 class="text-blue-900 font-black text-lg flex items-center gap-2 border-b-2 border-blue-200 pb-2">
+          <i class="fa-solid fa-star text-amber-500 text-xl"></i> إعلانات وخدمات مميزة (GPS)
+        </h3>
+        <div id="drawerClientAdsList" class="space-y-4"></div>
+      </div>
+
+      <div class="bg-slate-50 p-5 rounded-3xl border border-blue-200 space-y-2.5 shadow-lg">
+        <h3 class="text-blue-950 font-black text-lg flex items-center gap-2">
+          <i class="fa-solid fa-circle-info text-blue-600 text-xl"></i> <span id="t_about_title">نبذة عن المنصة</span>
+        </h3>
+        <p class="text-slate-700 leading-relaxed font-extrabold text-sm sm:text-base" id="t_about_desc">
+          منصة "معلم حريفي" هي الأولى من نوعها في المغرب، تهدف إلى ربط الزبناء مباشرة بأفضل الحرفيين المحترفين (ترصيص، كهرباء، صباغة، بناء، نجارة...) بكل أمانة وسرعة ودون أي وسطاء أو رسوم عمولة.
+        </p>
+      </div>
+
+      <div class="bg-slate-50 p-5 rounded-3xl border border-blue-200 space-y-2.5 shadow-lg">
+        <h3 class="text-blue-950 font-black text-lg flex items-center gap-2">
+          <i class="fa-solid fa-heart text-blue-600 text-xl"></i> <span id="t_goals_title">أهدافنا والصدقة الجارية</span>
+        </h3>
+        <p class="text-slate-700 leading-relaxed font-extrabold text-sm sm:text-base" id="t_goals_desc">
+          نسعى لدعم مهارات الحرفيين الشباب وتسهيل صيانة المنازل على الزبناء. والأجر الأساسي من هذا العمل هو ترحمكم على أمي رحمها الله وجميع أموات المسلمين.
+        </p>
+      </div>
+
+      <div class="bg-slate-50 p-5 rounded-3xl border border-blue-200 space-y-4 shadow-lg">
+        <h3 class="text-blue-950 font-black text-lg flex items-center gap-2 border-b-2 border-blue-200 pb-2">
+          <i class="fa-solid fa-comments text-blue-600 text-xl"></i> <span id="t_reviews_title">تقييمات وتعليقات الزوار</span>
+        </h3>
+        <div id="drawerReviewsList" class="space-y-3"></div>
+      </div>
+
+      <div class="bg-slate-50 p-5 rounded-3xl border border-blue-200 space-y-3 shadow-lg">
+        <h3 class="text-blue-950 font-black text-lg flex items-center gap-2">
+          <i class="fa-brands fa-facebook text-blue-600 text-xl"></i> <span id="t_fb_title">مجتمعنا على الفيسبوك</span>
+        </h3>
+        <div class="flex flex-col gap-2.5">
+          <a href="https://www.facebook.com/1248623065006651" target="_blank" class="bg-white hover:bg-blue-50 p-3 rounded-2xl border border-blue-200 text-blue-900 flex items-center justify-between transition text-sm font-black">
+            <span id="t_fb_link1">صفحتنا الرسمية</span>
+            <i class="fa-solid fa-arrow-left text-blue-600 text-base"></i>
+          </a>
+          <a href="https://www.facebook.com/groups/871512623656726" target="_blank" class="bg-white hover:bg-blue-50 p-3 rounded-2xl border border-blue-200 text-blue-900 flex items-center justify-between transition text-sm font-black">
+            <span id="t_fb_link2">الكروب الرسمي (تفاعل الحرفيين)</span>
+            <i class="fa-solid fa-arrow-left text-blue-600 text-base"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="bg-blue-50 p-5 rounded-3xl border-2 border-blue-300 space-y-3 shadow-2xl">
+        <h3 class="text-blue-950 font-black text-base flex items-center gap-2">
+          <i class="fa-solid fa-lock text-blue-600 text-xl"></i> <span id="t_admin_spaces">فضاءات الإدارة (خاص بالمسيرين)</span>
+        </h3>
+        <div class="flex flex-col gap-2.5">
+          <button onclick="openStaffModal(); toggleSidebar(false);" class="w-full bg-white hover:bg-blue-100 text-blue-950 p-3 rounded-2xl border border-blue-300 text-sm font-black flex items-center gap-2.5 transition">
+            <i class="fa-solid fa-users-gear text-blue-600 text-base"></i>
+            <span id="t_btn_staff">فضاء المسيرين (Staff)</span>
+          </button>
+          <button onclick="openOwnerPinModal(); toggleSidebar(false);" class="w-full bg-white hover:bg-blue-100 text-blue-950 p-3 rounded-2xl border border-blue-300 text-sm font-black flex items-center gap-2.5 transition">
+            <i class="fa-solid fa-crown text-amber-500 text-base"></i>
+            <span id="t_btn_owner">فضاء صاحب الموقع 👑</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="p-4 border-t-2 border-blue-200 text-center text-xs text-blue-900 bg-blue-50">
+      جميع الحقوق محفوظة &copy; 2026 - معلم حريفي
+    </div>
+  </div>
+
+  <!-- Community Bar -->
+  <div class="bg-gradient-to-r from-blue-50 via-sky-100 to-blue-50 text-blue-950 py-2.5 px-4 shadow-sm font-black border-b border-blue-200">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-right">
+      <div class="flex items-center gap-2 text-xs sm:text-sm font-black">
+        <i class="fa-brands fa-facebook text-xl text-blue-600"></i>
+        <span id="t_fb_text">انضم لأكبر مجتمع للحرفيين والزبناء على الفيسبوك:</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="https://www.facebook.com/1248623065006651" target="_blank" class="bg-white text-blue-900 text-xs font-black px-4 py-1.5 rounded-xl hover:bg-blue-50 border border-blue-200 transition shadow-sm">
+          <i class="fa-solid fa-thumbs-up ml-1 text-blue-600"></i> <span id="t_fb_page">صفحتنا</span>
+        </a>
+        <a href="https://www.facebook.com/groups/871512623656726" target="_blank" class="bg-blue-600 text-white text-xs font-black px-4 py-1.5 rounded-xl hover:bg-blue-700 border border-blue-500 transition">
+          <i class="fa-solid fa-users ml-1"></i> <span id="t_fb_group">الكروب الرسمي</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <main class="max-w-6xl mx-auto p-4 sm:p-6 space-y-12">
+
+    <!-- Hero Section -->
+    <section class="blue-box text-slate-900 rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden font-bold">
+      <div class="grid md:grid-cols-12 gap-8 items-center relative z-10">
+        <div class="md:col-span-7 space-y-4 text-center md:text-right">
+          
+          <span id="t_hero_badge" class="bg-white text-blue-700 text-sm sm:text-base font-black px-5 py-2 rounded-full border-2 border-blue-300 inline-block uppercase tracking-wider shadow-md">
+            أفضل الحرفيين والمهنيين رهن إشارتك في أي وقت وأينما كنت!
+          </span>
+
+          <h1 id="t_hero_title" class="text-3xl sm:text-5xl font-black leading-tight text-blue-950 drop-shadow-sm">صلة الوصل بين خيرة الحرفيين والزبناء الموثوقين</h1>
+          <p id="t_hero_desc" class="text-blue-900 text-sm sm:text-base font-extrabold leading-relaxed max-w-xl">
+            منصة "معلم حريفي" تهدف إلى تسهيل العثور على أفضل المعلمين المهرة في الصيانة، البناء، والديكور بالمغرب وخارجه بدون وسيط وبدون عمولات.
+          </p>
+          <div class="flex flex-wrap justify-center md:justify-start gap-3 pt-2">
+            <a href="#servicesSection" class="bg-white hover:bg-slate-50 text-blue-950 font-black text-xs sm:text-sm px-6 py-3.5 rounded-2xl transition shadow-xl border border-blue-200 flex items-center gap-2">
+              <i class="fa-solid fa-magnifying-glass text-blue-600"></i> <span id="t_hero_explore">اكتشف الخدمات المتاحة</span>
+            </a>
+            <button onclick="requireAuthAction('pro')" class="blue-btn text-white font-black text-xs sm:text-sm px-6 py-3.5 rounded-2xl transition shadow-md flex items-center gap-2">
+              <i class="fa-solid fa-bullhorn text-sky-200"></i> <span id="t_hero_post_btn">نشر إشهار حريفي</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="md:col-span-5 flex justify-center items-center">
+          <div class="relative w-full max-w-sm rounded-3xl overflow-hidden shadow-2xl border-4 border-white group">
+            <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80" referrerpolicy="no-referrer" alt="Master Craftsman" class="w-full h-72 sm:h-80 object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-4">
+              <div class="text-right font-black text-white">
+                <span id="t_hero_badge_click" class="bg-blue-600 text-white text-[11px] font-black px-3 py-1 rounded-full shadow border border-white">معرض الحرفيين 📸</span>
+                <p id="t_hero_img_sub" class="text-sky-100 font-black text-sm mt-1.5">حرفيون ببدلات العمل والأدوات الاحترافية</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- Google AdSense Legal Compliance Section -->
-    <section class="bg-white p-6 rounded-3xl border border-blue-200 shadow-sm text-xs text-slate-600 font-bold space-y-2">
-      <h3 class="font-black text-blue-950 text-sm">سياسة الخصوصية والتنبيه القانوني</h3>
-      <p>هذا الموقع مخصص حصرياً للوساطة وعرض الخدمات الحرفية والمهنية في المغرب، <strong>ولا يتضمن أي أنشطة تجارية أو عمليات بيع وشراء للسلع والمنتجات</strong>.</p>
-      <p>نحن نستخدم ملفات تعريف الارتباط وإعلانات الطرف الثالث (مثل Google AdSense) لتحسين تجربة الزوار وعرض إعلانات ملائمة.</p>
+    <!-- ================= CRAFTS SLIDERS ================= -->
+    <section id="servicesSection" class="space-y-6">
+      <div class="text-center sm:text-right font-black">
+        <h2 id="t_services_title" class="text-2xl sm:text-3xl font-black text-blue-950">سلايدر خاص بكل حرفة (حتى 10 صور) ونظام التقييم (⭐)</h2>
+        <p id="t_services_subtitle" class="text-xs sm:text-sm text-slate-600 font-extrabold mt-1">كل حرفة تتوفر على معرض صور خاص بها وتقييمات حقيقية من الزبناء</p>
+      </div>
+
+      <div id="craftsSlidersGrid" class="grid md:grid-cols-2 gap-6"></div>
+    </section>
+
+    <!-- Forms Section -->
+    <section class="grid md:grid-cols-2 gap-8 items-start border-t border-blue-200 pt-10 font-bold">
+      <!-- Pro Form -->
+      <div class="blue-box p-6 sm:p-8 rounded-3xl border border-blue-200 shadow-xl space-y-4">
+        <div class="flex items-center gap-3">
+          <span class="p-3 bg-white text-blue-600 rounded-2xl text-2xl border border-blue-200 font-black">📢</span>
+          <div>
+            <h3 id="t_pro_form_title" class="font-black text-xl text-blue-950">طلب نشر إشهار حريفي</h3>
+            <p id="t_pro_form_subtitle" class="text-xs sm:text-sm text-blue-900 font-extrabold">أدخل معلوماتك لعرض خدماتك للزبناء</p>
+          </div>
+        </div>
+
+        <form onsubmit="handleFormSubmission(event, 'pro')" class="space-y-3 font-black">
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label id="t_pro_lbl_name" class="block text-xs font-black text-blue-950 mb-1">الاسم / الورشة</label>
+              <input id="pro_name" required placeholder="المعلم سمير" class="w-full bg-white border border-blue-200 rounded-xl p-3 text-sm font-black text-slate-900 outline-none">
+            </div>
+            <div>
+              <label id="t_pro_lbl_job" class="block text-xs font-black text-blue-950 mb-1">الحرفة</label>
+              <input id="pro_job" required placeholder="بلومبي..." class="w-full bg-white border border-blue-200 rounded-xl p-3 text-sm font-black text-slate-900 outline-none">
+            </div>
+          </div>
+          <div>
+            <label id="t_pro_lbl_city" class="block text-xs font-black text-blue-950 mb-1">المدينة والمناطق</label>
+            <input id="pro_city" required placeholder="الرباط، سلا..." class="w-full bg-white border border-blue-200 rounded-xl p-3 text-sm font-black text-slate-900 outline-none">
+          </div>
+          <div>
+            <label id="t_pro_lbl_phone" class="block text-xs font-black text-blue-950 mb-1">رقم الواتساب مع رمز الدولة</label>
+            <div class="flex gap-2" dir="ltr">
+              <select id="pro_country_code" class="bg-white border border-blue-200 rounded-xl px-2 py-3 text-xs font-black text-slate-900 outline-none">
+                <option value="+212">🇲🇦 +212</option>
+                <option value="+39">🇮🇹 +39</option>
+                <option value="+33">🇫🇷 +33</option>
+                <option value="+34">🇪🇸 +34</option>
+                <option value="+86">🇨🇳 +86</option>
+                <option value="+44">🇬🇧 +44</option>
+                <option value="+1">🇺🇸 +1</option>
+              </select>
+              <input id="pro_phone" type="tel" required placeholder="6XXXXXXXX" class="w-full bg-white border border-blue-200 rounded-xl p-3 text-sm font-black text-slate-900 outline-none">
+            </div>
+          </div>
+          <div>
+            <label id="t_pro_lbl_bio" class="block text-xs font-black text-blue-950 mb-1">نبذة عن خدماتك</label>
+            <textarea id="pro_bio" rows="2" class="w-full bg-white border border-blue-200 rounded-xl p-3 text-sm font-black text-slate-900 outline-none"></textarea>
+          </div>
+          <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3.5 rounded-xl transition shadow-md flex items-center justify-center gap-2 text-sm border border-emerald-400">
+            <i class="fa-brands fa-whatsapp text-lg"></i> <span id="t_pro_btn_submit">إرسال الطلب للإدارة للنشر</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Client Form -->
+      <div class="blue-box p-6 sm:p-8 rounded-3xl border border-blue-200 shadow-xl space-y-4">
+        <div class="flex items-center gap-3">
+          <span class="p-3 bg-white text-blue-600 rounded-2xl text-2xl border border-blue-200 font-black">🛠️</span>
+          <div>
+            <h3 id="t_cli_form_title" class="font-black text-xl text-blue-950">خاصك معلم؟ صيفط لينا وحنا نلقاوه ليك</h3>
+            <p id="t_cli_form_subtitle" class="text-xs sm:text-sm text-blue-900 font-extrabold">صيفط تفاصيل المشكل للإدارة للربط الفوري</p>
+          </div>
+        </div>
+
+        <form onsubmit="handleFormSubmission(event, 'client')" class="space-y-3 font-black">
+          <div>
+            <label id="t_cli_lbl_srv" class="block text-xs font-black text-blue-950 mb-1">نوع الإصلاح / المعلم المطلوب</label>
+            <input id="cli_service" required class="w-full bg-white border border-blue-200 rounded-xl p-3 text-sm font-black text-slate-900 outline-none">
+          </div>
+          <div>
+            <label id="t_cli_lbl_city" class="block text-xs font-black text-blue-950 mb-1">المدينة والحي (أو العنوان لل GPS)</label>
+            <input id="cli_city" required class="w-full bg-white border border-blue-200 rounded-xl p-3 text-sm font-black text-slate-900 outline-none">
+          </div>
+          <div>
+            <label id="t_cli_lbl_phone" class="block text-xs font-black text-blue-950 mb-1">رقم الهاتف مع رمز الدولة</label>
+            <div class="flex gap-2" dir="ltr">
+              <select id="cli_country_code" class="bg-white border border-blue-200 rounded-xl px-2 py-3 text-xs font-black text-slate-900 outline-none">
+                <option value="+212">🇲🇦 +212</option>
+                <option value="+39">🇮🇹 +39</option>
+                <option value="+33">🇫🇷 +33</option>
+                <option value="+34">🇪🇸 +34</option>
+                <option value="+86">🇨🇳 +86</option>
+                <option value="+44">🇬🇧 +44</option>
+                <option value="+1">🇺🇸 +1</option>
+              </select>
+              <input id="cli_phone" type="tel" required placeholder="6XXXXXXXX" class="w-full bg-white border border-blue-200 rounded-xl p-3 text-sm font-black text-slate-900 outline-none">
+            </div>
+          </div>
+          <div>
+            <label id="t_cli_lbl_details" class="block text-xs font-black text-blue-950 mb-1">تفاصيل إضافية</label>
+            <textarea id="cli_details" rows="2" class="w-full bg-white border border-blue-200 rounded-xl p-3 text-sm font-black text-slate-900 outline-none"></textarea>
+          </div>
+          <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3.5 rounded-xl transition shadow-md flex items-center justify-center gap-2 text-sm border border-emerald-400">
+            <i class="fa-brands fa-whatsapp text-lg"></i> <span id="t_cli_btn_submit">إرسال الطلب للإدارة للبحث</span>
+          </button>
+        </form>
+      </div>
     </section>
   </main>
 
-  <footer class="text-center py-6 text-xs text-blue-900 font-black">
-    جميع الحقوق محفوظة &copy; 2026 معلم حريفي - المغرب
-  </footer>
+  <!-- ================= AUTH MODAL ================= -->
+  <div id="authModal" class="fixed inset-0 bg-black/50 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 font-bold">
+    <div class="blue-box w-full max-w-md p-6 sm:p-8 rounded-3xl shadow-2xl relative max-h-[95vh] overflow-y-auto">
+      <button onclick="closeAuthModal()" class="absolute top-4 left-4 text-blue-950 hover:text-black font-black text-xl">✕</button>
+      
+      <div class="text-center mb-6">
+        <span class="text-4xl p-2 bg-white text-blue-600 rounded-2xl inline-block mb-3 font-black border border-blue-200">🧱</span>
+        <h2 id="t_auth_title" class="text-2xl font-black text-blue-950">تسجيل الدخول / حساب جديد</h2>
+        <p id="t_auth_subtitle" class="text-xs sm:text-sm text-blue-900 font-extrabold mt-1">سجل الدخول للمتابعة والاستفادة من خدمات المنصة</p>
+      </div>
 
+      <div class="flex bg-white p-1 rounded-xl mb-6 text-sm font-black border border-blue-200">
+        <button id="tabLogin" onclick="switchAuthTab('login')" class="flex-1 py-2 rounded-lg bg-sky-100 shadow-sm text-blue-950 transition">تسجيل الدخول</button>
+        <button id="tabRegister" onclick="switchAuthTab('register')" class="flex-1 py-2 rounded-lg text-slate-600 transition">إنشاء حساب</button>
+      </div>
+
+      <div id="authAlert" class="hidden mb-4 p-3 rounded-xl text-xs font-black leading-relaxed"></div>
+
+      <form id="loginForm" onsubmit="handleSupabaseLogin(event)" class="space-y-3 font-black">
+        <div>
+          <label id="t_lbl_login_email" class="block text-xs font-black text-blue-950 mb-1">البريد الإلكتروني</label>
+          <input id="login_email" type="email" required placeholder="name@gmail.com" class="w-full bg-white border border-blue-200 rounded-xl p-3 text-sm font-black text-slate-900 outline-none">
+        </div>
+        <div>
+          <label id="t_lbl_login_pass" class="block text-xs font-black text-blue-950 mb-1">كلمة المرور</label>
+          <input id="login_pass" type="password" required placeholder="******" class="w-full bg-white border border-blue-200 rounded-xl p-3 text-sm font-black text-slate-900 outline-none">
+        </div>
+        <button id="btnLoginSubmit" type="submit" class="w-full blue-btn text-white font-black py-3.5 rounded-xl transition shadow text-sm">تسجيل الدخول</button>
+      </form>
+
+      <form id="registerForm" onsubmit="handleSupabaseRegister(event)" class="space-y-3 hidden font-black">
+        <div>
+          <label id="t_lbl_name" class="block text-xs font-black text-blue-950 mb-1">الاسم الكامل</label>
+          <input id="reg_name" required class="w-full bg-white border border-blue-200 rounded-xl p-3 text-sm font-black text-slate-900 outline-none">
+        </div>
+        <div>
+          <label id="t_lbl_email" class="block text-xs font-black text-blue-950 mb-1">البريد الإلكتروني</label>
+          <input id="reg_email" type="email" required class="w-full bg-white border border-blue-200 rounded-xl p-3 text-sm font-black text-slate-900 outline-none">
+        </div>
+        <div>
+          <label id="t_lbl_phone" class="block text-xs font-black text-blue-950 mb-1">رقم الهاتف</label>
+          <div class="flex gap-2" dir="ltr">
+            <select id="reg_country_code" class="bg-white border border-blue-200 rounded-xl px-2 py-3 text-xs font-black text-slate-900 outline-none">
+              <option value="+212">🇲🇦 +212</option>
+              <option value="+39">🇮🇹 +39</option>
+              <option value="+33">🇫🇷 +33</option>
+              <option value="+34">🇪🇸 +34</option>
+              <option value="+86">🇨🇳 +86</option>
+              <option value="+44">🇬🇧 +44</option>
+              <option value="+1">🇺🇸 +1</option>
+            </select>
+            <input id="reg_phone" type="tel" required class="w-full bg-white border border-blue-200 rounded-xl p-3 text-sm font-black text-slate-900 outline-none">
+          </div>
+        </div>
+        <div>
+          <label id="t_lbl_pass" class="block text-xs font-black text-blue-950 mb-1">كلمة المرور (8 أحرف/أرقام على الأقل)</label>
+          <input id="reg_pass" type="password" required minlength="8" class="w-full bg-white border border-blue-200 rounded-xl p-3 text-sm font-black text-slate-900 outline-none">
+        </div>
+        <div>
+          <label id="t_lbl_pass_confirm" class="block text-xs font-black text-blue-950 mb-1">تأكيد كلمة المرور</label>
+          <input id="reg_pass_confirm" type="password" required minlength="8" class="w-full bg-white border border-blue-200 rounded-xl p-3 text-sm font-black text-slate-900 outline-none">
+        </div>
+        <div>
+          <label id="t_lbl_role" class="block text-xs font-black text-blue-950 mb-1">الصفة</label>
+          <select id="reg_role" class="w-full bg-white border border-blue-200 rounded-xl p-3 text-sm font-black text-slate-900 outline-none">
+            <option value="client" id="t_opt_client">زبون (باغي نصلح شي حاجة)</option>
+            <option value="pro" id="t_opt_pro">معلم حريفي (باغي نخدم ونحط إعلاناتي)</option>
+          </select>
+        </div>
+        <button id="btnRegSubmit" type="submit" class="w-full blue-btn text-white font-black py-3.5 rounded-xl transition shadow text-sm">إنشاء الحساب</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX MODAL -->
+  <div id="lightboxModal" class="fixed inset-0 bg-black/90 backdrop-blur-sm z-[60] hidden flex flex-col items-center justify-center p-4">
+    <button onclick="closeLightbox()" class="absolute top-4 right-4 text-white hover:text-blue-300 text-3xl font-black">✕</button>
+    <div class="relative max-w-4xl w-full h-[70vh] sm:h-[80vh] flex items-center justify-center">
+      <img id="lightboxImage" src="" class="max-h-full max-w-full rounded-2xl shadow-2xl object-contain border-2 border-slate-700">
+      <button onclick="prevLightboxImage()" class="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 text-white flex items-center justify-center text-xl backdrop-blur-md transition">❮</button>
+      <button onclick="nextLightboxImage()" class="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 text-white flex items-center justify-center text-xl backdrop-blur-md transition">❯</button>
+    </div>
+    <div class="mt-4 text-center text-white max-w-2xl">
+      <span id="lightboxCounter" class="bg-blue-600/50 px-3 py-1 rounded-full text-xs font-black mb-2 inline-block">1 / 1</span>
+      <h3 id="lightboxTitle" class="text-lg sm:text-xl font-black mb-1"></h3>
+      <p id="lightboxDesc" class="text-sm text-slate-300 font-bold hidden sm:block"></p>
+      <a id="lightboxWhatsapp" href="#" target="_blank" class="hidden mt-3 bg-emerald-600 hover:bg-emerald-500 text-white font-black px-6 py-2 rounded-xl transition shadow-lg text-sm inline-flex items-center gap-2">
+        <i class="fa-brands fa-whatsapp text-lg"></i> تواصل مع صاحب الإعلان
+      </a>
+    </div>
+  </div>
+
+  <!-- STAFF MODAL -->
+  <div id="staffAuthModal" class="fixed inset-0 bg-black/60 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 font-bold">
+    <div class="blue-box w-full max-w-md p-6 sm:p-8 rounded-3xl shadow-2xl space-y-4 max-h-[95vh] overflow-y-auto">
+      <div class="text-center font-black">
+        <div class="w-14 h-14 bg-white text-blue-600 rounded-2xl flex items-center justify-center mx-auto text-2xl mb-2 border border-blue-200">
+          <i class="fa-solid fa-id-badge"></i>
+        </div>
+        <h3 id="t_staff_modal_title" class="text-xl font-black text-blue-950">فضاء المسيرين والموظفين</h3>
+      </div>
+      <form onsubmit="handleStaffLogin(event)" class="space-y-3 font-black">
+        <input id="staff_log_phone" required placeholder="06XXXXXXXX" class="w-full bg-white border border-blue-200 rounded-xl p-3 text-sm font-black text-slate-900 outline-none" dir="ltr">
+        <input id="staff_log_pin" type="password" maxlength="8" required placeholder="PIN Code" class="w-full bg-white border border-blue-200 rounded-xl p-3 text-sm font-black text-slate-900 outline-none text-center font-mono">
+        <button type="submit" class="w-full blue-btn text-white font-black py-3 rounded-xl transition shadow text-sm">دخول</button>
+      </form>
+      <button onclick="closeStaffModal()" class="w-full text-center text-xs text-slate-600 font-black mt-2">إلغاء</button>
+    </div>
+  </div>
+
+  <!-- OWNER PIN MODAL -->
+  <div id="ownerPinModal" class="fixed inset-0 bg-black/60 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 font-bold">
+    <div class="blue-box w-full max-w-sm p-6 sm:p-8 rounded-3xl shadow-2xl text-center space-y-4 font-black">
+      <div class="w-16 h-16 bg-white text-blue-600 rounded-2xl flex items-center justify-center mx-auto text-2xl shadow-lg border border-blue-200">
+        <i class="fa-solid fa-crown"></i>
+      </div>
+      <h3 class="text-xl font-black text-blue-950">فضاء صاحب الموقع 👑</h3>
+      <p class="text-xs sm:text-sm text-blue-900 font-extrabold">أدخل الكود السري الحصري للإدارة العليا (9900)</p>
+      
+      <form onsubmit="handleOwnerAuth(event)" class="space-y-3 pt-2 font-black">
+        <input id="ownerSecretPin" type="password" maxlength="8" required placeholder="Owner PIN Code" class="w-full text-center tracking-widest text-lg font-black bg-white border border-blue-200 rounded-xl p-3 focus:ring-2 focus:ring-blue-600 outline-none text-slate-900">
+        <p id="ownerPinError" class="text-xs text-rose-600 font-black hidden">الرمز السري غير صحيح!</p>
+        <button type="submit" class="w-full blue-btn text-white font-black py-3 rounded-xl transition shadow text-sm">دخول لوحة التحكم</button>
+      </form>
+      <button onclick="closeOwnerPinModal()" class="text-xs text-slate-600 font-black">إلغاء</button>
+    </div>
+  </div>
+
+  <!-- OWNER DASHBOARD -->
+  <div id="ownerDashboardModal" class="fixed inset-0 bg-black/70 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 sm:p-4 font-bold">
+    <div class="blue-box w-full max-w-6xl h-[92vh] p-4 sm:p-6 rounded-3xl shadow-2xl flex flex-col font-black text-blue-950">
+      <div class="flex items-center justify-between border-b border-blue-200 pb-3 mb-3">
+        <div class="flex items-center gap-2">
+          <span class="p-2.5 bg-white text-blue-600 rounded-xl text-xl font-black border border-blue-200">👑</span>
+          <div>
+            <h2 class="text-base sm:text-lg font-black text-blue-950">لوحة التحكم العليا لصاحب الموقع (Owner Console)</h2>
+            <p class="text-[10px] sm:text-xs text-blue-900">إدارة الإعلانات، الموظفين، ورفع الصور للحرف والإعلانات</p>
+          </div>
+        </div>
+        <button onclick="closeOwnerDashboard()" class="bg-white hover:bg-slate-100 text-blue-900 text-xs font-black px-3 py-1.5 rounded-xl border border-blue-200">إغلاق ✕</button>
+      </div>
+
+      <div class="flex flex-wrap gap-2 mb-4 border-b border-blue-200 pb-2 text-xs font-black">
+        <button id="btnTabLeads" onclick="switchOwnerView('leads')" class="px-4 py-2 rounded-xl font-black bg-blue-600 text-white shadow-sm transition">طلبات الزبناء وإعلانات الحرفيين</button>
+        <button id="btnTabStaff" onclick="switchOwnerView('staff')" class="px-4 py-2 rounded-xl font-black bg-white text-blue-900 border border-blue-200 transition">إدارة وتعيين الموظفين</button>
+        <button id="btnTabCMS" onclick="switchOwnerView('cms')" class="px-4 py-2 rounded-xl font-black bg-white text-blue-900 border border-blue-200 transition">تعديل الحرف والصور</button>
+        <button id="btnTabPublishAd" onclick="switchOwnerView('pub_ad')" class="px-4 py-2 rounded-xl font-black bg-white text-blue-900 border border-blue-200 transition">نشر أو تعديل إعلان سحابياً</button>
+      </div>
+
+      <!-- View 1: Leads -->
+      <div id="ownerLeadsView" class="flex-1 flex flex-col overflow-hidden">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+          <div class="bg-white p-3 rounded-2xl text-center border border-blue-200"><span class="text-xs text-blue-800">إجمالي الزوار</span><p id="ownerStatVisitors" class="text-xl font-black text-blue-950">0</p></div>
+          <div class="bg-white p-3 rounded-2xl text-center border border-blue-200"><span class="text-xs text-blue-800">الطلبات الكلية</span><p id="ownerStatTotal" class="text-xl font-black text-blue-950">0</p></div>
+          <div class="bg-white p-3 rounded-2xl text-center border border-blue-200"><span class="text-xs text-blue-800">إعلانات الحرفيين</span><p id="ownerStatPro" class="text-xl font-black text-blue-950">0</p></div>
+          <div class="bg-white p-3 rounded-2xl text-center border border-blue-200"><span class="text-xs text-blue-800">طلبات الزبناء</span><p id="ownerStatCli" class="text-xl font-black text-blue-950">0</p></div>
+        </div>
+        <div class="flex-1 overflow-y-auto border border-blue-200 rounded-2xl font-bold bg-white">
+          <table class="w-full text-right text-xs font-bold">
+            <thead class="bg-blue-50 text-blue-950 sticky top-0 font-black border-b border-blue-200">
+              <tr>
+                <th class="p-3">النوع</th>
+                <th class="p-3">الاسم / الحرفة</th>
+                <th class="p-3">المدينة</th>
+                <th class="p-3">الهاتف</th>
+                <th class="p-3">التفاصيل</th>
+                <th class="p-3 text-center">مراسلة واتساب</th>
+                <th class="p-3 text-center">إجراء</th>
+              </tr>
+            </thead>
+            <tbody id="ownerRecordsBody" class="divide-y divide-blue-100 font-bold"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- View 2: Staff -->
+      <div id="ownerStaffView" class="flex-1 flex flex-col overflow-hidden hidden">
+        <div class="flex-1 overflow-y-auto border border-blue-200 rounded-2xl font-bold bg-white">
+          <table class="w-full text-right text-xs font-bold">
+            <thead class="bg-blue-50 text-blue-950 sticky top-0 font-black border-b border-blue-200">
+              <tr>
+                <th class="p-3">اسم الموظف</th>
+                <th class="p-3">بطاقة التعريف</th>
+                <th class="p-3">الهاتف</th>
+                <th class="p-3">العنوان</th>
+                <th class="p-3">كود PIN</th>
+                <th class="p-3">الحالة</th>
+                <th class="p-3 text-center">الإجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="ownerStaffTableBody" class="divide-y divide-blue-100 font-bold"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- View 3: CMS -->
+      <div id="ownerCMSView" class="flex-1 flex flex-col overflow-y-auto hidden space-y-4 p-2">
+        <div id="cmsCraftsList" class="space-y-4"></div>
+      </div>
+
+      <!-- View 4: Publish Ad -->
+      <div id="ownerPublishAdView" class="flex-1 flex flex-col overflow-y-auto hidden space-y-4 p-2">
+        <div class="bg-white p-5 rounded-2xl border border-blue-200 space-y-3">
+          <h3 id="pubFormHeading" class="font-black text-sm sm:text-base text-blue-950">نشر أو تعديل إعلان زبون جديد سحابياً</h3>
+          <form onsubmit="handlePublishClientAdCloud(event)" class="space-y-3 text-xs">
+            <input type="hidden" id="pub_edit_index" value="-1">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <input id="pub_title" required placeholder="عنوان الإعلان" class="w-full p-2.5 bg-slate-50 border border-blue-200 rounded-xl font-black text-slate-900 outline-none">
+              <input id="pub_city" required placeholder="المدينة والعنوان GPS" class="w-full p-2.5 bg-slate-50 border border-blue-200 rounded-xl font-black text-slate-900 outline-none">
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <input id="pub_phone" required placeholder="+212646156747" class="w-full p-2.5 bg-slate-50 border border-blue-200 rounded-xl font-black text-slate-900 outline-none" dir="ltr">
+              <input type="file" id="pub_img_urls" multiple accept="image/*" class="w-full p-2.5 bg-slate-50 border border-blue-200 rounded-xl font-black text-slate-900 outline-none">
+            </div>
+            <textarea id="pub_desc" rows="2" required placeholder="وصف الإعلان..." class="w-full p-2.5 bg-slate-50 border border-blue-200 rounded-xl font-black text-slate-900 outline-none"></textarea>
+            <button type="submit" id="btnSubmitPubCloud" class="w-full blue-btn text-white py-3 rounded-xl shadow font-black text-xs">نشر أو حفظ التعديل سحابياً</button>
+          </form>
+          <div class="pt-4 border-t border-blue-200 font-bold">
+            <h4 class="font-black text-xs text-blue-950 mb-2">الإعلانات المنشورة سحابياً:</h4>
+            <div id="cmsPublishedAdsList" class="space-y-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const SUPABASE_URL = 'https://oaoaofyxtwfxnarxikbl.supabase.co';
+    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9hb2FvZnl4dHdmeG5hcnhpa2JsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc0MzE4MTAsImV4cCI6MjEwMzAwNzgxMH0.cJ75MYzPTZlFlY-JTcaCt-612D_6tiouKIT1ZXVsawI';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    const ADMIN_WA_LINK = "https://wa.me/message/ADVEH75KWZY3M1";
+    const OWNER_PIN = "9900";
+
+    let currentUser = null;
+    let currentLightboxAlbum = [];
+    let currentLightboxIndex = 0;
+
+    async function trackVisitor() {
+      try {
+        if (!localStorage.getItem('m3allam_visited')) {
+          localStorage.setItem('m3allam_visited', 'true');
+          const { data, error } = await supabaseClient.from('client_leads').select('*').eq('type', '__SITE_VISITORS__').limit(1);
+          
+          if (data && data.length > 0) {
+            let currentCount = parseInt(data[0].name) || 0;
+            await supabaseClient.from('client_leads').update({ name: (currentCount + 1).toString() }).eq('id', data[0].id);
+          } else {
+            await supabaseClient.from('client_leads').insert([{ type: '__SITE_VISITORS__', name: '1', details: 'عداد الزوار' }]);
+          }
+        }
+      } catch(e) { console.error("Tracking Error"); }
+    }
+
+    const convertAndCompressFilesToBase64 = (files) => {
+      return Promise.all(Array.from(files).map(file => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = (event) => {
+            const img = new Image();
+            img.src = event.target.result;
+            img.onload = () => {
+              const canvas = document.createElement('canvas');
+              const MAX_WIDTH = 800; 
+              const MAX_HEIGHT = 800; 
+              let width = img.width;
+              let height = img.height;
+
+              if (width > height) {
+                if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
+              } else {
+                if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
+              }
+              canvas.width = width;
+              canvas.height = height;
+              const ctx = canvas.getContext('2d');
+              ctx.drawImage(img, 0, 0, width, height);
+              resolve(canvas.toDataURL('image/jpeg', 0.7));
+            };
+            img.onerror = error => reject(error);
+          };
+          reader.onerror = error => reject(error);
+        });
+      }));
+    };
+
+    const defaultCrafts = [
+      {
+        tagKey: "craft_tag_1", defaultTag: "ترصيص وبلومبي 🚰", titleKey: "craft_title_1", defaultTitle: "إصلاح التسريبات، الشوفويات والصحي", descKey: "craft_desc_1", defaultDesc: "معالجة فورية لكافة أعطال المياه والصحي وتركيب مضخات وسخانات المياه بدقة.",
+        btnColor: "blue-btn", badgeColor: "bg-blue-50 text-blue-900 border border-blue-200", rating: 4.9, reviewsCount: 124,
+        images: ["https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&w=800&q=80", "https://images.unsplash.com/photo-1542013936693-893e3d6e3b5e?auto=format&fit=crop&w=800&q=80"]
+      },
+      {
+        tagKey: "craft_tag_2", defaultTag: "كهرباء وتريسيان ⚡", titleKey: "craft_title_2", defaultTitle: "إصلاح الطابلوات وإضاءة الليد", descKey: "craft_desc_2", defaultDesc: "صيانة كهرباء المنازل، وتثبيت أحدث أنظمة الإضاءة المخفية والعصرية بأمان تام.",
+        btnColor: "blue-btn", badgeColor: "bg-blue-50 text-blue-900 border border-blue-200", rating: 4.8, reviewsCount: 98,
+        images: ["https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80", "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80"]
+      },
+      {
+        tagKey: "craft_tag_3", defaultTag: "صباغة وديكور 🎨", titleKey: "craft_title_3", defaultTitle: "صباغة خيال، ستيكو وفينيسيو", descKey: "craft_desc_3", defaultDesc: "تجديد ألوان الشقق والواجهات بفينيسيو عالي ودقة متناهية فالتناسق والأناقة.",
+        btnColor: "blue-btn", badgeColor: "bg-blue-50 text-blue-900 border border-blue-200", rating: 5.0, reviewsCount: 86,
+        images: ["https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80", "https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=800&q=80"]
+      },
+      {
+        tagKey: "craft_tag_4", defaultTag: "نجارة الخشب 🪵", titleKey: "craft_title_4", defaultTitle: "تفصيل الأبواب والمطابخ العصرية", descKey: "craft_desc_4", defaultDesc: "تصميم وتركيب الخزانات (Placards)، غرف النوم، ومطابخ MDF و Hêtre بجودة عالية.",
+        btnColor: "blue-btn", badgeColor: "bg-blue-50 text-blue-900 border border-blue-200", rating: 4.7, reviewsCount: 65,
+        images: ["https://images.unsplash.com/photo-1588854337221-4cf9fa96059c?auto=format&fit=crop&w=800&q=80", "https://images.unsplash.com/photo-1615874959474-d6099696fc5d?auto=format&fit=crop&w=800&q=80"]
+      },
+      {
+        tagKey: "craft_tag_5", defaultTag: "ألومنيوم وزجاج 🪟", titleKey: "craft_title_5", defaultTitle: "نوافذ، أبواب وواجهات زجاجية", descKey: "craft_desc_5", defaultDesc: "تركيب شباك الألومنيوم العازل للصوت، الستائر الكهربائية، وواجهات الزجاج المقسى.",
+        btnColor: "blue-btn", badgeColor: "bg-blue-50 text-blue-900 border border-blue-200", rating: 4.9, reviewsCount: 74,
+        images: ["https://images.unsplash.com/photo-1508873696983-2df5293cb32f?auto=format&fit=crop&w=800&q=80", "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80"]
+      },
+      {
+        tagKey: "craft_tag_6", defaultTag: "بناء وتلييس 🧱", titleKey: "craft_title_6", defaultTitle: "أشغال البناء، المرطوب والتوسعة", descKey: "craft_desc_6", defaultDesc: "إصلاح الشقوق، بناء الجدران، تجديد المنازل، وهيكلة المساحات باحترافية.",
+        btnColor: "blue-btn", badgeColor: "bg-blue-50 text-blue-900 border border-blue-200", rating: 4.8, reviewsCount: 110,
+        images: ["https://images.unsplash.com/photo-1541888946425-d0fbb186156a?auto=format&fit=crop&w=800&q=80", "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80"]
+      },
+      {
+        tagKey: "craft_tag_7", defaultTag: "جبس وديكور 🏛️", titleKey: "craft_title_7", defaultTitle: "أسقف معلقة ونقش مغربي أصيل", descKey: "craft_desc_7", defaultDesc: "تركيب الجبس العصري، الإضاءة المخفية، وأحدث ديكورات البلاكو بلاتر (BA13).",
+        btnColor: "blue-btn", badgeColor: "bg-blue-50 text-blue-900 border border-blue-200", rating: 4.9, reviewsCount: 92,
+        images: ["https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80", "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=80"]
+      },
+      {
+        tagKey: "craft_tag_8", defaultTag: "زليج ورخام 🔲", titleKey: "craft_title_8", defaultTitle: "تركيب السيراميك والرخام الفاخر", descKey: "craft_desc_8", defaultDesc: "تبليط الأرضيات، جدران الحمامات، المطابخ، وتلميع الرخام بفينيسيو ممتاز.",
+        btnColor: "blue-btn", badgeColor: "bg-blue-50 text-blue-900 border border-blue-200", rating: 4.8, reviewsCount: 88,
+        images: ["https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80", "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80"]
+      }
+    ];
+
+    let craftsData = JSON.parse(localStorage.getItem('m3allam_custom_crafts_top100'));
+    if (!Array.isArray(craftsData) || craftsData.length === 0 || !craftsData[0].titleKey) {
+      craftsData = defaultCrafts;
+      localStorage.setItem('m3allam_custom_crafts_top100', JSON.stringify(defaultCrafts));
+    }
+
+    let publishedAds = [
+      {
+        id: 1724430000000,
+        title: "تركيب وإصلاح المكيفات الهوائية طنجة ونواحي مرحبا 👏",
+        city: "طنجة - حي بوعنان",
+        phone: "+212646156747",
+        desc: "تركيب وإصلاح المكيفات الهوائية طنجة ونواحي مرحبا 👏",
+        mediaUrls: [
+          "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80"
+        ]
+      }
+    ];
+
+    let reviewsData = [
+      { name: "عمر من طنجة", rating: 5, comment: "منصة رائعة جداً، تواصلت مع معلم تريسيان وخدم مزيان فالحين!", date: "2026-06-12" },
+      { name: "يوسف من الدار البيضاء", rating: 5, comment: "فكرة ممتازة وكاتسهل الوصول للمعلم الموثوق بدون وسيط.", date: "2026-06-10" }
+    ];
+
+    const translations = {
+      ar: {
+        dir: "rtl", brand_name: "معلم حريفي", drawer_btn: "نبذة وتواصل 📋", nav_login: "دخول", nav_register: "حساب جديد", btn_logout: "خروج",
+        drawer_title: "معلم حريفي • القائمة الشاملة", about_title: "نبذة عن المنصة", about_desc: 'منصة "معلم حريفي" هي الأولى من نوعها في المغرب، تهدف إلى ربط الزبناء مباشرة بأفضل الحرفيين المحترفين بكل أمانة وسرعة ودون أي وسطاء.', goals_title: "أهدافنا والصدقة الجارية", goals_desc: "نسعى لدعم مهارات الحرفيين الشباب وتسهيل صيانة المنازل على الزبناء.", reviews_title: "تقييمات وتعليقات الزوار", fb_title: "مجتمعنا على الفيسبوك", fb_link1: "صفحتنا الرسمية", fb_link2: "الكروب الرسمي (تفاعل الحرفيين)", admin_spaces: "فضاءات الإدارة (خاص بالمسيرين)", btn_staff: "فضاء المسيرين (Staff)", btn_owner: "فضاء صاحب الموقع 👑",
+        fb_text: "انضم لأكبر مجتمع للحرفيين والزبناء على الفيسبوك:", fb_page: "صفحتنا", fb_group: "الكروب الرسمي",
+        hero_badge: "أفضل الحرفيين والمهنيين رهن إشارتك في أي وقت وأينما كنت!", hero_title: "صلة الوصل بين خيرة الحرفيين والزبناء الموثوقين", hero_desc: 'منصة "معلم حريفي" تهدف إلى تسهيل العثور على أفضل المعلمين المهرة في الصيانة، البناء، والديكور بالمغرب وخارجه بدون وسيط وبدون عمولات.', hero_explore: "اكتشف الخدمات المتاحة", hero_post_btn: "نشر إشهار حريفي", hero_badge_click: "معرض الحرفيين 📸", hero_img_sub: "حرفيون ببدلات العمل والأدوات الاحترافية",
+        services_title: "سلايدر خاص بكل حرفة (حتى 10 صور) ونظام التقييم (⭐)", services_subtitle: "كل حرفة تتوفر على معرض صور خاص بها وتقييمات حقيقية من الزبناء",
+        pro_form_title: "طلب نشر إشهار حريفي", pro_form_subtitle: "أدخل معلوماتك لعرض خدماتك للزبناء", pro_lbl_name: "الاسم / الورشة", pro_lbl_job: "الحرفة", pro_lbl_city: "المدينة والمناطق", pro_lbl_phone: "رقم الواتساب مع رمز الدولة", pro_lbl_bio: "نبذة عن خدماتك", pro_btn_submit: "إرسال الطلب للإدارة للنشر",
+        cli_form_title: "خاصك معلم؟ صيفط لينا وحنا نلقاوه ليك", cli_form_subtitle: "صيفط تفاصيل المشكل للإدارة للربط الفوري", cli_lbl_srv: "نوع الإصلاح / المعلم المطلوب", cli_lbl_city: "المدينة والحي (أو العنوان لل GPS)", cli_lbl_phone: "رقم الهاتف مع رمز الدولة", cli_lbl_details: "تفاصيل إضافية", cli_btn_submit: "إرسال الطلب للإدارة للبحث",
+        auth_title: "تسجيل الدخول / حساب جديد", auth_subtitle: "سجل الدخول للمتابعة والاستفادة من خدمات المنصة", lbl_login_email: "البريد الإلكتروني", lbl_login_pass: "كلمة المرور", lbl_name: "الاسم الكامل", lbl_email: "البريد الإلكتروني", lbl_phone: "رقم الهاتف", lbl_pass: "كلمة المرور (8 أحرف/أرقام على الأقل)", lbl_pass_confirm: "تأكيد كلمة المرور", lbl_role: "الصفة", opt_client: "زبون (باغي نصلح شي حاجة)", opt_pro: "معلم حريفي (باغي نخدم ونحط إعلاناتي)", staff_modal_title: "فضاء المسيرين والموظفين",
+        craft_btn: "طلب هاد المعلم دابا 🛠️",
+        craft_tag_1: "ترصيص وبلومبي 🚰", craft_title_1: "إصلاح التسريبات، الشوفويات والصحي", craft_desc_1: "معالجة فورية لكافة أعطال المياه والصحي وتركيب مضخات وسخانات المياه بدقة.",
+        craft_tag_2: "كهرباء وتريسيان ⚡", craft_title_2: "إصلاح الطابلوات وإضاءة الليد", craft_desc_2: "صيانة كهرباء المنازل، وتثبيت أحدث أنظمة الإضاءة المخفية والعصرية بأمان تام.",
+        craft_tag_3: "صباغة وديكور 🎨", craft_title_3: "صباغة خيال، ستيكو وفينيسيو", craft_desc_3: "تجديد ألوان الشقق والواجهات بفينيسيو عالي ودقة متناهية فالتناسق والأناقة.",
+        craft_tag_4: "نجارة الخشب 🪵", craft_title_4: "تفصيل الأبواب والمطابخ العصرية", craft_desc_4: "تصميم وتركيب الخزانات (Placards)، غرف النوم، ومطابخ MDF و Hêtre بجودة عالية.",
+        craft_tag_5: "ألومنيوم وزجاج 🪟", craft_title_5: "نوافذ، أبواب وواجهات زجاجية", craft_desc_5: "تركيب شباك الألومنيوم العازل للصوت، الستائر الكهربائية، وواجهات الزجاج المقسى.",
+        craft_tag_6: "بناء وتلييس 🧱", craft_title_6: "أشغال البناء، المرطوب والتوسعة", craft_desc_6: "إصلاح الشقوق، بناء الجدران، تجديد المنازل، وهيكلة المساحات باحترافية.",
+        craft_tag_7: "جبس وديكور 🏛️", craft_title_7: "أسقف معلقة ونقش مغربي أصيل", craft_desc_7: "تركيب الجبس العصري، الإضاءة المخفية، وأحدث ديكورات البلاكو بلاتر (BA13).",
+        craft_tag_8: "زليج ورخام 🔲", craft_title_8: "تركيب السيراميك والرخام الفاخر", craft_desc_8: "تبليط الأرضيات، جدران الحمامات، المطابخ، وتلميع الرخام بفينيسيو ممتاز."
+      },
+      fr: {
+        dir: "ltr", brand_name: "M3allam 7rayfi", drawer_btn: "À propos 📋", nav_login: "Connexion", nav_register: "Inscription", btn_logout: "Déconnexion",
+        drawer_title: "M3allam 7rayfi • Menu Global", about_title: "À propos de la plateforme", about_desc: "La première plateforme au Maroc visant à connecter directement les clients aux meilleurs artisans en toute sécurité.", goals_title: "Nos Objectifs", goals_desc: "Soutenir les jeunes artisans et faciliter l'entretien de la maison pour les clients.", reviews_title: "Avis des Visiteurs", fb_title: "Notre Communauté Facebook", fb_link1: "Page Officielle", fb_link2: "Groupe Officiel", admin_spaces: "Espaces d'Administration", btn_staff: "Espace Staff", btn_owner: "Espace Propriétaire 👑",
+        fb_text: "Rejoignez la plus grande communauté sur Facebook :", fb_page: "Notre Page", fb_group: "Groupe Officiel",
+        hero_badge: "Les meilleurs artisans à votre service à tout moment !", hero_title: "Le lien entre les meilleurs artisans et les clients fiables", hero_desc: "Trouvez facilement les meilleurs professionnels de l'entretien, de la construction et de la décoration au Maroc.", hero_explore: "Découvrir les services", hero_post_btn: "Publier une annonce pro", hero_badge_click: "Galerie 📸", hero_img_sub: "Artisans professionnels au travail",
+        services_title: "Galeries par Métier (avec avis ⭐)", services_subtitle: "Chaque métier dispose de sa propre galerie de photos et d'évaluations réelles",
+        pro_form_title: "Demande de publication Pro", pro_form_subtitle: "Entrez vos informations pour proposer vos services", pro_lbl_name: "Nom / Atelier", pro_lbl_job: "Métier", pro_lbl_city: "Ville et Quartiers", pro_lbl_phone: "Numéro WhatsApp avec code", pro_lbl_bio: "Aperçu de vos services", pro_btn_submit: "Envoyer à l'administration",
+        cli_form_title: "Besoin d'un artisan ?", cli_form_subtitle: "Envoyez les détails pour une mise en relation", cli_lbl_srv: "Type de réparation / Artisan requis", cli_lbl_city: "Ville et Quartier (ou GPS)", cli_lbl_phone: "Numéro de téléphone avec code", cli_lbl_details: "Détails supplémentaires", cli_btn_submit: "Rechercher un artisan",
+        auth_title: "Connexion / Inscription", auth_subtitle: "Connectez-vous pour continuer", lbl_login_email: "Email", lbl_login_pass: "Mot de passe", lbl_name: "Nom Complet", lbl_email: "Email", lbl_phone: "Numéro de téléphone", lbl_pass: "Mot de passe (Min 8 caractères)", lbl_pass_confirm: "Confirmer le mot de passe", lbl_role: "Rôle", opt_client: "Client (Besoin d'une réparation)", opt_pro: "Artisan Pro (Proposer des services)", staff_modal_title: "Espace Staff et Employés",
+        craft_btn: "Demander cet artisan 🛠️",
+        craft_tag_1: "Plomberie 🚰", craft_title_1: "Réparation de fuites et sanitaire", craft_desc_1: "Traitement immédiat de toutes les pannes d'eau, installation de pompes et chauffe-eau.",
+        craft_tag_2: "Électricité ⚡", craft_title_2: "Réparation de tableaux et éclairage LED", craft_desc_2: "Entretien électrique domestique, installation d'éclairage moderne en toute sécurité.",
+        craft_tag_3: "Peinture 🎨", craft_title_3: "Peinture décorative, Khayal, Stucco", craft_desc_3: "Rénovation d'appartements et façades avec une finition haut de gamme.",
+        craft_tag_4: "Menuiserie 🪵", craft_title_4: "Portes sur mesure et Cuisines", craft_desc_4: "Conception et installation de placards, chambres et cuisines modernes.",
+        craft_tag_5: "Aluminium & Verre 🪟", craft_title_5: "Fenêtres, Portes et Façades", craft_desc_5: "Installation de fenêtres en aluminium, volets roulants et verre trempé.",
+        craft_tag_6: "Maçonnerie 🧱", craft_title_6: "Construction et Rénovation", craft_desc_6: "Réparation de fissures, construction de murs, et rénovation d'espaces.",
+        craft_tag_7: "Plâtre & Déco 🏛️", craft_title_7: "Faux plafonds et motifs marocains", craft_desc_7: "Installation de plâtre moderne, éclairage caché et BA13.",
+        craft_tag_8: "Carrelage & Marbre 🔲", craft_title_8: "Pose de céramique et marbre", craft_desc_8: "Revêtement de sols, salles de bains, cuisines et polissage du marbre."
+      },
+      en: {
+        dir: "ltr", brand_name: "M3allam 7rayfi", drawer_btn: "About 📋", nav_login: "Login", nav_register: "Register", btn_logout: "Logout",
+        drawer_title: "M3allam 7rayfi • Main Menu", about_title: "About the Platform", about_desc: "The first platform in Morocco aiming to connect customers directly with top professional craftsmen safely.", goals_title: "Our Goals", goals_desc: "Empowering young craftsmen and making home maintenance easier for clients.", reviews_title: "Visitor Reviews", fb_title: "Our Facebook Community", fb_link1: "Official Page", fb_link2: "Official Group", admin_spaces: "Admin Spaces", btn_staff: "Staff Area", btn_owner: "Owner Area 👑",
+        fb_text: "Join the largest community on Facebook:", fb_page: "Our Page", fb_group: "Official Group",
+        hero_badge: "Top craftsmen at your service anytime, anywhere!", hero_title: "Connecting top craftsmen with reliable clients", hero_desc: "Easily find the best skilled professionals in maintenance, construction, and decoration in Morocco.", hero_explore: "Explore Services", hero_post_btn: "Post Pro Ad", hero_badge_click: "Gallery 📸", hero_img_sub: "Professional craftsmen at work",
+        services_title: "Craft Galleries (with Reviews ⭐)", services_subtitle: "Each craft has its own photo gallery and real customer reviews",
+        pro_form_title: "Pro Ad Request", pro_form_subtitle: "Enter your details to offer your services", pro_lbl_name: "Name / Workshop", pro_lbl_job: "Craft", pro_lbl_city: "City & Areas", pro_lbl_phone: "WhatsApp Number with code", pro_lbl_bio: "Service Overview", pro_btn_submit: "Send to Admin",
+        cli_form_title: "Need a Craftsman?", cli_form_subtitle: "Send details for instant connection", cli_lbl_srv: "Type of Repair / Craftsman Needed", cli_lbl_city: "City & Neighborhood (or GPS)", cli_lbl_phone: "Phone Number with code", cli_lbl_details: "Additional Details", cli_btn_submit: "Search for Craftsman",
+        auth_title: "Login / Register", auth_subtitle: "Login to continue", lbl_login_email: "Email", lbl_login_pass: "Password", lbl_name: "Full Name", lbl_email: "Email", lbl_phone: "Phone Number", lbl_pass: "Password (Min 8 characters)", lbl_pass_confirm: "Confirm Password", lbl_role: "Role", opt_client: "Client (Need a repair)", opt_pro: "Pro Craftsman (Offer services)", staff_modal_title: "Staff & Employee Area",
+        craft_btn: "Request this pro now 🛠️",
+        craft_tag_1: "Plumbing 🚰", craft_title_1: "Leak Repair & Sanitary", craft_desc_1: "Immediate treatment of all water issues, pump and heater installation.",
+        craft_tag_2: "Electrical ⚡", craft_title_2: "Panel Repair & LED Lighting", craft_desc_2: "Home electrical maintenance, safe installation of modern lighting.",
+        craft_tag_3: "Painting 🎨", craft_title_3: "Decorative Paint & Stucco", craft_desc_3: "Apartment and facade renovation with high-end finishing.",
+        craft_tag_4: "Carpentry 🪵", craft_title_4: "Custom Doors & Kitchens", craft_desc_4: "Design and installation of closets, bedrooms, and modern kitchens.",
+        craft_tag_5: "Aluminum & Glass 🪟", craft_title_5: "Windows, Doors & Facades", craft_desc_5: "Installation of aluminum windows, roller shutters, and tempered glass.",
+        craft_tag_6: "Masonry 🧱", craft_title_6: "Construction & Expansion", craft_desc_6: "Crack repair, wall construction, and space renovation.",
+        craft_tag_7: "Plaster & Deco 🏛️", craft_title_7: "Dropped ceilings & Moroccan motifs", craft_desc_7: "Modern plaster installation, hidden lighting, and BA13.",
+        craft_tag_8: "Tiling & Marble 🔲", craft_title_8: "Ceramic & Marble Installation", craft_desc_8: "Floor tiling, bathrooms, kitchens, and marble polishing."
+      },
+      it: {
+        dir: "ltr", brand_name: "M3allam 7rayfi", drawer_btn: "Info 📋", nav_login: "Accesso", nav_register: "Registrati", btn_logout: "Esci",
+        drawer_title: "M3allam 7rayfi • Menu", about_title: "Informazioni sulla Piattaforma", about_desc: "La prima piattaforma in Marocco per connettere i clienti direttamente con i migliori artigiani senza commissioni.", goals_title: "I Nostri Obiettivi", goals_desc: "Sostenere i giovani artigiani e facilitare la manutenzione della casa.", reviews_title: "Recensioni", fb_title: "Comunità Facebook", fb_link1: "Pagina Ufficiale", fb_link2: "Gruppo Ufficiale", admin_spaces: "Amministrazione", btn_staff: "Area Staff", btn_owner: "Area Proprietario 👑",
+        fb_text: "Unisciti alla più grande comunità su Facebook:", fb_page: "La Nostra Pagina", fb_group: "Gruppo Ufficiale",
+        hero_badge: "I migliori artigiani al tuo servizio!", hero_title: "Il ponte tra i migliori artigiani e i clienti affidabili", hero_desc: "Trova facilmente i migliori professionisti in manutenzione e costruzione in Marocco.", hero_explore: "Esplora i Servizi", hero_post_btn: "Pubblica Annuncio Pro", hero_badge_click: "Galleria 📸", hero_img_sub: "Artigiani al lavoro",
+        services_title: "Gallerie Artigiani (con Recensioni ⭐)", services_subtitle: "Ogni mestiere ha la propria galleria fotografica",
+        pro_form_title: "Richiesta Annuncio Pro", pro_form_subtitle: "Inserisci i tuoi dati per offrire i tuoi servizi", pro_lbl_name: "Nome / Officina", pro_lbl_job: "Mestiere", pro_lbl_city: "Città e Zone", pro_lbl_phone: "Numero WhatsApp", pro_lbl_bio: "Descrizione servizi", pro_btn_submit: "Invia per pubblicazione",
+        cli_form_title: "Hai bisogno di un artigiano?", cli_form_subtitle: "Invia i dettagli", cli_lbl_srv: "Tipo di riparazione", cli_lbl_city: "Città e Quartiere", cli_lbl_phone: "Numero di telefono", cli_lbl_details: "Dettagli aggiuntivi", cli_btn_submit: "Cerca Artigiano",
+        auth_title: "Accesso / Registrazione", auth_subtitle: "Accedi per continuare", lbl_login_email: "Email", lbl_login_pass: "Password", lbl_name: "Nome Completo", lbl_email: "Email", lbl_phone: "Numero di telefono", lbl_pass: "Password (Min 8)", lbl_pass_confirm: "Conferma Password", lbl_role: "Ruolo", opt_client: "Cliente", opt_pro: "Artigiano Pro", staff_modal_title: "Area Staff",
+        craft_btn: "Richiedi questo professionista 🛠️",
+        craft_tag_1: "Idraulico 🚰", craft_title_1: "Riparazione perdite", craft_desc_1: "Trattamento immediato per problemi d'acqua.",
+        craft_tag_2: "Elettricista ⚡", craft_title_2: "Riparazione e Illuminazione", craft_desc_2: "Manutenzione elettrica e installazione luci.",
+        craft_tag_3: "Pittura 🎨", craft_title_3: "Pittura e Decorazione", craft_desc_3: "Rinnovamento appartamenti e facciate.",
+        craft_tag_4: "Falegnameria 🪵", craft_title_4: "Porte e Cucine", craft_desc_4: "Progettazione e installazione di armadi e cucine.",
+        craft_tag_5: "Alluminio & Vetro 🪟", craft_title_5: "Finestre e Porte", craft_desc_5: "Installazione di finestre in alluminio.",
+        craft_tag_6: "Muratura 🧱", craft_title_6: "Costruzione", craft_desc_6: "Costruzione di muri e rinnovamento spazi.",
+        craft_tag_7: "Gesso & Deco 🏛️", craft_title_7: "Soffitti e Decorazioni", craft_desc_7: "Installazione di gesso moderno.",
+        craft_tag_8: "Piastrelle & Marmo 🔲", craft_title_8: "Ceramica e Marmo", craft_desc_8: "Rivestimento di pavimenti e bagni."
+      },
+      es: {
+        dir: "ltr", brand_name: "M3allam 7rayfi", drawer_btn: "Acerca 📋", nav_login: "Iniciar sesión", nav_register: "Registrarse", btn_logout: "Cerrar sesión",
+        drawer_title: "M3allam 7rayfi • Menú", about_title: "Sobre la Plataforma", about_desc: "La primera plataforma en Marruecos para conectar a los clientes con los mejores artesanos sin intermediarios.", goals_title: "Nuestros Objetivos", goals_desc: "Empoderar a los jóvenes artesanos y facilitar el mantenimiento del hogar.", reviews_title: "Reseñas de Visitantes", fb_title: "Nuestra Comunidad en Facebook", fb_link1: "Página Oficial", fb_link2: "Grupo Oficial", admin_spaces: "Administración", btn_staff: "Área de Staff", btn_owner: "Área del Propietario 👑",
+        fb_text: "Únete a la mayor comunidad en Facebook:", fb_page: "Nuestra Página", fb_group: "Grupo Oficial",
+        hero_badge: "¡Los mejores artesanos a tu servicio!", hero_title: "Conectando a los mejores artesanos con clientes de confianza", hero_desc: "Encuentra fácilmente a los mejores profesionales en mantenimiento y construcción en Marruecos.", hero_explore: "Explorar Servicios", hero_post_btn: "Publicar Anuncio Pro", hero_badge_click: "Galería 📸", hero_img_sub: "Artesanos profesionales trabajando",
+        services_title: "Galerías de Oficios (con Reseñas ⭐)", services_subtitle: "Cada oficio tiene su propia galería de fotos",
+        pro_form_title: "Solicitud de Anuncio Pro", pro_form_subtitle: "Ingresa tus detalles para ofrecer tus servicios", pro_lbl_name: "Nombre / Taller", pro_lbl_job: "Oficio", pro_lbl_city: "Ciudad y Zonas", pro_lbl_phone: "Número de WhatsApp", pro_lbl_bio: "Descripción de servicios", pro_btn_submit: "Enviar para publicación",
+        cli_form_title: "¿Necesitas un artesano?", cli_form_subtitle: "Envía los detalles", cli_lbl_srv: "Tipo de reparación", cli_lbl_city: "Ciudad y Barrio", cli_lbl_phone: "Número de teléfono", cli_lbl_details: "Detalles adicionales", cli_btn_submit: "Buscar Artesano",
+        auth_title: "Iniciar sesión / Registrarse", auth_subtitle: "Inicia sesión para continuar", lbl_login_email: "Correo electrónico", lbl_login_pass: "Contraseña", lbl_name: "Nombre completo", lbl_email: "Correo electrónico", lbl_phone: "Teléfono", lbl_pass: "Contraseña (Mínimo 8)", lbl_pass_confirm: "Confirmar Contraseña", lbl_role: "Rol", opt_client: "Cliente", opt_pro: "Artesano Pro", staff_modal_title: "Área de Staff",
+        craft_btn: "Solicitar este profesional 🛠️",
+        craft_tag_1: "Fontanería 🚰", craft_title_1: "Reparación de fugas", craft_desc_1: "Tratamiento inmediato para problemas de agua.",
+        craft_tag_2: "Electricidad ⚡", craft_title_2: "Iluminación y Paneles", craft_desc_2: "Mantenimiento eléctrico del hogar.",
+        craft_tag_3: "Pintura 🎨", craft_title_3: "Pintura Decorativa", craft_desc_3: "Renovación de apartamentos y fachadas.",
+        craft_tag_4: "Carpintería 🪵", craft_title_4: "Puertas y Cocinas", craft_desc_4: "Diseño e instalación de armarios.",
+        craft_tag_5: "Aluminio y Vidrio 🪟", craft_title_5: "Ventanas y Puertas", craft_desc_5: "Instalación de ventanas de aluminio.",
+        craft_tag_6: "Albañilería 🧱", craft_title_6: "Construcción", craft_desc_6: "Construcción de muros y renovación.",
+        craft_tag_7: "Yeso y Decoración 🏛️", craft_title_7: "Techos y motivos", craft_desc_7: "Instalación de yeso moderno.",
+        craft_tag_8: "Azulejos y Mármol 🔲", craft_title_8: "Instalación de Cerámica", craft_desc_8: "Revestimiento de suelos y baños."
+      },
+      zh: {
+        dir: "ltr", brand_name: "M3allam 7rayfi", drawer_btn: "关于 📋", nav_login: "登录", nav_register: "注册", btn_logout: "登出",
+        drawer_title: "M3allam 7rayfi • 菜单", about_title: "关于平台", about_desc: "摩洛哥首个直接将客户与顶尖工匠联系起来的平台，安全且无中介费。", goals_title: "我们的目标", goals_desc: "为年轻工匠赋能，让家庭维护更轻松。", reviews_title: "游客评论", fb_title: "我们的 Facebook 社区", fb_link1: "官方主页", fb_link2: "官方群组", admin_spaces: "管理区域", btn_staff: "员工专区", btn_owner: "所有者专区 👑",
+        fb_text: "加入最大的 Facebook 社区：", fb_page: "主页", fb_group: "官方群组",
+        hero_badge: "顶尖工匠随时为您服务！", hero_title: "连接顶尖工匠与可靠客户", hero_desc: "轻松找到摩洛哥最优秀的维护、建筑和装饰专业人员。", hero_explore: "探索服务", hero_post_btn: "发布专业广告", hero_badge_click: "画廊 📸", hero_img_sub: "工作中的专业工匠",
+        services_title: "工匠画廊 (含评论 ⭐)", services_subtitle: "每个工艺都有自己的照片库和真实评论",
+        pro_form_title: "专业广告请求", pro_form_subtitle: "输入您的信息以提供服务", pro_lbl_name: "姓名 / 工作室", pro_lbl_job: "工艺", pro_lbl_city: "城市和地区", pro_lbl_phone: "WhatsApp 号码", pro_lbl_bio: "服务概述", pro_btn_submit: "提交发布",
+        cli_form_title: "需要工匠？", cli_form_subtitle: "发送详细信息", cli_lbl_srv: "维修类型", cli_lbl_city: "城市和街区", cli_lbl_phone: "电话号码", cli_lbl_details: "附加详细信息", cli_btn_submit: "寻找工匠",
+        auth_title: "登录 / 注册", auth_subtitle: "登录以继续", lbl_login_email: "电子邮件", lbl_login_pass: "密码", lbl_name: "全名", lbl_email: "电子邮件", lbl_phone: "电话", lbl_pass: "密码 (至少 8 位)", lbl_pass_confirm: "确认密码", lbl_role: "角色", opt_client: "客户", opt_pro: "专业工匠", staff_modal_title: "员工区域",
+        craft_btn: "立即预约 🛠️",
+        craft_tag_1: "水管工 🚰", craft_title_1: "漏水修复", craft_desc_1: "立即处理所有水管问题。",
+        craft_tag_2: "电工 ⚡", craft_title_2: "照明与面板", craft_desc_2: "家庭电气维护。",
+        craft_tag_3: "油漆 🎨", craft_title_3: "装饰漆", craft_desc_3: "公寓和外墙翻新。",
+        craft_tag_4: "木工 🪵", craft_title_4: "定制门和厨房", craft_desc_4: "设计和安装橱柜。",
+        craft_tag_5: "铝和玻璃 🪟", craft_title_5: "门窗", craft_desc_5: "安装铝合金窗户。",
+        craft_tag_6: "砖石 🧱", craft_title_6: "建筑与翻新", craft_desc_6: "墙壁建设和空间翻新。",
+        craft_tag_7: "石膏 🏛️", craft_title_7: "天花板与装饰", craft_desc_7: "现代石膏安装。",
+        craft_tag_8: "瓷砖与大理石 🔲", craft_title_8: "陶瓷安装", craft_desc_8: "地砖和浴室铺设。"
+      }
+    };
+
+    function toggleSidebar(open) {
+      const drawer = document.getElementById('sidebarDrawer');
+      const overlay = document.getElementById('sidebarOverlay');
+      const isRtl = document.getElementById('htmlRoot').getAttribute('dir') === 'rtl';
+      
+      if (open) {
+        overlay.classList.remove('hidden');
+        if (isRtl) drawer.classList.remove('translate-x-full');
+        else drawer.classList.remove('-translate-x-full');
+      } else {
+        if (isRtl) drawer.classList.add('translate-x-full');
+        else drawer.classList.add('-translate-x-full');
+        overlay.classList.add('hidden');
+      }
+    }
+
+    function changeLanguage(lang) {
+      const t = translations[lang] || translations.ar;
+      const html = document.getElementById('htmlRoot');
+      html.setAttribute('dir', t.dir);
+      html.setAttribute('lang', lang);
+
+      const drawer = document.getElementById('sidebarDrawer');
+      if (drawer) {
+        if (t.dir === 'rtl') {
+          drawer.classList.remove('left-0', '-translate-x-full');
+          drawer.classList.add('right-0', 'translate-x-full');
+        } else {
+          drawer.classList.remove('right-0', 'translate-x-full');
+          drawer.classList.add('left-0', '-translate-x-full');
+        }
+      }
+
+      for (const [key, val] of Object.entries(t)) {
+        if (key === 'dir') continue;
+        const el = document.getElementById(`t_${key}`);
+        if (el) el.innerHTML = val;
+      }
+      
+      localStorage.setItem('m3allam_lang', lang);
+      renderCraftsSliders();
+      renderDrawerClientAds();
+      renderDrawerReviews();
+    }
+
+    function applyCurrentLanguageToDynamicElements() {
+      const savedLang = localStorage.getItem('m3allam_lang') || 'ar';
+      const select = document.getElementById('langSelect');
+      if (select) select.value = savedLang;
+      changeLanguage(savedLang);
+    }
+
+    window.addEventListener('DOMContentLoaded', async () => {
+      await trackVisitor(); 
+      renderCraftsSliders();
+      await syncCloudSettings();
+
+      const savedLang = localStorage.getItem('m3allam_lang') || 'ar';
+      const select = document.getElementById('langSelect');
+      if (select) select.value = savedLang;
+      changeLanguage(savedLang);
+
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (session) setLoggedInState(session.user);
+    });
+
+    async function syncCloudSettings() {
+      try {
+        const { data: craftSettings } = await supabaseClient.from('client_leads').select('*').eq('type', '__SITE_CRAFTS_CONFIG__').limit(1);
+        if (craftSettings && craftSettings.length > 0 && craftSettings[0].details) {
+          let parsed = JSON.parse(craftSettings[0].details);
+          if (Array.isArray(parsed) && parsed.length > 0 && parsed[0].titleKey) {
+             craftsData = parsed;
+          }
+        }
+      } catch(e) {}
+
+      try {
+        const { data: adsCloud } = await supabaseClient.from('client_leads').select('*').eq('type', '__PUBLISHED_AD__').order('id', { ascending: false });
+        if (adsCloud && adsCloud.length > 0) {
+          const fetched = adsCloud.map(a => ({ dbId: a.id, ...JSON.parse(a.details) }));
+          publishedAds = [...fetched, ...publishedAds.filter(b => !fetched.some(f => f.title === b.title))];
+        }
+      } catch(e) {}
+
+      try {
+        const { data: reviewsCloud } = await supabaseClient.from('client_leads').select('*').eq('type', '__SITE_REVIEW__').order('id', { ascending: false });
+        if (reviewsCloud && reviewsCloud.length > 0) {
+          const fetchedRev = reviewsCloud.map(r => JSON.parse(r.details));
+          reviewsData = [...fetchedRev, ...reviewsData];
+        }
+      } catch(e) {}
+
+      renderCraftsSliders();
+      renderDrawerClientAds();
+      renderDrawerReviews();
+      applyCurrentLanguageToDynamicElements();
+    }
+
+    function renderCraftsSliders() {
+      const grid = document.getElementById('craftsSlidersGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      const currentLang = document.getElementById('langSelect')?.value || 'ar';
+      const tObj = translations[currentLang] || translations.ar;
+      const craftBtnText = tObj.craft_btn || "طلب هاد المعلم دابا 🛠️";
+
+      craftsData.forEach((craft, craftIdx) => {
+        let imagesHtml = '';
+        const validImgs = (craft.images && craft.images.length > 0) ? craft.images : ["https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&w=800&q=80"];
+        
+        const displayTag = tObj[craft.tagKey] || craft.tag || craft.defaultTag || '';
+        const displayTitle = tObj[craft.titleKey] || craft.title || craft.defaultTitle || '';
+        const displayDesc = tObj[craft.descKey] || craft.desc || craft.defaultDesc || '';
+
+        validImgs.forEach((imgUrl, imgIdx) => {
+          imagesHtml += `
+            <div class="min-w-full h-52 relative rounded-2xl overflow-hidden flex-shrink-0 bg-slate-100 font-bold cursor-pointer" onclick="openCraftLightbox(${craftIdx}, ${imgIdx})">
+              <img src="${imgUrl}" referrerpolicy="no-referrer" class="w-full h-full object-cover hover:scale-105 transition duration-300" alt="Service Photo">
+              <span class="absolute top-3 right-3 ${craft.badgeColor} text-[11px] font-black px-3 py-1 rounded-lg shadow">${displayTag}</span>
+              <span class="absolute bottom-2 left-2 bg-white/90 text-blue-900 text-[10px] font-black px-2 py-0.5 rounded border border-blue-200">صورة ${imgIdx + 1} / ${validImgs.length} (🔍)</span>
+            </div>
+          `;
+        });
+
+        const card = document.createElement('div');
+        card.className = "blue-box rounded-3xl shadow-xl p-5 flex flex-col justify-between space-y-4 font-bold";
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="${craft.badgeColor} text-xs font-black px-3 py-1 rounded-xl shadow">${displayTag}</span>
+              <div class="flex items-center gap-1 bg-white px-3 py-1 rounded-full border border-blue-200 text-blue-700 text-xs font-black">
+                <i class="fa-solid fa-star text-amber-500"></i>
+                <span>${craft.rating}</span>
+                <span class="text-[10px] text-slate-500 font-extrabold">(${craft.reviewsCount})</span>
+              </div>
+            </div>
+            <h3 class="font-black text-lg text-blue-950">${displayTitle}</h3>
+            <p class="text-xs sm:text-sm text-blue-900 font-extrabold mt-1.5 leading-relaxed">${displayDesc}</p>
+          </div>
+
+          <div class="relative overflow-hidden rounded-2xl group border border-blue-200 bg-white">
+            <div id="slider_${craftIdx}" class="flex overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory">
+              ${imagesHtml}
+            </div>
+            <button onclick="moveCraftSlider(${craftIdx}, 'right')" class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white text-blue-950 shadow-lg flex items-center justify-center text-xs font-black hover:bg-blue-600 hover:text-white transition border border-blue-200">
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+            <button onclick="moveCraftSlider(${craftIdx}, 'left')" class="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white text-blue-950 shadow-lg flex items-center justify-center text-xs font-black hover:bg-blue-600 hover:text-white transition border border-blue-200">
+              <i class="fa-solid fa-chevron-left"></i>
+            </button>
+          </div>
+
+          <button onclick="requireAuthAction('client')" class="w-full blue-btn text-white font-black text-xs sm:text-sm py-3.5 rounded-xl transition shadow">${craftBtnText}</button>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function moveCraftSlider(craftIdx, direction) {
+      const slider = document.getElementById(`slider_${craftIdx}`);
+      if (!slider) return;
+      const scrollAmount = slider.clientWidth;
+      if (direction === 'left') {
+        slider.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+      } else {
+        slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      }
+    }
+
+    function renderDrawerClientAds() {
+      const section = document.getElementById('drawerClientAdsSection');
+      const list = document.getElementById('drawerClientAdsList');
+      if (!section || !list) return;
+      if (publishedAds.length === 0) {
+        section.classList.add('hidden');
+        return;
+      }
+      section.classList.remove('hidden');
+      list.innerHTML = '';
+
+      publishedAds.forEach((ad, adIdx) => {
+        const cleanPhone = (ad.phone || '').replace(/[^0-9]/g, '');
+        const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ad.city || '')}`;
+        let urls = (ad.mediaUrls && ad.mediaUrls.length > 0) ? ad.mediaUrls : [ad.mediaUrl || "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80"];
+        
+        const card = document.createElement('div');
+        card.className = "bg-white p-3.5 rounded-2xl border border-blue-200 space-y-2 text-slate-900 font-bold cursor-pointer hover:border-blue-500 transition shadow-sm";
+        card.innerHTML = `
+          <img src="${urls[0]}" referrerpolicy="no-referrer" class="w-full h-36 object-cover rounded-xl border border-blue-200 mb-2 hover:opacity-90 transition" alt="Ad" onclick="openAdLightbox(${adIdx}, 0)">
+          <div onclick="openAdLightbox(${adIdx}, 0)" class="space-y-1.5">
+            <a href="${mapsUrl}" target="_blank" class="text-[10px] bg-blue-50 text-blue-700 px-2.5 py-1 rounded-full border border-blue-200 inline-block font-black">📍 ${ad.city || ''}</a>
+            <h4 class="font-black text-sm sm:text-base text-blue-950">${ad.title || ''}</h4>
+            <p class="text-xs text-slate-700 font-extrabold leading-relaxed">${ad.desc || ''}</p>
+            <span class="block text-[11px] text-blue-600 font-black"><i class="fa-solid fa-images ml-1"></i> (${urls.length} 📸)</span>
+          </div>
+          <a href="https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodeURIComponent('السلام عليكم، تواصلت معك من موقع معلم حريفي بخصوص إعلانك: ' + (ad.title || ''))}" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs py-2.5 rounded-xl transition text-center shadow block border border-emerald-400 font-black mt-2">
+            <i class="fa-brands fa-whatsapp"></i>
+          </a>
+        `;
+        list.appendChild(card);
+      });
+    }
+
+    function openAdLightbox(adIdx, imgIdx) {
+      const ad = publishedAds[adIdx];
+      currentLightboxAlbum = ad.mediaUrls || [ad.mediaUrl];
+      currentLightboxIndex = imgIdx;
+      
+      document.getElementById('lightboxTitle').textContent = ad.title || '';
+      document.getElementById('lightboxDesc').textContent = ad.desc || '';
+      const cleanPhone = (ad.phone || '').replace(/[^0-9]/g, '');
+      document.getElementById('lightboxWhatsapp').href = `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodeURIComponent('السلام عليكم، تواصلت معك من موقع معلم حريفي بخصوص إعلانك: ' + (ad.title || ''))}`;
+      document.getElementById('lightboxWhatsapp').classList.remove('hidden');
+
+      updateLightboxView();
+      document.getElementById('lightboxModal').classList.remove('hidden');
+      toggleSidebar(false);
+    }
+
+    function openCraftLightbox(craftIdx, imgIdx) {
+      const craft = craftsData[craftIdx];
+      currentLightboxAlbum = craft.images || ["https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&w=800&q=80"];
+      currentLightboxIndex = imgIdx;
+      
+      const currentLang = document.getElementById('langSelect')?.value || 'ar';
+      const tObj = translations[currentLang] || translations.ar;
+      
+      document.getElementById('lightboxTitle').textContent = tObj[craft.titleKey] || craft.title || craft.defaultTitle || '';
+      document.getElementById('lightboxDesc').textContent = tObj[craft.descKey] || craft.desc || craft.defaultDesc || '';
+      document.getElementById('lightboxWhatsapp').classList.add('hidden');
+
+      updateLightboxView();
+      document.getElementById('lightboxModal').classList.remove('hidden');
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightboxModal').classList.add('hidden');
+    }
+
+    function updateLightboxView() {
+      if (currentLightboxAlbum.length === 0) return;
+      const imgElem = document.getElementById('lightboxImage');
+      imgElem.src = currentLightboxAlbum[currentLightboxIndex];
+      document.getElementById('lightboxCounter').textContent = `${currentLightboxIndex + 1} / ${currentLightboxAlbum.length}`;
+    }
+
+    function nextLightboxImage() {
+      if (currentLightboxAlbum.length === 0) return;
+      currentLightboxIndex = (currentLightboxIndex + 1) % currentLightboxAlbum.length;
+      updateLightboxView();
+    }
+
+    function prevLightboxImage() {
+      if (currentLightboxAlbum.length === 0) return;
+      currentLightboxIndex = (currentLightboxIndex - 1 + currentLightboxAlbum.length) % currentLightboxAlbum.length;
+      updateLightboxView();
+    }
+
+    function renderDrawerReviews() {
+      const container = document.getElementById('drawerReviewsList');
+      if (!container) return;
+      container.innerHTML = '';
+      reviewsData.forEach(r => {
+        let stars = '⭐'.repeat(r.rating || 5);
+        const card = document.createElement('div');
+        card.className = "bg-white p-3 rounded-xl border border-blue-200 space-y-1 text-xs font-bold text-slate-900 shadow-sm";
+        card.innerHTML = `
+          <div class="flex items-center justify-between font-black">
+            <span class="font-black text-blue-950 text-sm">${r.name || 'مجهول'}</span>
+            <span class="text-amber-500 text-xs">${stars}</span>
+          </div>
+          <p class="text-slate-700 font-extrabold leading-relaxed text-xs">${r.comment || ''}</p>
+          <span class="block text-[9px] text-slate-400 font-bold text-left">${r.date || ''}</span>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function setLoggedInState(user) {
+      currentUser = user;
+      document.getElementById('authNavButtons').classList.add('hidden');
+      document.getElementById('userProfileNav').classList.remove('hidden');
+      const name = user.user_metadata?.full_name || user.email;
+      document.getElementById('userGreeting').textContent = `${name}`;
+    }
+
+    function requireAuthAction(actionType) {
+      if (!currentUser) {
+        openAuthModal('register');
+        showAuthAlert('يرجى إنشاء حساب أو تسجيل الدخول أولاً لإرسال طلبك ومتابعة المعالجة.');
+      } else {
+        window.scrollTo({ top: document.querySelector('form').offsetTop - 100, behavior: 'smooth' });
+      }
+    }
+
+    function openAuthModal(tab = 'login') {
+      document.getElementById('authModal').classList.remove('hidden');
+      switchAuthTab(tab);
+    }
+    function closeAuthModal() {
+      document.getElementById('authModal').classList.add('hidden');
+    }
+
+    function showAuthAlert(msg, isSuccess = false) {
+      const alert = document.getElementById('authAlert');
+      if (!alert) return;
+      alert.textContent = msg;
+      alert.className = `mb-4 p-3 rounded-xl text-xs font-black leading-relaxed ${isSuccess ? 'bg-emerald-100 text-emerald-900 border border-emerald-300' : 'bg-rose-100 text-rose-900 border border-rose-300'}`;
+      alert.classList.remove('hidden');
+    }
+
+    function switchAuthTab(type) {
+      const alert = document.getElementById('authAlert');
+      if (alert) alert.classList.add('hidden');
+      const tabReg = document.getElementById('tabRegister');
+      const tabLog = document.getElementById('tabLogin');
+      if (type === 'register') {
+        document.getElementById('registerForm').classList.remove('hidden');
+        document.getElementById('loginForm').classList.add('hidden');
+        if (tabReg) tabReg.className = "flex-1 py-2 rounded-lg bg-sky-100 shadow-sm text-blue-950 font-black transition";
+        if (tabLog) tabLog.className = "flex-1 py-2 rounded-lg text-slate-600 font-black transition";
+      } else {
+        document.getElementById('loginForm').classList.remove('hidden');
+        document.getElementById('registerForm').classList.add('hidden');
+        if (tabLog) tabLog.className = "flex-1 py-2 rounded-lg bg-sky-100 shadow-sm text-blue-950 font-black transition";
+        if (tabReg) tabReg.className = "flex-1 py-2 rounded-lg text-slate-600 font-black transition";
+      }
+    }
+
+    async function handleSupabaseRegister(e) {
+      e.preventDefault();
+      const password = document.getElementById('reg_pass').value;
+      const confirmPassword = document.getElementById('reg_pass_confirm').value;
+
+      if (password !== confirmPassword) {
+        showAuthAlert('كلمتا المرور غير متطابقتين!');
+        return;
+      }
+      if (password.length < 8) {
+        showAuthAlert('كلمة المرور يجب أن تتكون من 8 أحرف/أرقام على الأقل.');
+        return;
+      }
+
+      const fullPhone = document.getElementById('reg_country_code').value + document.getElementById('reg_phone').value.trim();
+      const email = document.getElementById('reg_email').value;
+      const fullName = document.getElementById('reg_name').value;
+      const role = document.getElementById('reg_role').value;
+
+      const { data, error } = await supabaseClient.auth.signUp({
+        email, password,
+        options: { data: { full_name: fullName, phone: fullPhone, role } }
+      });
+
+      if (error) showAuthAlert(error.message);
+      else showAuthAlert('تم إنشاء الحساب بنجاح! تفقد بريدك لتأكيده.', true);
+    }
+
+    async function handleSupabaseLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('login_email').value;
+      const password = document.getElementById('login_pass').value;
+
+      const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+
+      if (error) {
+        showAuthAlert('معلومات الدخول غير صحيحة أو الحساب غير مفعل.');
+      } else {
+        closeAuthModal();
+        setLoggedInState(data.user);
+      }
+    }
+
+    async function handleSupabaseLogout() {
+      sessionStorage.clear();
+      await supabaseClient.auth.signOut();
+      location.reload();
+    }
+
+    async function handleFormSubmission(e, type) {
+      e.preventDefault();
+      if (!currentUser) {
+        openAuthModal('register');
+        showAuthAlert('يرجى إنشاء حساب أولاً.');
+        return;
+      }
+
+      let record = {};
+      let text = "";
+
+      if (type === 'pro') {
+        const fullPhone = document.getElementById('pro_country_code').value + document.getElementById('pro_phone').value.trim();
+        const name = document.getElementById('pro_name').value;
+        const job = document.getElementById('pro_job').value;
+        const city = document.getElementById('pro_city').value;
+        const bio = document.getElementById('pro_bio').value;
+        
+        record = { type: 'إشهار حريفي 📢', name, job, city, phone: fullPhone, details: bio };
+        text = `*طلب نشر إشهار حريفي 📢*%0A*المعلم:* ${name}%0A*الحرفة:* ${job}%0A*المدينة:* ${city}%0A*الواتساب:* ${fullPhone}%0A*التفاصيل:* ${bio}`;
+      } else {
+        const fullPhone = document.getElementById('cli_country_code').value + document.getElementById('cli_phone').value.trim();
+        const srv = document.getElementById('cli_service').value;
+        const city = document.getElementById('cli_city').value;
+        const details = document.getElementById('cli_details').value;
+
+        record = { type: 'طلب إصلاح 🛠️', name: 'زبون', job: srv, city, phone: fullPhone, details };
+        text = `*طلب البحث عن معلم 🛠️*%0A*الخدمة:* ${srv}%0A*المدينة/العنوان GPS:* ${city}%0A*الهاتف:* ${fullPhone}%0A*التفاصيل:* ${details}`;
+      }
+
+      await supabaseClient.from('client_leads').insert([record]);
+      window.open(`${ADMIN_WA_LINK}?text=${text}`, '_blank');
+    }
+
+    function openStaffModal() {
+      closeAuthModal();
+      const modal = document.getElementById('staffAuthModal');
+      if (modal) modal.classList.remove('hidden');
+    }
+    function closeStaffModal() {
+      const modal = document.getElementById('staffAuthModal');
+      if (modal) modal.classList.add('hidden');
+    }
+    function openOwnerPinModal() {
+      closeAuthModal();
+      const modal = document.getElementById('ownerPinModal');
+      if (modal) modal.classList.remove('hidden');
+    }
+    function closeOwnerPinModal() {
+      const modal = document.getElementById('ownerPinModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function handleOwnerAuth(e) {
+      e.preventDefault();
+      const pinElem = document.getElementById('ownerSecretPin');
+      if (!pinElem) return;
+      const pin = pinElem.value;
+      if (pin === OWNER_PIN) {
+        closeOwnerPinModal();
+        openOwnerDashboard();
+      } else {
+        const err = document.getElementById('ownerPinError');
+        if (err) err.classList.remove('hidden');
+      }
+    }
+
+    function openOwnerDashboard() {
+      const modal = document.getElementById('ownerDashboardModal');
+      if (modal) modal.classList.remove('hidden');
+      loadOwnerDataCloud();
+      loadOwnerStaffDataCloud();
+      loadCMSData();
+      loadPublishedAdsCMS();
+    }
+    function closeOwnerDashboard() {
+      const modal = document.getElementById('ownerDashboardModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function switchOwnerView(view) {
+      document.getElementById('ownerLeadsView').classList.add('hidden');
+      document.getElementById('ownerStaffView').classList.add('hidden');
+      document.getElementById('ownerCMSView').classList.add('hidden');
+      document.getElementById('ownerPublishAdView').classList.add('hidden');
+
+      btnTabLeads.className = "px-4 py-2 rounded-xl font-black text-xs bg-white text-blue-900 border border-blue-200 transition";
+      btnTabStaff.className = "px-4 py-2 rounded-xl font-black text-xs bg-white text-blue-900 border border-blue-200 transition";
+      btnTabCMS.className = "px-4 py-2 rounded-xl font-black text-xs bg-white text-blue-900 border border-blue-200 transition";
+      btnTabPublishAd.className = "px-4 py-2 rounded-xl font-black text-xs bg-white text-blue-900 border border-blue-200 transition";
+
+      if (view === 'leads') {
+        document.getElementById('ownerLeadsView').classList.remove('hidden');
+        btnTabLeads.className = "px-4 py-2 rounded-xl font-black text-xs bg-blue-600 text-white shadow-sm transition";
+        loadOwnerDataCloud();
+      } else if (view === 'staff') {
+        document.getElementById('ownerStaffView').classList.remove('hidden');
+        btnTabStaff.className = "px-4 py-2 rounded-xl font-black text-xs bg-blue-600 text-white shadow-sm transition";
+        loadOwnerStaffDataCloud();
+      } else if (view === 'cms') {
+        document.getElementById('ownerCMSView').classList.remove('hidden');
+        btnTabCMS.className = "px-4 py-2 rounded-xl font-black text-xs bg-blue-600 text-white shadow-sm transition";
+        loadCMSData();
+      } else {
+        document.getElementById('ownerPublishAdView').classList.remove('hidden');
+        btnTabPublishAd.className = "px-4 py-2 rounded-xl font-black text-xs bg-blue-600 text-white shadow-sm transition";
+        loadPublishedAdsCMS();
+      }
+    }
+
+    async function loadOwnerDataCloud() {
+      const tbody = document.getElementById('ownerRecordsBody');
+      if (!tbody) return;
+      tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-blue-700 font-black">جاري جلب الطلبات...</td></tr>`;
+
+      try {
+        const { data: vData } = await supabaseClient.from('client_leads').select('name').eq('type', '__SITE_VISITORS__').limit(1);
+        if (vData && vData.length > 0) {
+          document.getElementById('ownerStatVisitors').textContent = vData[0].name || '0';
+        }
+      } catch(e) {}
+
+      const { data: records, error } = await supabaseClient
+        .from('client_leads')
+        .select('*')
+        .not('type', 'like', '__SITE_%')
+        .not('type', 'like', '__PUBLISHED_%')
+        .order('id', { ascending: false });
+
+      if (error) {
+        tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-rose-600 font-black">خطأ: ${error.message}</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = '';
+      let pro = 0, cli = 0;
+
+      records.forEach((r) => {
+        if (r.type && r.type.includes('إشهار')) pro++; else cli++;
+        const cleanPhone = (r.phone || '').replace(/[^0-9]/g, '');
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-blue-50 transition font-black";
+        tr.innerHTML = `
+          <td class="p-3"><span class="px-2.5 py-1 rounded-lg text-[11px] ${r.type.includes('إشهار') ? 'bg-blue-100 text-blue-900' : 'bg-emerald-100 text-emerald-900'}">${r.type}</span></td>
+          <td class="p-3 font-black text-slate-900">${r.name || '-'} <div class="text-[11px] text-slate-500">${r.job || '-'}</div></td>
+          <td class="p-3 text-slate-700">${r.city || '-'}</td>
+          <td class="p-3 font-mono text-slate-700" dir="ltr">${r.phone || '-'}</td>
+          <td class="p-3 text-slate-600 max-w-[150px] truncate">${r.details || '-'}</td>
+          <td class="p-3 text-center">
+            <a href="https://api.whatsapp.com/send?phone=${cleanPhone}" target="_blank" class="bg-emerald-600 text-white px-3 py-1 rounded-lg text-xs inline-flex items-center gap-1 shadow">
+              <i class="fa-brands fa-whatsapp"></i> واتساب
+            </a>
+          </td>
+          <td class="p-3 text-center">
+            <button onclick="ownerDeleteLeadCloud(${r.id})" class="bg-rose-100 text-rose-700 px-2 py-1 rounded-lg text-xs"><i class="fa-solid fa-trash"></i></button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('ownerStatTotal').textContent = pro + cli;
+      document.getElementById('ownerStatPro').textContent = pro;
+      document.getElementById('ownerStatCli').textContent = cli;
+    }
+
+    async function ownerDeleteLeadCloud(id) {
+      if (confirm('حذف هذا الطلب؟')) {
+        await supabaseClient.from('client_leads').delete().eq('id', id);
+        loadOwnerDataCloud();
+      }
+    }
+
+    async function loadOwnerStaffDataCloud() {
+      const tbody = document.getElementById('ownerStaffTableBody');
+      if (!tbody) return;
+      tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-blue-700 font-black">جاري جلب الموظفين...</td></tr>`;
+
+      const { data: staffList, error } = await supabaseClient.from('staff_team').select('*').order('id', { ascending: false });
+      if (error) { tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-rose-600 font-black">خطأ</td></tr>`; return; }
+
+      tbody.innerHTML = '';
+      let pendingCount = 0;
+      staffList.forEach((s) => {
+        if (s.status === 'pending') pendingCount++;
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-blue-50 transition font-black";
+        tr.innerHTML = `
+          <td class="p-3 text-slate-900">${s.name || '-'}</td>
+          <td class="p-3 font-mono text-slate-700">${s.cin || '-'}</td>
+          <td class="p-3 font-mono text-slate-700" dir="ltr">${s.phone || '-'}</td>
+          <td class="p-3 text-slate-600 text-[11px]">${s.email || '-'}</td>
+          <td class="p-3 font-mono text-emerald-700">${s.pin || 'غير معين'}</td>
+          <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] ${s.status === 'active' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">${s.status}</span></td>
+          <td class="p-3 text-center flex justify-center gap-1">
+            <button onclick="ownerAssignStaffPinCloud(${s.id}, '${s.name || ''}', '${s.pin || ''}')" class="bg-blue-600 text-white px-2 py-1 rounded text-xs">تفعيل</button>
+            <button onclick="ownerDeleteStaffCloud(${s.id})" class="bg-rose-100 text-rose-700 px-2 py-1 rounded text-xs">حذف</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    async function ownerAssignStaffPinCloud(id, name, oldPin) {
+      const pin = prompt(`أدخل الكود للموظف (${name}):`, oldPin || Math.floor(1000 + Math.random() * 9000));
+      if (pin) {
+        await supabaseClient.from('staff_team').update({ pin: pin.trim(), status: 'active' }).eq('id', id);
+        loadOwnerStaffDataCloud();
+      }
+    }
+
+    async function ownerDeleteStaffCloud(id) {
+      if (confirm('حذف الموظف؟')) {
+        await supabaseClient.from('staff_team').delete().eq('id', id);
+        loadOwnerStaffDataCloud();
+      }
+    }
+
+    function loadCMSData() {
+      const list = document.getElementById('cmsCraftsList');
+      if (!list) return;
+      list.innerHTML = '';
+      craftsData.forEach((c, idx) => {
+        const card = document.createElement('div');
+        card.className = "bg-slate-50 p-3 rounded-xl border border-blue-200 space-y-2 font-black text-xs";
+        card.innerHTML = `
+          <div class="text-blue-900 font-black">${c.tag || c.defaultTag || ''}</div>
+          <input id="cmsTitle_${idx}" value="${c.title || c.defaultTitle || ''}" class="w-full p-2 bg-white border border-blue-200 rounded-lg">
+          <label class="block text-[10px] text-blue-800">ارفع صور جديدة (إلى خليتيها خاوية غايبقاو الصور القدام):</label>
+          <input type="file" id="cmsImgs_${idx}" multiple accept="image/*" class="w-full p-2 bg-white border border-blue-200 rounded-lg text-[10px]" dir="ltr">
+          <button onclick="saveCraftCMS(${idx})" class="bg-blue-600 text-white px-4 py-1.5 rounded-lg">حفظ التعديلات</button>
+        `;
+        list.appendChild(card);
+      });
+    }
+
+    async function saveCraftCMS(idx) {
+      craftsData[idx].title = document.getElementById(`cmsTitle_${idx}`).value.trim();
+      const fileInput = document.getElementById(`cmsImgs_${idx}`);
+      
+      if (fileInput.files.length > 0) {
+        const newImages = await convertAndCompressFilesToBase64(fileInput.files);
+        craftsData[idx].images = newImages;
+      }
+      
+      localStorage.setItem('m3allam_custom_crafts_top100', JSON.stringify(craftsData));
+      await supabaseClient.from('client_leads').upsert([{ type: '__SITE_CRAFTS_CONFIG__', name: 'CraftsConfig', details: JSON.stringify(craftsData) }], { onConflict: 'type' });
+      renderCraftsSliders();
+      alert('تم الحفظ بنجاح!');
+    }
+
+    async function handlePublishClientAdCloud(e) {
+      e.preventDefault();
+      const editIndex = parseInt(document.getElementById('pub_edit_index').value);
+      const title = document.getElementById('pub_title').value;
+      const city = document.getElementById('pub_city').value;
+      const phone = document.getElementById('pub_phone').value;
+      const desc = document.getElementById('pub_desc').value;
+      
+      const fileInput = document.getElementById('pub_img_urls');
+      let mediaUrls = [];
+
+      if (fileInput.files.length > 0) {
+        mediaUrls = await convertAndCompressFilesToBase64(fileInput.files);
+      } else if (editIndex >= 0) {
+        mediaUrls = publishedAds[editIndex].mediaUrls || [];
+      } else {
+        mediaUrls = ["https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80"];
+      }
+
+      const adObj = { id: Date.now(), title, city, phone, desc, mediaUrls };
+
+      if (editIndex >= 0) {
+        const targetAd = publishedAds[editIndex];
+        if (targetAd && targetAd.dbId) {
+          await supabaseClient.from('client_leads').update({ name: title, city, phone, details: JSON.stringify(adObj) }).eq('id', targetAd.dbId);
+        }
+        publishedAds[editIndex] = adObj;
+        document.getElementById('pub_edit_index').value = "-1";
+      } else {
+        const { data } = await supabaseClient.from('client_leads').insert([{ type: '__PUBLISHED_AD__', name: title, city, phone, details: JSON.stringify(adObj) }]).select();
+        if (data && data[0]) adObj.dbId = data[0].id;
+        publishedAds.unshift(adObj);
+      }
+
+      e.target.reset();
+      await syncCloudSettings();
+      loadPublishedAdsCMS();
+      renderDrawerClientAds();
+      alert('تم النشر بنجاح!');
+    }
+
+    function loadPublishedAdsCMS() {
+      const list = document.getElementById('cmsPublishedAdsList');
+      if (!list) return;
+      list.innerHTML = '';
+      publishedAds.forEach((ad, idx) => {
+        const row = document.createElement('div');
+        row.className = "flex items-center justify-between p-2.5 bg-slate-50 border border-blue-200 rounded-lg text-xs font-black";
+        row.innerHTML = `
+          <span>${ad.title || ''} (${ad.city || ''})</span>
+          <div class="flex gap-2">
+            <button onclick="editPublishedAd(${idx})" class="bg-blue-100 text-blue-900 px-2.5 py-1 rounded">تعديل</button>
+            <button onclick="deletePublishedAdCloud('${ad.title || ''}')" class="bg-rose-100 text-rose-700 px-2.5 py-1 rounded">حذف</button>
+          </div>
+        `;
+        list.appendChild(row);
+      });
+    }
+
+    function editPublishedAd(idx) {
+      const targetAd = publishedAds[idx];
+      document.getElementById('pub_edit_index').value = idx;
+      document.getElementById('pub_title').value = targetAd.title || '';
+      document.getElementById('pub_city').value = targetAd.city || '';
+      document.getElementById('pub_phone').value = targetAd.phone || '';
+      document.getElementById('pub_desc').value = targetAd.desc || '';
+      document.getElementById('pub_img_urls').value = ''; 
+    }
+
+    async function deletePublishedAdCloud(title) {
+      if (confirm('حذف الإعلان؟')) {
+        await supabaseClient.from('client_leads').delete().eq('type', '__PUBLISHED_AD__').eq('name', title);
+        await syncCloudSettings();
+        loadPublishedAdsCMS();
+        renderDrawerClientAds();
+      }
+    }
+  </script>
 </body>
 </html>
