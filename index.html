@@ -45,24 +45,29 @@
 <body class="antialiased pb-20 selection:bg-blue-600 selection:text-white font-bold">
 
   <!-- ================= NAVBAR ================= -->
-<header class="bg-white/95 backdrop-blur-md border-b border-blue-100 sticky top-0 z-40 shadow-sm">
+  <header class="bg-white/95 backdrop-blur-md border-b border-blue-100 sticky top-0 z-40 shadow-sm">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-        
-        <!-- اللوغو في جهة اليسار بحجم زوين ومقاد -->
-        <div class="flex items-center gap-3 cursor-pointer group" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-            <img src="logo.webp.png" alt="M3allam 7rayfi Logo" style="width: 160px; height: auto; object-fit: contain;" />
-        </div>
+      
+      <div class="flex items-center gap-2">
+        <button onclick="toggleSidebar(true)" class="text-xs sm:text-sm bg-gradient-to-r from-blue-600 to-sky-700 hover:opacity-90 text-white font-black px-4 py-2.5 rounded-2xl transition border-2 border-blue-400/80 flex items-center gap-2 shadow-lg animate-bounce">
+          <i class="fa-solid fa-bars text-lg text-white"></i>
+          <span id="t_drawer_btn">نبذة وتواصل 📋</span>
+        </button>
+      </div>
 
-        <!-- الأزرار واللغات في الجهة اليمنى مكانيتهم الأصلية بدون فراغ -->
-        <div class="flex items-center gap-3">
-            <button onclick="toggleSidebar(true)" class="text-xs sm:text-sm bg-gradient-to-r from-blue-600 to-sky-700 hover:opacity-90 text-white font-black px-4 py-2.5 rounded-xl shadow-md flex items-center gap-2">
-                <i class="fa-solid fa-bars text-lg text-white"></i>
-                <span id="t_drawer_btn">نبذة وتواصل</span>
-            </button>
-        </div>
-
+   <div class="flex items-center gap-3 cursor-pointer group" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+    <div style="background: linear-gradient(135deg, #1e3a8a, #3b82f6);" class="w-12 h-12 rounded-2xl flex items-center justify-center shadow-md">
+        <span style="color: #fbbf24; font-size: 24px; font-weight: 900;">م</span>
     </div>
-</header>
+    <span class="font-black text-blue-950 text-lg">معلم حريفي</span>
+</div>
+        <div>
+          <span class="brand-title" id="t_brand_name">معلم حريفي</span>
+          <span class="block text-[11px] text-sky-900 font-black tracking-widest">M3allam 7rayfi</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 sm:gap-3">
         <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-blue-50 border border-blue-200 text-xs font-black rounded-xl px-2.5 py-1.5 outline-none cursor-pointer text-blue-950">
           <option value="ar">🇲🇦 العربية</option>
           <option value="fr">🇫🇷 Français</option>
