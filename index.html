@@ -55,13 +55,20 @@
         </button>
       </div>
 
-  <div class="flex items-center cursor-pointer group" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-    <img src="logo.webp.png" alt="M3allam 7rayfi Logo" style="width: 220px; height: auto; object-fit: contain;" />
+  <div class="flex items-center justify-between w-full">
+    <!-- اللوغو مكبر وعريض -->
+    <div class="cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <img src="logo.webp.png" alt="M3allam 7rayfi Logo" style="width: 260px; height: auto; object-fit: contain;" />
+    </div>
+
+    <!-- زر نبذة وتواصل في الجانب الأيمن -->
+    <div>
+        <button onclick="toggleSidebar(true)" class="text-xs sm:text-sm bg-gradient-to-r from-blue-600 to-sky-700 hover:opacity-90 text-white font-black px-4 py-2.5 rounded-xl shadow-md flex items-center gap-2">
+            <i class="fa-solid fa-bars text-lg text-white"></i>
+            <span id="t_drawer_btn">نبذة وتواصل</span>
+        </button>
+    </div>
 </div>
-          <span class="brand-title" id="t_brand_name">معلم حريفي</span>
-          <span class="block text-[11px] text-sky-900 font-black tracking-widest">M3allam 7rayfi</span>
-        </div>
-      </div>
 
       <div class="flex items-center gap-2 sm:gap-3">
         <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-blue-50 border border-blue-200 text-xs font-black rounded-xl px-2.5 py-1.5 outline-none cursor-pointer text-blue-950">
