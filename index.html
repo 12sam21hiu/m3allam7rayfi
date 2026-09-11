@@ -45,27 +45,22 @@
 <body class="antialiased pb-20 selection:bg-blue-600 selection:text-white font-bold">
 
   <!-- ================= NAVBAR ================= -->
-  <header class="bg-white/95 backdrop-blur-md border-b border-blue-100 sticky top-0 z-40 shadow-sm">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-      
-      <div class="flex items-center gap-2">
-        <button onclick="toggleSidebar(true)" class="text-xs sm:text-sm bg-gradient-to-r from-blue-600 to-sky-700 hover:opacity-90 text-white font-black px-4 py-2.5 rounded-2xl transition border-2 border-blue-400/80 flex items-center gap-2 shadow-lg animate-bounce">
-          <i class="fa-solid fa-bars text-lg text-white"></i>
-          <span id="t_drawer_btn">نبذة وتواصل 📋</span>
-        </button>
-      </div>
+<header class="bg-white/95 backdrop-blur-md border-b border-blue-100 sticky top-0 z-40 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 py-2 flex items-center justify-between">
+        <!-- اللogo الجديد في اليسار أو الوسط -->
+        <div class="cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+            <img src="logo.webp.png" alt="M3allam 7rayfi Logo" style="width: 180px; height: auto; object-fit: contain;" />
+        </div>
 
-  <div class="flex items-center justify-between w-full">
-    <!-- اللوغو مكبر وعريض -->
-    <div class="cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-        <img src="logo.webp.png" alt="M3allam 7rayfi Logo" style="width: 260px; height: auto; object-fit: contain;" />
+        <!-- الأزرار العادية (اللغة، الدخول، وزر نبذة وتواصل واحد فقط في اليمين) -->
+        <div class="flex items-center gap-2">
+            <button onclick="toggleSidebar(true)" class="text-xs sm:text-sm bg-gradient-to-r from-blue-600 to-sky-700 hover:opacity-90 text-white font-black px-4 py-2.5 rounded-xl shadow-md flex items-center gap-2">
+                <i class="fa-solid fa-bars text-lg text-white"></i>
+                <span id="t_drawer_btn">نبذة وتواصل</span>
+            </button>
+        </div>
     </div>
-
-    <!-- زر نبذة وتواصل في الجانب الأيمن -->
-    <div>
-        <button onclick="toggleSidebar(true)" class="text-xs sm:text-sm bg-gradient-to-r from-blue-600 to-sky-700 hover:opacity-90 text-white font-black px-4 py-2.5 rounded-xl shadow-md flex items-center gap-2">
-            <i class="fa-solid fa-bars text-lg text-white"></i>
-            <span id="t_drawer_btn">نبذة وتواصل</span>
+</header>
         </button>
     </div>
 </div>
