@@ -46,13 +46,17 @@
 
   <!-- ================= NAVBAR ================= -->
 <header class="bg-white/95 backdrop-blur-md border-b border-blue-100 sticky top-0 z-40 shadow-sm">
-    <div class="max-w-6xl mx-auto px-4 py-2 flex items-center justify-between">
-        <!-- اللogo الجديد في اليسار أو الوسط -->
-        <div class="cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-            <img src="logo.webp.png" alt="M3allam 7rayfi Logo" style="width: 180px; height: auto; object-fit: contain;" />
+    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-3">
+        
+        <!-- الفراغ في اليسار للموازنة -->
+        <div class="hidden sm:block w-32"></div>
+
+        <!-- اللوغو في الوسط وكبير -->
+        <div class="cursor-pointer text-center" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+            <img src="logo.webp.png" alt="M3allam 7rayfi Logo" style="width: 240px; height: auto; object-fit: contain; margin: 0 auto;" />
         </div>
 
-        <!-- الأزرار العادية (اللغة، الدخول، وزر نبذة وتواصل واحد فقط في اليمين) -->
+        <!-- زر نبذة وتواصل هابط لتحت مع اللغات والأزرار -->
         <div class="flex items-center gap-2">
             <button onclick="toggleSidebar(true)" class="text-xs sm:text-sm bg-gradient-to-r from-blue-600 to-sky-700 hover:opacity-90 text-white font-black px-4 py-2.5 rounded-xl shadow-md flex items-center gap-2">
                 <i class="fa-solid fa-bars text-lg text-white"></i>
@@ -61,11 +65,6 @@
         </div>
     </div>
 </header>
-        </button>
-    </div>
-</div>
-
-      <div class="flex items-center gap-2 sm:gap-3">
         <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-blue-50 border border-blue-200 text-xs font-black rounded-xl px-2.5 py-1.5 outline-none cursor-pointer text-blue-950">
           <option value="ar">🇲🇦 العربية</option>
           <option value="fr">🇫🇷 Français</option>
